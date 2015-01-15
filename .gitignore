@@ -18,6 +18,7 @@ hs_err_pid*
 ## Directory-based project format:
 .idea
 out
+.recommenders
 
 # Eclipse files:
 
