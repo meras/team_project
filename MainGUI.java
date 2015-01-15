@@ -54,7 +54,7 @@ public class MainGUI extends JFrame implements ActionListener
 		locationGroup = new ButtonGroup();
 		locationGroup.add(northButton);
 		locationGroup.add(centralButton);
-		locatinGroup.add(southButton);
+		locationGroup.add(southButton);
 		//This will need to be altered so that they display horizontally
 		
 	}
