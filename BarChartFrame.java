@@ -23,7 +23,7 @@ public class BarChartFrame extends JFrame{
         //Create the frame
 
         setTitle("Bar chart report");
-        setSize(375, 250);
+        setSize(450, 250);
         //TODO change to DISLAY_ON_CLOSE when integrating with the project
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -41,7 +41,7 @@ public class BarChartFrame extends JFrame{
 
 
     public class BarChart extends JComponent {
-        private int barWidth = 25;
+        private int barWidth = 30;
         private int[] elements;
 
         public BarChart(int[] elements) {
@@ -55,14 +55,15 @@ public class BarChartFrame extends JFrame{
             int x = 10;
             for (int i = 0; i < elements.length; i++) {
                 int barHeight = elements[i]*10;
-                drawBar(g2,elements[i], x, 220-barHeight, barWidth, barHeight);
-                x += 30;
+                drawBar(g2,elements[i], x, 200-barHeight, barWidth, barHeight);
+                x += 35;
             }
         }
 
         private void drawBar(Graphics2D g, int heading, int x, int y, int w, int h) {
             g.draw(new Rectangle(x, y, w, h));
             g.drawString("" + heading, x + 5, y - 5);
+            g.drawString("MM2", x, y+h+15);
 
         }
     }
