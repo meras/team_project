@@ -1,21 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 /**
  * A frame to display a bar chart
  */
 public class BarChartViewer extends JFrame {
-    private final int HEIGHT = 300;
-    private int WIDTH = 450;
     private int[] testNums;
 
     /**
      * Constructor
      */
     public BarChartViewer() {
-        //setup for testing
+        //setup values for testing
         testNums = new int[12];
         Random randInt = new Random();
         for (int i = 0; i < testNums.length; i++) {
@@ -23,16 +20,14 @@ public class BarChartViewer extends JFrame {
         }
 
         //Create the frame
-
-        setTitle("Bar chart report");
-        setSize(450, 300);
-        System.out.println(getWidth());
+        setTitle("Allocation numbers");
+        setSize(460, 300);
         setResizable(false);
-        //TODO change to DISLAY_ON_CLOSE when integrating with the project
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //TODO change to DISPLAY_ON_CLOSE when integrating with the project
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        BarChart chart = new BarChart(testNums, HEIGHT, WIDTH);
+        BarChart chart = new BarChart(testNums);
         add(chart);
 
         setVisible(true);
@@ -43,8 +38,8 @@ public class BarChartViewer extends JFrame {
      * print out test array TODO remove this method
      */
     public void printNums() {
-        for (int i = 0; i < testNums.length; i++) {
-            System.out.println(testNums[i]);
+        for (int testNum : testNums) {
+            System.out.println(testNum);
         }
     }
 
@@ -53,38 +48,36 @@ public class BarChartViewer extends JFrame {
      */
     public class BarChart extends JComponent {
         private final int CHART_HEIGHT = 220;
-        private int barWidth = 30;
-        private int barGap = 5;
-        private int[] elements;
+        private final int barWidth = 30;
+        private final int barGap = 5;
+        private final int[] elements;
         private int maxValue;
-        private int viewerHeight;
 
-        public BarChart(int[] elements, int height, int width) {
+        public BarChart(int[] elements) {
             this.elements = elements;
             for (int i : elements) {
                 if (i > maxValue) {
                     maxValue = i;
                 }
             }
-            viewerHeight = height;
 
         }
 
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
-            //g2.draw(new Line2D.Double(0, 100, 500, 100));
+            int barX = 20;
+            int unit = Math.round((float) CHART_HEIGHT / maxValue);
 
-            g.setColor(Color.WHITE);
-            g.fillRect(10, 10, 400, 300);
+            drawAxis(g2, unit);
 
-            drawAxis(g2);
+            // calculate the size of one unit relative to chart area
+            for (int element : elements) {
+                //// calculate bar height relative to the chart area
+                //int barHeight = Math.round(CHART_HEIGHT * ((float) elements[i] / maxValue));
+                int barHeight = unit * element;
 
-            int x = 10;
-            for (int i = 0; i < elements.length; i++) {
-                // calculate bar height relative to the chart area
-                int barHeight = Math.round(CHART_HEIGHT * ((float) elements[i] / maxValue));
-                drawBar(g2, elements[i], x, viewerHeight - 50 - barHeight, barWidth, barHeight);
-                x += barWidth + barGap;
+                drawBar(g2, element, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight);
+                barX += barWidth + barGap;
             }
         }
 
@@ -92,16 +85,22 @@ public class BarChartViewer extends JFrame {
             g.setColor(Color.MAGENTA);
             g.fillRect(x, y, barWidth, barHeight);
             g.setColor(Color.BLACK);
-            //g.draw(new Rectangle(x, y, w, h));
-            g.draw(new Rectangle2D.Double(x, y, barWidth, barHeight));
+            g.draw(new Rectangle(x, y, barWidth, barHeight));
             g.drawString("" + heading, x + 5, y - 5);
             g.drawString("MM2", x, y + barHeight + 15);
-
         }
 
-        private void drawAxis(Graphics2D g) {
-            g.setColor(Color.BLACK);
-            g.drawLine(10, 10, 10, 100);
+        private void drawAxis(Graphics2D g, int unit) {
+            int lineHeight = CHART_HEIGHT+30;
+
+            g.setColor(Color.WHITE);
+            g.fillRect(10, 10, elements.length*(barWidth+barGap)+20, CHART_HEIGHT+20);
+
+            g.setColor(Color.LIGHT_GRAY);
+            for (int i = 0; i <= maxValue; i++) {
+                g.drawLine(10, lineHeight, elements.length*(barWidth+barGap)+30, lineHeight);
+                lineHeight -= unit;
+            }
         }
     }
 }
