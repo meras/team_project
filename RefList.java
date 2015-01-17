@@ -44,6 +44,7 @@ public class RefList {
 		String newId = createId(firstNm, lastNm);
 		String refData = newId + " " + lastNm + " " + qual + " " + allocs + " " + home + " " + travelInfo;
 		Referee newRef = new Referee(refData);
+		
 		boolean added = false;
 		int i = 0;
 		while(!added && i < refList.size()) {
@@ -55,6 +56,7 @@ public class RefList {
 			else
 				i++;
 		}
+		
 		if(!added)
 			refList.add(newRef);
 	}
@@ -62,12 +64,14 @@ public class RefList {
 	private String createId(String first, String last) {
 		String letterPart = "" + first.charAt(0) + last.charAt(0);
 		int numPart = 1;
+		
 		for(int i = 0; i < refList.size(); i++) {
 			Referee ref = refList.get(i);
 			String otherInitials = ref.getRefID().substring(0,2);
 			if(letterPart.equals(otherInitials))
 				numPart++;
 		}
+	
 		String newRefId = letterPart + numPart;
 		return newRefId;
 	}
@@ -87,6 +91,7 @@ public class RefList {
 		Referee ref = null;
 		boolean found = false;
 		int refIndex = 0;
+		
 		while(!found && refIndex < refList.size()) {
 			ref = refList.get(refIndex);
 			if(ref.getFName().equals(first) && ref.getLName().equals(last))
@@ -94,6 +99,7 @@ public class RefList {
 			else
 				refIndex++;
 		}
+	
 		if(!found)
 			return REF_NOT_FOUND;
 		else
@@ -120,9 +126,11 @@ public class RefList {
 		Referee[] arrayToSort = new Referee[refList.size()];
 		arrayToSort = refList.toArray(arrayToSort);
 		Arrays.sort(arrayToSort);
+		
 		List<Referee> localRefs = new ArrayList<Referee>();
 		List<Referee> adjRefs = new ArrayList<Referee>();
 		List<Referee> nonAdjRefs = new ArrayList<Referee>();
+		
 		for(int i=0; i < arrayToSort.length; i++) {
 			Referee ref = arrayToSort[i];
 			String home = ref.getHomeArea();
@@ -136,6 +144,7 @@ public class RefList {
 					nonAdjRefs.add(ref);
 			}
 		}
+		
 		List<Referee> suitableRefs = new ArrayList<Referee>();
 		suitableRefs.addAll(localRefs);
 		suitableRefs.addAll(adjRefs);

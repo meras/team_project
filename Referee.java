@@ -52,6 +52,7 @@ public class Referee implements Comparable<Referee> {
 	public boolean getTravelInfo(String area) {
 		boolean found = false;
 		int i = 0;
+		
 		while(!found && i < AREAS.length) {
 			if(area.equals(AREAS[i]))
 				found = true;
