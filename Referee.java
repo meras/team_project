@@ -41,6 +41,10 @@ public class Referee implements Comparable<Referee> {
 		for(int i=0; i < travelInfo.length; i++)
 			travelInfo[i] = (travelStr.charAt(i) == 'Y');
 	}
+
+	public void incrementAllocs() {
+		numAllocations++;
+	}
 	
 	//accessor methods
 	
