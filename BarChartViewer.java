@@ -26,6 +26,8 @@ public class BarChartViewer extends JFrame {
         //TODO change to DISPLAY_ON_CLOSE when integrating with the project
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.WHITE);
+
 
         BarChart chart = new BarChart(testNums);
         add(chart);
@@ -92,9 +94,6 @@ public class BarChartViewer extends JFrame {
 
         private void drawAxis(Graphics2D g, int unit) {
             int lineHeight = CHART_HEIGHT+30;
-
-            g.setColor(Color.WHITE);
-            g.fillRect(10, 10, elements.length*(barWidth+barGap)+20, CHART_HEIGHT+20);
 
             g.setColor(Color.LIGHT_GRAY);
             for (int i = 0; i <= maxValue; i++) {
