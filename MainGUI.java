@@ -33,6 +33,7 @@ public class MainGUI extends JFrame implements ActionListener
 		// Create left JPanel
 		left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+        left.setMaximumSize(new Dimension(450,450));
         this.add(left,BorderLayout.WEST);
 		
         // Create label for title/instructions for left panel
@@ -41,7 +42,7 @@ public class MainGUI extends JFrame implements ActionListener
 
         //Create weekPanel which holds the week label and textfield
         weekPanel = new JPanel();
-        weekPanel.setMaximumSize(new Dimension(300,300));
+        weekPanel.setMaximumSize(new Dimension(400,400));
 
 		// Create label and textField for match week number
 		weekLabel = new JLabel("Week Number (1-52)");
@@ -81,7 +82,7 @@ public class MainGUI extends JFrame implements ActionListener
 
         // Create levelPanel which houses the level label and radio buttons
         levelPanel = new JPanel();
-        levelPanel.setMaximumSize(new Dimension(300,300));;
+        levelPanel.setMaximumSize(new Dimension(400,400));;
 
         // Create label and radio buttons for level        
         levelLabel = new JLabel("Level");
