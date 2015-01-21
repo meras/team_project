@@ -16,7 +16,12 @@ public class Referee implements Comparable<Referee> {
 	private static final String[] AREAS = {"North", "Central", "South"};
 	private boolean[] travelInfo;
 	private int numAllocations;
-	
+
+	//TODO this will bring great pleasure
+	public static final int NORTH = 0;
+	public static final int CENTRAL = 1;
+	public static final int SOUTH = 2;
+
 	public Referee(String refInfo) {
 		String [] infoTokens = refInfo.split("[ ]+");
 		refID = infoTokens[0];
@@ -28,7 +33,6 @@ public class Referee implements Comparable<Referee> {
 		travelInfo = new boolean [NUM_AREAS];
 		setTravelInfo(infoTokens[6]);
 	}
-	
 	
 	//mutator methods
 	
@@ -53,6 +57,7 @@ public class Referee implements Comparable<Referee> {
 	 * (north, central, south) to find a match with that parameter. 
 	 * Then it returns the corresponding boolean value from the parallel travelInfo array.
 	 */
+	//TODO great pleasure here removes the loop
 	public boolean getTravelInfo(String area) {
 		boolean found = false;
 		int i = 0;

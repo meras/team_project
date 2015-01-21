@@ -10,6 +10,8 @@ public class LittleGUI extends JFrame implements ActionListener {
     private JButton editButton, saveButton, deleteButton, clearButton;
     private final String[] qualificationList = {"", "First", "Second", "Third"};
 
+    ///ADD ref - everything is editable
+    //SEARCH-
 
     public LittleGUI() {
         setTitle("edit info");
@@ -19,7 +21,6 @@ public class LittleGUI extends JFrame implements ActionListener {
 
         layoutCenter();
         layoutBottom();
-
     }
 
     /**

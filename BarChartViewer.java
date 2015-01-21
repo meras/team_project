@@ -75,7 +75,6 @@ public class BarChartViewer extends JFrame {
             // calculate the size of one unit relative to chart area
             for (int element : elements) {
                 //// calculate bar height relative to the chart area
-                //int barHeight = Math.round(CHART_HEIGHT * ((float) elements[i] / maxValue));
                 int barHeight = unit * element;
 
                 drawBar(g2, element, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight);

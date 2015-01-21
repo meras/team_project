@@ -126,29 +126,32 @@ public class RefList {
 		Referee[] arrayToSort = new Referee[refList.size()];
 		arrayToSort = refList.toArray(arrayToSort);
 		Arrays.sort(arrayToSort);
-		
-		List<Referee> localRefs = new ArrayList<Referee>();
-		List<Referee> adjRefs = new ArrayList<Referee>();
-		List<Referee> nonAdjRefs = new ArrayList<Referee>();
-		
+
+		//array indecees
+		int localIndex = 0;
+		int adjIndex = 0;
+		int nonAdjIndex = 0;
+
+		List<Referee> suitableRefs = new ArrayList<Referee>();
+
 		for(int i=0; i < arrayToSort.length; i++) {
 			Referee ref = arrayToSort[i];
 			String home = ref.getHomeArea();
 			boolean refWillTravel = ref.getTravelInfo(matchLoc);
+
 			if(!seniorMatch || ref.checkIfQualified()) {
-				if(home.equals(matchLoc))
-					localRefs.add(ref);
-				else if((home.equals("Central") || matchLoc.equals("Central")) && refWillTravel)
-					adjRefs.add(ref);
-				else if(refWillTravel)
-					nonAdjRefs.add(ref);
+				if (home.equals(matchLoc)) {
+					suitableRefs.add(localIndex, ref);
+					localIndex++;
+				} else if ((home.equals("Central") || matchLoc.equals("Central")) && refWillTravel) {
+					suitableRefs.add(localIndex + adjIndex, ref);
+					adjIndex++;
+				} else if (refWillTravel) {
+					suitableRefs.add(localIndex + adjIndex + nonAdjIndex, ref);
+					nonAdjIndex++;
+				}
 			}
 		}
-		
-		List<Referee> suitableRefs = new ArrayList<Referee>();
-		suitableRefs.addAll(localRefs);
-		suitableRefs.addAll(adjRefs);
-		suitableRefs.addAll(nonAdjRefs);
 		return suitableRefs;
 	}
 	
