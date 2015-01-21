@@ -114,9 +114,10 @@ public class MainGUI extends JFrame implements ActionListener
         barChartPanel.setMaximumSize(new Dimension(400,400));
 
 		// Use the setCenterTable method to populate the table and add it to the scrollpane
-		setCenterTable();
-		centerScroll.add(centerTable);	
-		centerTable.setFillsViewportHeight(true);
+		//TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
+		//setCenterTable();
+		//centerScroll.add(centerTable);
+		//centerTable.setFillsViewportHeight(true);
 
         //Create label and button for bar chart and add to internal JPanel
         barChartLabel = new JLabel("View the number of allocations per referee:");
