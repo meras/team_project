@@ -12,7 +12,7 @@ public class MainGUI extends JFrame implements ActionListener
 		weekLabel, locationLabel, levelLabel, allocateRefLabel, firstNameLabel,
 		lastNameLabel, addRefLabel;
 	private JTextField weekField, firstNameField, lastNameField;
-	private JButton allocateRefButton, searchRefButton, addRefButton;
+	private JButton allocateRefButton, searchRefButton, addRefButton, barChartButton;
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;
 	private ButtonGroup locationGroup, levelGroup;
     private JScrollPane centerScroll;
@@ -159,7 +159,16 @@ public class MainGUI extends JFrame implements ActionListener
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addRefButton) {
-			//callMLiat
+
+		}
+		if (e.getSource() == allocateRefButton) {
+
+		}
+		if (e.getSource() == searchRefButton) {
+
+		}
+		if (e.getSource() == barChartButton) {
+
 		}
 	}
 	
