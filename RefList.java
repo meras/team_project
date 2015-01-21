@@ -14,6 +14,10 @@ public class RefList {
 		refList = new ArrayList<Referee>();
 	}
 	
+	public List<Referee> getRefList(){
+		return refList;
+	}
+	
 	/*
 	 * to be used in GUI when checking if a new ref can be added
 	 */
@@ -40,7 +44,7 @@ public class RefList {
 	 * This isn't ideal but seems nicer than having a constructor with 7 parameters.
 	 * To be discussed...
 	 */
-	public void addRefFromGui(String firstNm, String lastNm, String qual, String home, String travelInfo, int allocs) {
+	public void addRefFromGui(String firstNm, String lastNm, String qual, int allocs, String home, String travelInfo) {
 		String newId = createId(firstNm, lastNm);
 		String refData = newId + " " + lastNm + " " + qual + " " + allocs + " " + home + " " + travelInfo;
 		Referee newRef = new Referee(refData);

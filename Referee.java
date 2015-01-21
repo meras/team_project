@@ -83,6 +83,10 @@ public class Referee implements Comparable<Referee> {
 		return lName;
 	}
 	
+	public String getQualification(){
+		return qualification;
+	}
+	
 	public boolean checkIfQualified() {
 		int qualNum = Integer.parseInt(qualification.substring(3));
 		return (qualNum > 1);
