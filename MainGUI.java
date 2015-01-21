@@ -9,7 +9,7 @@ import java.util.*;
 */ 
 public class MainGUI extends JFrame implements ActionListener
 {
-	private JPanel left, center, right, weekPanel, locationPanel, levelPanel, firstPanel, lastPanel;
+	private JPanel left, center, right, titlePanel, weekPanel, locationPanel, levelPanel, firstPanel, lastPanel;
 	private JLabel matchTitle, searchRefTitle, 
 		weekLabel, locationLabel, levelLabel, findRefLabel, firstNameLabel,
 		lastNameLabel, addRefLabel;
@@ -36,27 +36,25 @@ public class MainGUI extends JFrame implements ActionListener
         left.setMaximumSize(new Dimension(450,450));
         this.add(left,BorderLayout.WEST);
 		
-        // Create label for title/instructions for left panel
-        matchTitle = new JLabel("To find a suitable referee enter the match details below");
-        left.add(matchTitle);
-
-        //Create weekPanel which holds the week label and textfield
+        // Create internal JPanels 
+        titlePanel = new JPanel();
+        titlePanel.setMaximumSize(new Dimension(400,400));
         weekPanel = new JPanel();
         weekPanel.setMaximumSize(new Dimension(400,400));
+        locationPanel = new JPanel();
+        locationPanel.setMaximumSize(new Dimension(400,400));
+        levelPanel = new JPanel();
+        levelPanel.setMaximumSize(new Dimension(400,400));;
+
+        // Create label for title/instructions for left panel
+        matchTitle = new JLabel("To find a suitable referee enter the match details below");
+        titlePanel.add(matchTitle);
 
 		// Create label and textField for match week number
 		weekLabel = new JLabel("Week Number (1-52)");
 		weekPanel.add(weekLabel);
 		weekField = new JTextField(2);
 		weekPanel.add(weekField);
-
-        // Add weekPanel to the left JPanel
-        left.add(weekPanel);
-
-
-        // Create locationPanel which holds the location label and radio buttons
-        locationPanel = new JPanel();
-        locationPanel.setMaximumSize(new Dimension(400,400));
 		
 		//Create Label and radio buttons for match location
 		locationLabel = new JLabel("Match Location");
@@ -64,7 +62,6 @@ public class MainGUI extends JFrame implements ActionListener
 		northButton = new JRadioButton("North");
 		centralButton = new JRadioButton("Central");
 		southButton = new JRadioButton("South");
-
 		
 		//Group the location JRadioButtons so that they are mutually exclusive
 		locationGroup = new ButtonGroup();
@@ -75,14 +72,6 @@ public class MainGUI extends JFrame implements ActionListener
         locationPanel.add(centralButton);
         locationPanel.add(southButton);
 		//TODO altered so that they display horizontally
-
-        // Add locationPanel to left Jpanel 
-        left.add(locationPanel);
-
-
-        // Create levelPanel which houses the level label and radio buttons
-        levelPanel = new JPanel();
-        levelPanel.setMaximumSize(new Dimension(400,400));;
 
         // Create label and radio buttons for level        
         levelLabel = new JLabel("Level");
@@ -98,6 +87,10 @@ public class MainGUI extends JFrame implements ActionListener
         levelPanel.add(seniorButton);
         //TODO altered so that they display horizontally
 
+        // Add internal panels to the left JPanel
+        left.add(titlePanel);
+        left.add(weekPanel);
+        left.add(locationPanel);
         left.add(levelPanel);
 
         //Create label and button for finding suitable referee
@@ -130,6 +123,10 @@ public class MainGUI extends JFrame implements ActionListener
         right.setLayout(new BoxLayout(right, BoxLayout.PAGE_AXIS));
         this.add(right,BorderLayout.EAST);
 
+        // Create the internal JPanel
+        firstPanel = new JPanel();
+        lastPanel = new JPanel();
+
         //Create label and button for adding new ref 
         addRefLabel = new JLabel("Add a new referee");
         right.add(addRefLabel);
@@ -141,24 +138,20 @@ public class MainGUI extends JFrame implements ActionListener
         searchRefTitle = new JLabel("To search for a referee enter their first and last name below");
         right.add(searchRefTitle);
 
-
-        firstPanel = new JPanel();
-
-        //Create label and button for first and last name
+        //Create label and button for first name
         firstNameLabel = new JLabel("First Name");
         firstPanel.add(firstNameLabel);
         firstNameField = new JTextField(10);
         firstPanel.add(firstNameField);
 
-        right.add(firstPanel);
-
-        lastPanel = new JPanel();
-    
+        // Create label and button for last name
         lastNameLabel = new JLabel("Last Name");
         lastPanel.add(lastNameLabel);
         lastNameField = new JTextField(10);
         lastPanel.add(lastNameField);
 
+        // Add the internal panels to right JPanel
+        right.add(firstPanel);
         right.add(lastPanel);
 
         // Create the button for searching for the referee
