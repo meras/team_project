@@ -7,12 +7,12 @@ import java.awt.event.*;
 */ 
 public class MainGUI extends JFrame implements ActionListener
 {
-	private JPanel left, center, right, titlePanel, weekPanel, locationPanel, levelPanel, firstPanel, lastPanel;
-	private JLabel matchTitle, searchRefTitle, 
-		weekLabel, locationLabel, levelLabel, allocateRefLabel, firstNameLabel,
-		lastNameLabel, addRefLabel;
+	private JPanel left, center, right, matchTitlePanel, weekPanel, locationPanel, 
+		levelPanel, allocatePanel, barChartPanel, addPanel, searchTitlePanel, firstPanel, lastPanel, searchPanel;
+	private JLabel matchTitle, weekLabel, locationLabel, levelLabel, barChartLabel, 
+		addRefLabel, searchRefTitle, firstNameLabel, lastNameLabel;
 	private JTextField weekField, firstNameField, lastNameField;
-	private JButton allocateRefButton, searchRefButton, addRefButton, barChartButton;
+	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton;
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;
 	private ButtonGroup locationGroup, levelGroup;
     private JScrollPane centerScroll;
@@ -31,31 +31,32 @@ public class MainGUI extends JFrame implements ActionListener
 		// Create left JPanel
 		left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-        left.setMaximumSize(new Dimension(450,450));
         this.add(left,BorderLayout.WEST);
 		
         // Create internal JPanels 
-        titlePanel = new JPanel();
-        titlePanel.setMaximumSize(new Dimension(400,400));
+        matchTitlePanel = new JPanel();
+        matchTitlePanel.setMaximumSize(new Dimension(400,400));
         weekPanel = new JPanel();
         weekPanel.setMaximumSize(new Dimension(400,400));
         locationPanel = new JPanel();
         locationPanel.setMaximumSize(new Dimension(400,400));
         levelPanel = new JPanel();
-        levelPanel.setMaximumSize(new Dimension(400,400));;
+        levelPanel.setMaximumSize(new Dimension(400,400));
+        allocatePanel = new JPanel();
+        allocatePanel.setMaximumSize(new Dimension(400,400));
 
         // Create label for title/instructions for left panel
-        matchTitle = new JLabel("To find a suitable referee enter the match details below");
-        titlePanel.add(matchTitle);
+        matchTitle = new JLabel("To allocate two suitable referees enter the match details below");
+        matchTitlePanel.add(matchTitle);
 
 		// Create label and textField for match week number
-		weekLabel = new JLabel("Week Number (1-52)");
+		weekLabel = new JLabel("Week Number (1-52):");
 		weekPanel.add(weekLabel);
 		weekField = new JTextField(2);
 		weekPanel.add(weekField);
 		
 		//Create Label and radio buttons for match location
-		locationLabel = new JLabel("Match Location");
+		locationLabel = new JLabel("Match Location:");
 		locationPanel.add(locationLabel);
 		northButton = new JRadioButton("North");
 		centralButton = new JRadioButton("Central");
@@ -69,10 +70,9 @@ public class MainGUI extends JFrame implements ActionListener
         locationPanel.add(northButton);
         locationPanel.add(centralButton);
         locationPanel.add(southButton);
-		//TODO altered so that they display horizontally
 
         // Create label and radio buttons for level        
-        levelLabel = new JLabel("Level");
+        levelLabel = new JLabel("Level:");
         levelPanel.add(levelLabel);
         juniorButton = new JRadioButton("Junior");  
         seniorButton = new JRadioButton("Senior");
@@ -83,78 +83,96 @@ public class MainGUI extends JFrame implements ActionListener
         levelGroup.add(seniorButton);
         levelPanel.add(juniorButton);
         levelPanel.add(seniorButton);
-        //TODO altered so that they display horizontally
+
+        //Create label and button for finding suitable referee
+        allocateRefButton = new JButton("Allocate");
+        allocateRefButton.addActionListener(this);
+        allocatePanel.add(allocateRefButton);
 
         // Add internal panels to the left JPanel
-        left.add(titlePanel);
+        left.add(matchTitlePanel);
         left.add(weekPanel);
         left.add(locationPanel);
         left.add(levelPanel);
+        left.add(allocatePanel);
 
-        //Create label and button for finding suitable referee
-        allocateRefLabel = new JLabel("Find a suitable referee");
-        left.add(allocateRefLabel);
-        allocateRefButton = new JButton("Find");
-        allocateRefButton.addActionListener(this);
-        left.add(allocateRefButton);
+
 
         // Create center JPanel
         center = new JPanel();
-        center.setLayout(new BoxLayout(center, BoxLayout.PAGE_AXIS));
+        center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
         this.add(center,BorderLayout.CENTER);
 
-        //Create JTable to display list of referees
-        
-        //Create JScrollPane and add to center panel
+        //Create internal JPanel and scrollpane 
         centerScroll = new JScrollPane();
-        // Add JTable component to scroll pane
-        center.add(centerScroll);
+        barChartPanel = new JPanel();
+        barChartPanel.setMaximumSize(new Dimension(400,400));
 
+        //TODO Create JTable
+
+        //Create label and button for bar chart and add to internal JPanel
+        barChartLabel = new JLabel("View the number of allocations per referee:");
+        barChartPanel.add(barChartLabel);
+        barChartButton = new JButton("Bar Chart");
+        barChartPanel.add(barChartButton);
+
+        //Add internal panels to center JPanel
+        center.add(centerScroll);
+        center.add(barChartPanel);
 
 
 
         // Create right JPanel
 		right = new JPanel();
-        right.setLayout(new BoxLayout(right, BoxLayout.PAGE_AXIS));
-        right.setMaximumSize(new Dimension(400,400));
+        right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
         this.add(right,BorderLayout.EAST);
 
         // Create the internal JPanel
+        addPanel = new JPanel();
+		addPanel.setMaximumSize(new Dimension(370,370));
+		searchTitlePanel = new JPanel();
+		searchTitlePanel.setMaximumSize(new Dimension(370,370));
         firstPanel = new JPanel();
+		firstPanel.setMaximumSize(new Dimension(370,370));
         lastPanel = new JPanel();
+		lastPanel.setMaximumSize(new Dimension(370,370));
+        searchPanel = new JPanel();
+		searchPanel.setMaximumSize(new Dimension(370,370));
 
         //Create label and button for adding new ref 
-        addRefLabel = new JLabel("Add a new referee");
-        right.add(addRefLabel);
+        addRefLabel = new JLabel("Add a new referee:");
+        addPanel.add(addRefLabel);
         addRefButton = new JButton("Add");
         addRefButton.addActionListener(this);
-        right.add(addRefButton);
+        addPanel.add(addRefButton);
         
         //Create title for search section
         searchRefTitle = new JLabel("To search for a referee enter their first and last name below");
-        right.add(searchRefTitle);
+        searchTitlePanel.add(searchRefTitle);
 
         //Create label and button for first name
-        firstNameLabel = new JLabel("First Name");
+        firstNameLabel = new JLabel("First Name:");
         firstPanel.add(firstNameLabel);
         firstNameField = new JTextField(10);
         firstPanel.add(firstNameField);
 
         // Create label and button for last name
-        lastNameLabel = new JLabel("Last Name");
+        lastNameLabel = new JLabel("Last Name:");
         lastPanel.add(lastNameLabel);
         lastNameField = new JTextField(10);
         lastPanel.add(lastNameField);
 
-        // Add the internal panels to right JPanel
-        right.add(firstPanel);
-        right.add(lastPanel);
-
         // Create the button for searching for the referee
         searchRefButton = new JButton("Search");
         searchRefButton.addActionListener(this);
-        right.add(searchRefButton);
+        searchPanel.add(searchRefButton);
 
+        // Add the internal panels to right JPanel
+        right.add(addPanel);
+		right.add(searchTitlePanel);
+        right.add(firstPanel);
+        right.add(lastPanel);
+        right.add(searchPanel);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
