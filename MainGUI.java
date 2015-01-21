@@ -10,7 +10,7 @@ import java.util.*;
 public class MainGUI extends JFrame implements ActionListener
 {
 	private JPanel left, center, right;
-	private JLabel matchTitle, addRefTitle, searchRefTitle, 
+	private JLabel matchTitle, searchRefTitle, 
 		weekLabel, locationLabel, levelLabel, findRefLabel, firstNameLabel,
 		lastNameLabel, addRefLabel;
 	private JTextField weekField, firstNameField, lastNameField;
@@ -24,18 +24,26 @@ public class MainGUI extends JFrame implements ActionListener
 		this.setTitle("Referee Selection"); //Provisional title
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.layoutComponents();
+        this.setSize(1000,270);
+		this.setLocation(100,100);
 	}
 	
 	public void layoutComponents()
 	{
 		// Create JPanels
 		left = new JPanel();
+        left.setLayout(new BoxLayout(left, BoxLayout.PAGE_AXIS));
 		center = new JPanel();
+        center.setLayout(new BoxLayout(center, BoxLayout.PAGE_AXIS));
 		right = new JPanel();
+        right.setLayout(new BoxLayout(right, BoxLayout.PAGE_AXIS));
+        this.add(left,BorderLayout.WEST);
+        this.add(center,BorderLayout.CENTER);
+        this.add(right,BorderLayout.EAST);
 		
         // Create label for title/instructions for left panel
-      
-
+        matchTitle = new JLabel("To find a suitable referee enter the match details below");
+        left.add(matchTitle);
 
 		// Create label and textField for match week number
 		weekLabel = new JLabel("Week Number (1-52)");
@@ -61,7 +69,9 @@ public class MainGUI extends JFrame implements ActionListener
 		locationGroup.add(northButton);
 		locationGroup.add(centralButton);
 		locationGroup.add(southButton);
-        left.add(locationGroup);
+        left.add(northButton);
+        left.add(centralButton);
+        left.add(southButton);
 		//This will need to be altered so that they display horizontally
 
         // Create label and radio buttons for level        
@@ -78,7 +88,14 @@ public class MainGUI extends JFrame implements ActionListener
         levelGroup = new ButtonGroup();
         levelGroup.add(juniorButton);
         levelGroup.add(seniorButton);
-        left.add(levelGroup);
+        left.add(juniorButton);
+        left.add(seniorButton);
+
+        //Create label and button for finding suitable referee
+        findRefLabel = new JLabel("Find a suitable referee");
+        left.add(findRefLabel);
+        findRefButton = new JButton("Find");
+        left.add(findRefButton);
 
         //Create JTable to display list of referees
         
@@ -87,7 +104,31 @@ public class MainGUI extends JFrame implements ActionListener
         // Add JTable component to scroll pane
         center.add(centerScroll);
 
+        //Create label and button for adding new ref 
+        addRefLabel = new JLabel("Add a new referee");
+        right.add(addRefLabel);
+        addRefButton = new JButton("Add");
+        right.add(addRefButton);
         
+        //Create title for search section
+        searchRefTitle = new JLabel("To search for a referee enter their first and last name below");
+        right.add(searchRefTitle);
+
+        //Create label and button for first and last name
+        firstNameLabel = new JLabel("First Name");
+        right.add(firstNameLabel);
+        firstNameField = new JTextField(10);
+        right.add(firstNameField);
+    
+        lastNameLabel = new JLabel("Last Name");
+        right.add(lastNameLabel);
+        lastNameField = new JTextField(10);
+        right.add(lastNameField);
+
+        // Create the button for searching for the referee
+        searchRefButton = new JButton("Search");
+        right.add(searchRefButton);
+
 	}
 	
 	public void actionPerformed(ActionEvent e) {
