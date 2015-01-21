@@ -1,6 +1,9 @@
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.table.*;
+
+
 
 /**
 * Main GUI 
@@ -15,7 +18,9 @@ public class MainGUI extends JFrame implements ActionListener
 	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton;
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;
 	private ButtonGroup locationGroup, levelGroup;
+	private JTable centerTable;
     private JScrollPane centerScroll;
+	private RefList refereeList;
 
 	public MainGUI()
 	{
@@ -108,7 +113,10 @@ public class MainGUI extends JFrame implements ActionListener
         barChartPanel = new JPanel();
         barChartPanel.setMaximumSize(new Dimension(400,400));
 
-        //TODO Create JTable
+		// Use the setCenterTable method to populate the table and add it to the scrollpane
+		setCenterTable();
+		centerScroll.add(centerTable);	
+		centerTable.setFillsViewportHeight(true);
 
         //Create label and button for bar chart and add to internal JPanel
         barChartLabel = new JLabel("View the number of allocations per referee:");
@@ -175,17 +183,59 @@ public class MainGUI extends JFrame implements ActionListener
         right.add(searchPanel);
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == addRefButton) {
+	private void setCenterTable()
+	{
+		refereeList = new RefList();
+		refereeList.addRefFromGui("Jim", "Bob", "NJB2", 9, "North", "YYN");
+		
+		// Create array of the column names and table model for JTable
+		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
+		DefaultTableModel model = new DefaultTableModel(columns, 12)
+		/*{	// Ensures that the table is uneditable
+			public boolean isCellEditable (int row, int col)
+			{
+				return false;
+			}
+		
+		}*/;
+		
+		// Take in the information from the RefList ArrayList and add it to a temporary array
+		for (int index = 0; index < refereeList.getRefList().size(); index++)
+		{
+			String id = refereeList.getRefList().get(index).getRefID();
+			String name = refereeList.getRefList().get(index).getFName() + refereeList.getRefList().get(index).getLName();
+			String qualification = refereeList.getRefList().get(index).getQualification();
+			int allocations = refereeList.getRefList().get(index).getNumAllocs();
+			String home = refereeList.getRefList().get(index).getHomeArea();
+			Boolean north = refereeList.getRefList().get(index).getTravelInfo("North");
+			Boolean central = refereeList.getRefList().get(index).getTravelInfo("Central");
+			Boolean south = refereeList.getRefList().get(index).getTravelInfo("South");
+			
+			Object[] refArray = {id, name, qualification, allocations, home, north, central, south};
+			
+			model.addRow(refArray);
+		}
+		
+		// Create JTable, add it to the scrollpane
+		centerTable = new JTable(model);
+	}
+	
+	public void actionPerformed(ActionEvent e) 
+	{
+		if (e.getSource() == addRefButton) 
+		{
 
 		}
-		if (e.getSource() == allocateRefButton) {
+		if (e.getSource() == allocateRefButton) 
+		{
 
 		}
-		if (e.getSource() == searchRefButton) {
+		if (e.getSource() == searchRefButton) 
+		{
 
 		}
-		if (e.getSource() == barChartButton) {
+		if (e.getSource() == barChartButton) 
+		{
 
 		}
 	}
