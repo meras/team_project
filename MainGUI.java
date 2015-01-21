@@ -24,7 +24,7 @@ public class MainGUI extends JFrame implements ActionListener
 		this.setTitle("Referee Selection"); //Provisional title
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.layoutComponents();
-        this.setSize(1200,200);
+        this.setSize(1000,250);
 		this.setLocation(100,100);
 	}
 	
@@ -121,6 +121,7 @@ public class MainGUI extends JFrame implements ActionListener
         // Create right JPanel
 		right = new JPanel();
         right.setLayout(new BoxLayout(right, BoxLayout.PAGE_AXIS));
+        right.setMaximumSize(new Dimension(400,400));
         this.add(right,BorderLayout.EAST);
 
         // Create the internal JPanel
