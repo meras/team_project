@@ -11,6 +11,5 @@ public class TeamProject {
         a.printNums();
         LittleGUI b = new LittleGUI();
         b.setVisible(true);
-
     }
 }
