@@ -114,6 +114,7 @@ public class MainGUI extends JFrame implements ActionListener
         barChartLabel = new JLabel("View the number of allocations per referee:");
         barChartPanel.add(barChartLabel);
         barChartButton = new JButton("Bar Chart");
+		barChartButton.addActionListener(this);
         barChartPanel.add(barChartButton);
 
         //Add internal panels to center JPanel
@@ -186,7 +187,8 @@ public class MainGUI extends JFrame implements ActionListener
 
 		}
 		if (e.getSource() == barChartButton) {
-
+			BarChartViewer a = new BarChartViewer();
+			a.printNums();
 		}
 	}
 	

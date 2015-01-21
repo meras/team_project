@@ -7,8 +7,7 @@ public class TeamProject {
 		
 		MainGUI main = new MainGUI();
 		main.setVisible(true);		
-        BarChartViewer a = new BarChartViewer();
-        a.printNums();
+
         LittleGUI b = new LittleGUI();
         b.setVisible(true);
     }
