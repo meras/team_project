@@ -1,8 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.*;
-import java.util.*;
 
 /**
 * Main GUI 
@@ -11,10 +9,10 @@ public class MainGUI extends JFrame implements ActionListener
 {
 	private JPanel left, center, right, titlePanel, weekPanel, locationPanel, levelPanel, firstPanel, lastPanel;
 	private JLabel matchTitle, searchRefTitle, 
-		weekLabel, locationLabel, levelLabel, findRefLabel, firstNameLabel,
+		weekLabel, locationLabel, levelLabel, allocateRefLabel, firstNameLabel,
 		lastNameLabel, addRefLabel;
 	private JTextField weekField, firstNameField, lastNameField;
-	private JButton findRefButton, searchRefButton, addRefButton;
+	private JButton allocateRefButton, searchRefButton, addRefButton;
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;
 	private ButtonGroup locationGroup, levelGroup;
     private JScrollPane centerScroll;
@@ -24,8 +22,9 @@ public class MainGUI extends JFrame implements ActionListener
 		this.setTitle("Referee Selection"); //Provisional title
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.layoutComponents();
-        this.setSize(1200,200);
-		this.setLocation(100,100);
+        this.setSize(1200, 200);
+//		this.setLocation(100,100);
+		this.setLocationRelativeTo(null);
 	}
 	
 	public void layoutComponents()
@@ -94,14 +93,11 @@ public class MainGUI extends JFrame implements ActionListener
         left.add(levelPanel);
 
         //Create label and button for finding suitable referee
-        findRefLabel = new JLabel("Find a suitable referee");
-        left.add(findRefLabel);
-        findRefButton = new JButton("Find");
-        findRefButton.addActionListener(this);
-        left.add(findRefButton);
-
-
-
+        allocateRefLabel = new JLabel("Find a suitable referee");
+        left.add(allocateRefLabel);
+        allocateRefButton = new JButton("Find");
+        allocateRefButton.addActionListener(this);
+        left.add(allocateRefButton);
 
         // Create center JPanel
         center = new JPanel();
@@ -162,7 +158,9 @@ public class MainGUI extends JFrame implements ActionListener
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		//
+		if (e.getSource() == addRefButton) {
+			//callMLiat
+		}
 	}
 	
 }
