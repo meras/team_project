@@ -22,14 +22,16 @@ public class MainGUI extends JFrame implements ActionListener
     private JScrollPane centerScroll;
 	private RefList refereeList;
 
-	public MainGUI()
+
+    public MainGUI()
 	{
 		this.setTitle("Referee Selection"); //Provisional title
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.layoutComponents();
-        this.setSize(1200,250);
+        this.setSize(1200, 250);
         this.setLocationRelativeTo(null);
-	}
+
+    }
 	
 	public void layoutComponents()
 	{
@@ -224,22 +226,24 @@ public class MainGUI extends JFrame implements ActionListener
 	
 	public void actionPerformed(ActionEvent e) 
 	{
-		if (e.getSource() == addRefButton) 
-		{
+		if (e.getSource() == addRefButton) {
+            showLittleGui("Add");
+		}
+		if (e.getSource() == allocateRefButton) {
 
 		}
-		if (e.getSource() == allocateRefButton) 
-		{
-
-		}
-		if (e.getSource() == searchRefButton) 
-		{
-
+		if (e.getSource() == searchRefButton) {
+            showLittleGui("Search");
 		}
 		if (e.getSource() == barChartButton) {
 			BarChartViewer a = new BarChartViewer();
 			a.printNums();
 		}
 	}
-	
+
+    private void showLittleGui(String mode) {
+        LittleGUI littleGUI = new LittleGUI(mode);
+        littleGUI.setVisible(true);
+
+    }
 }
