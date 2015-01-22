@@ -7,20 +7,20 @@ import java.awt.event.ActionListener;
  *
  */
 public class LittleGUI extends JFrame implements ActionListener {
-    private JButton editButton, saveButton, deleteButton, clearButton;
+    private JButton editButton, saveButton, deleteButton, clearButton, cancelButton;
     private final String[] qualificationList = {"", "First", "Second", "Third"};
 
     ///ADD ref - everything is editable
     //SEARCH-
 
-    public LittleGUI() {
+    public LittleGUI(String mode) {
         setTitle("edit info");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(350, 300);
         setLocationRelativeTo(null);
 
         layoutCenter();
-        layoutBottom();
+        layoutBottom(mode);
     }
 
     /**
@@ -80,23 +80,31 @@ public class LittleGUI extends JFrame implements ActionListener {
 
     }
 
-    private void layoutBottom() {
+    private void layoutBottom(String mode) {
         JPanel bottom = new JPanel();
 
         clearButton = new JButton("Clear");
         editButton = new JButton("Edit");
         saveButton = new JButton("Save");
         deleteButton = new JButton("Delete");
+        cancelButton = new JButton("Cancel");
+
 
         clearButton.addActionListener(this);
         editButton.addActionListener(this);
         saveButton.addActionListener(this);
         deleteButton.addActionListener(this);
 
-        bottom.add(clearButton);
-        bottom.add(editButton);
-        bottom.add(saveButton);
-        bottom.add(deleteButton);
+        if (mode == "Add") {
+            bottom.add(saveButton);
+            bottom.add(cancelButton);
+        }
+        else {
+            bottom.add(clearButton);
+            bottom.add(editButton);
+            bottom.add(saveButton);
+            bottom.add(deleteButton);
+        }
         add(bottom, BorderLayout.SOUTH);
     }
 

@@ -6,9 +6,6 @@ public class TeamProject {
         System.out.println("Go Goldilocks!");
 		
 		MainGUI main = new MainGUI();
-		main.setVisible(true);		
-
-        LittleGUI b = new LittleGUI();
-        b.setVisible(true);
+		main.setVisible(true);
     }
 }

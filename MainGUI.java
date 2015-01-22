@@ -27,9 +27,14 @@ public class MainGUI extends JFrame implements ActionListener
 	{
 		this.setTitle("Referee Selection"); //Provisional title
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.layoutComponents();
         this.setSize(1200, 250);
         this.setLocationRelativeTo(null);
+
+        refereeList = new RefList();
+        FileProcessor.readIn("RefereesIn.txt", refereeList);
+        System.out.println(refereeList.getRefList().get(0).getFName());
+
+        this.layoutComponents();
 
     }
 	
@@ -103,8 +108,6 @@ public class MainGUI extends JFrame implements ActionListener
         left.add(levelPanel);
         left.add(allocatePanel);
 
-
-
         // Create center JPanel
         center = new JPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
@@ -117,9 +120,9 @@ public class MainGUI extends JFrame implements ActionListener
 
 		// Use the setCenterTable method to populate the table and add it to the scrollpane
 		//TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
-		//setCenterTable();
-		//centerScroll.add(centerTable);
-		//centerTable.setFillsViewportHeight(true);
+		setCenterTable();
+		centerScroll.add(centerTable);
+		centerTable.setFillsViewportHeight(true);
 
         //Create label and button for bar chart and add to internal JPanel
         barChartLabel = new JLabel("View the number of allocations per referee:");
@@ -189,8 +192,9 @@ public class MainGUI extends JFrame implements ActionListener
 	
 	private void setCenterTable()
 	{
-		refereeList = new RefList();
-		refereeList.addRefFromGui("Jim", "Bob", "NJB2", 9, "North", "YYN");
+        //TODO referee list is created in the constructor
+		//refereeList = new RefList();
+		//refereeList.addRefFromGui("Jim", "Bob", "NJB2", 9, "North", "YYN");
 		
 		// Create array of the column names and table model for JTable
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
@@ -202,21 +206,21 @@ public class MainGUI extends JFrame implements ActionListener
 			}
 		
 		}*/;
-		
+
 		// Take in the information from the RefList ArrayList and add it to a temporary array
-		for (int index = 0; index < refereeList.getRefList().size(); index++)
-		{
-			String id = refereeList.getRefList().get(index).getRefID();
-			String name = refereeList.getRefList().get(index).getFName() + refereeList.getRefList().get(index).getLName();
-			String qualification = refereeList.getRefList().get(index).getQualification();
-			int allocations = refereeList.getRefList().get(index).getNumAllocs();
-			String home = refereeList.getRefList().get(index).getHomeArea();
-			Boolean north = refereeList.getRefList().get(index).getTravelInfo("North");
-			Boolean central = refereeList.getRefList().get(index).getTravelInfo("Central");
-			Boolean south = refereeList.getRefList().get(index).getTravelInfo("South");
-			
+		for (int i = 0; i < refereeList.getRefList().size(); i++) {
+
+			String id = refereeList.getRefList().get(i).getRefID();
+			String name = refereeList.getRefList().get(i).getFName() + refereeList.getRefList().get(i).getLName();
+			String qualification = refereeList.getRefList().get(i).getQualification();
+			int allocations = refereeList.getRefList().get(i).getNumAllocs();
+			String home = refereeList.getRefList().get(i).getHomeArea();
+			Boolean north = refereeList.getRefList().get(i).getTravelInfo("North");
+			Boolean central = refereeList.getRefList().get(i).getTravelInfo("Central");
+			Boolean south = refereeList.getRefList().get(i).getTravelInfo("South");
+
 			Object[] refArray = {id, name, qualification, allocations, home, north, central, south};
-			
+
 			model.addRow(refArray);
 		}
 		

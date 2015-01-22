@@ -10,12 +10,12 @@ import java.util.Scanner;
  */
 public class FileProcessor {
 
-    public static void readIn(String refereesInFile) {
+    public static void readIn(String refereesInFile, RefList referees) {
         Scanner in = null;
         try {
             in = new Scanner(new FileReader(refereesInFile));
             while (in.hasNextLine()) {
-                //TODO create referee instances
+                referees.addRefFromFile(in.nextLine());
             }
         } catch (FileNotFoundException e) {
             //TODO joptionpane here
@@ -51,7 +51,7 @@ public class FileProcessor {
         } finally {
             if (out != null) { out.close(); }
         }
-        //might move system exit to main gui to reduce coupling between classes
+        //might move system exit to main gui to reduce <<coupling>> between classes
         System.exit(0);
     }
 }
