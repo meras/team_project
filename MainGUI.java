@@ -49,7 +49,7 @@ public class MainGUI extends JFrame implements ActionListener
 		// Create left JPanel
 		left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-        left.setBorder(BorderFactory.createTitledBorder("Allocate matches"));
+        left.setBorder(BorderFactory.createTitledBorder("Allocate Referees"));
         this.add(left, BorderLayout.WEST);
 
         //TODO why do we need to setMaximumSize for these panels?
@@ -231,7 +231,7 @@ public class MainGUI extends JFrame implements ActionListener
             //NOTE - I added a getRefAtIndex method to RefList to make this simpler
             Referee ref = refereeList.getRefAtIndex(i);
 			String id = ref.getRefID();
-			String name = ref.getFName() + ref.getLName();
+			String name = ref.getFName() + " " + ref.getLName();
 			String qualification = ref.getQualification();
 			Integer allocations = ref.getNumAllocs();
 			String home = ref.getHomeString();
@@ -293,6 +293,8 @@ public class MainGUI extends JFrame implements ActionListener
                 matchList.addMatch(match);
                 ref1.incrementAllocs();
                 ref2.incrementAllocs();
+                //TODO call method to update center area with list of suitable refs
+                //and say which 2 refs have been allocated to the match
             }
         }
     }
