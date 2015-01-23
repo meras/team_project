@@ -196,6 +196,7 @@ public class MainGUI extends JFrame implements ActionListener
 		// Create array of the column names and table model for JTable
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
 
+        //we don't need to specify row number in DefaultTableModel because addRow adds additional rows.
 		DefaultTableModel model = new DefaultTableModel() {
             public boolean isCellEditable(int row, int col) {
                 return false;
