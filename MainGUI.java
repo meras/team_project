@@ -227,13 +227,13 @@ public class MainGUI extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
 		if (e.getSource() == addRefButton) {
-            showLittleGui("Add");
+            showLittleGui(LittleGUI.ADD);
 		}
 		if (e.getSource() == allocateRefButton) {
 
 		}
 		if (e.getSource() == searchRefButton) {
-            showLittleGui("Search");
+            showLittleGui(LittleGUI.SEARCH);
 		}
 		if (e.getSource() == barChartButton) {
 			BarChartViewer a = new BarChartViewer();
@@ -241,7 +241,7 @@ public class MainGUI extends JFrame implements ActionListener
 		}
 	}
 
-    private void showLittleGui(String mode) {
+    private void showLittleGui(int mode) {
         LittleGUI littleGUI = new LittleGUI(mode);
         littleGUI.setVisible(true);
 

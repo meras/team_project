@@ -19,10 +19,15 @@ public class LittleGUI extends JFrame implements ActionListener {
     private JRadioButton southRadio;
     private JPanel bottom;
 
+    /* following constants are used to set the GUI mode */
+    public static final int ADD = 0;
+    public static final int EDIT = 1;
+    public static final int SEARCH = 1;
+
     ///ADD ref - everything is editable
     //SEARCH-
 
-    public LittleGUI(String mode) {
+    public LittleGUI(int mode) {
         setTitle("edit info");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(350, 400);
@@ -31,9 +36,9 @@ public class LittleGUI extends JFrame implements ActionListener {
         layoutCenter();
         layoutBottom();
 
-        if (mode.equals("Add")) {
+        if (mode == ADD) {
             showAdd();
-        }else if (mode.equals("Search")) {
+        }else if (mode == SEARCH) {
             showSearch();
         }
     }
@@ -131,6 +136,9 @@ public class LittleGUI extends JFrame implements ActionListener {
         add(bottom, BorderLayout.SOUTH);
     }
 
+    /**
+     * Hides all bottom panel components
+     */
     private void hideBottomComponents() {
         for (Component c : bottom.getComponents()) {
             c.setVisible(false);
@@ -139,12 +147,14 @@ public class LittleGUI extends JFrame implements ActionListener {
 
     private void showAdd() {
         hideBottomComponents();
+
         saveButton.setVisible(true);
         cancelButton.setVisible(true);
     }
 
     private void showSearch() {
         hideBottomComponents();
+
         editButton.setVisible(true);
         deleteButton.setVisible(true);
         cancelButton.setVisible(true);
@@ -152,6 +162,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 
     private void showEdit() {
         hideBottomComponents();
+
         saveButton.setVisible(true);
         cancelButton.setVisible(true);
     }
