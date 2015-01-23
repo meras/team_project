@@ -195,11 +195,12 @@ public class MainGUI extends JFrame implements ActionListener
 		
 		// Create array of the column names and table model for JTable
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
-		DefaultTableModel model = new DefaultTableModel(0, columns.length); /* {
+
+		DefaultTableModel model = new DefaultTableModel() {
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
-        };*/
+        };
         model.setColumnIdentifiers(columns);
 		//Take in the information from the RefList ArrayList and add it to a temporary array
 		for (int i = 0; i < refereeList.getRefList().size(); i++) {
