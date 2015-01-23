@@ -69,11 +69,11 @@ public class Match {
 	     * Method to get formatted line for match report document	
 	     * @return
 	     */
-		public String getMatchReportInfo(){
+		public String getMatchInfo(){
 			
 			String matchInfo;
 			
-			matchInfo = String.format("%d  %s  %s		%s		%s\n", weekNumber, matchLevel, matchArea, refOne, refTwo);
+			matchInfo = String.format("%d %s %s %s %s", weekNumber, matchLevel, matchArea, refOne, refTwo);
 			
 			return matchInfo;
 		}
