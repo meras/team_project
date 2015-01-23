@@ -1,13 +1,15 @@
 
 public class Referee implements Comparable<Referee> {
 	
-	private String refID, fName, lName, qualification, homeArea;
+	private String refID, fName, lName, qualification;
 	/* n.b. was going to have qualification as a boolean (e.g. would be true if qualification
 	 * above 1 and false otherwise). But since we're going to have to store the actual name of the
 	 * qualification to use in other parts of program (e.g. to print out the report at the end), better
 	 * to record the string itself. Then checkIfQualified() checks if the number in the qualification
 	 * is above 1 and returns true or false accordingly.
 	 */
+	//TODO change homeArea to int?
+	private int homeArea;
 	private static final int NUM_AREAS = 3;
 	//2 arrays here, one to hold the names of the different areas,
 	//one to hold the boolean values representing whether the ref will travel
@@ -29,7 +31,7 @@ public class Referee implements Comparable<Referee> {
 		lName = infoTokens[2];
 		qualification = infoTokens[3];
 		numAllocations = Integer.parseInt(infoTokens[4].trim());
-		homeArea = infoTokens[5];
+		setHomeArea(infoTokens[5]);
 		travelInfo = new boolean [NUM_AREAS];
 		setTravelInfo(infoTokens[6]);
 	}
@@ -39,8 +41,23 @@ public class Referee implements Comparable<Referee> {
 	public void setQualification(String qual) {
 		qualification = qual;
 	}
+
+	public void setHomeArea(String home) {
+		if(home.equals("North"))
+			homeArea = NORTH;
+		else if(home.equals("Central"))
+			homeArea = CENTRAL;
+		else
+			homeArea = SOUTH;
+	}
 	
 	//should we have mutator methods for each area? i.e. north, central, south?
+	/* TODO we discussed passing a boolean array to this but this needs to take a string 
+	because that's what the file's going to give it.
+	Can have a separate method to set the travel info when editing/adding a ref from the GUI,
+	which could take a boolean array. Or this boolean array could just be passed to the alternative
+	constructor
+	*/ 
 	public void setTravelInfo(String travelStr) {
 		for(int i=0; i < travelInfo.length; i++)
 			travelInfo[i] = (travelStr.charAt(i) == 'Y');
@@ -58,17 +75,8 @@ public class Referee implements Comparable<Referee> {
 	 * Then it returns the corresponding boolean value from the parallel travelInfo array.
 	 */
 	//TODO great pleasure here removes the loop
-	public boolean getTravelInfo(String area) {
-		boolean found = false;
-		int i = 0;
-		
-		while(!found && i < AREAS.length) {
-			if(area.equals(AREAS[i]))
-				found = true;
-			else
-				i++;
-		}
-		return travelInfo[i];
+	public boolean getTravelInfo(int area) {
+		return travelInfo[area];
 	}
 	
 	public String getRefID() {
@@ -96,7 +104,7 @@ public class Referee implements Comparable<Referee> {
 		return numAllocations;
 	}
 	
-	public String getHomeArea() {
+	public int getHomeArea() {
 		return homeArea;
 	}
 	

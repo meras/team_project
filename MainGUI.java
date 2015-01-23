@@ -205,15 +205,17 @@ public class MainGUI extends JFrame implements ActionListener
         model.setColumnIdentifiers(columns);
 		//Take in the information from the RefList ArrayList and add it to a temporary array
 		for (int i = 0; i < refereeList.getRefList().size(); i++) {
-
-			String id = refereeList.getRefList().get(i).getRefID();
-			String name = refereeList.getRefList().get(i).getFName() + refereeList.getRefList().get(i).getLName();
-			String qualification = refereeList.getRefList().get(i).getQualification();
-			Integer allocations = refereeList.getRefList().get(i).getNumAllocs();
-			String home = refereeList.getRefList().get(i).getHomeArea();
-			Boolean north = refereeList.getRefList().get(i).getTravelInfo("North");
-			Boolean central = refereeList.getRefList().get(i).getTravelInfo("Central");
-			Boolean south = refereeList.getRefList().get(i).getTravelInfo("South");
+            //NOTE - I added a getRefAtIndex method to RefList to make this simpler
+            Referee ref = refereeList.getRefAtIndex(i);
+			String id = ref.getRefID();
+			String name = ref.getFName() + ref.getLName();
+			String qualification = ref.getQualification();
+			Integer allocations = ref.getNumAllocs();
+			int home = ref.getHomeArea();
+            //TODO note - changed arguments passed below to constants
+			Boolean north = ref.getTravelInfo(Referee.NORTH);
+			Boolean central = ref.getTravelInfo(Referee.CENTRAL);
+			Boolean south = ref.getTravelInfo(Referee.SOUTH);
 
 			Object[] refArray = {id, name, qualification, allocations, home, north, central, south};
 

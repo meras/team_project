@@ -17,6 +17,10 @@ public class RefList {
 	public List<Referee> getRefList(){
 		return refList;
 	}
+
+	public Referee getRefAtIndex(int index) {
+		return refList.get(index);
+	}
 	
 	/*
 	 * to be used in GUI when checking if a new ref can be added
@@ -126,7 +130,7 @@ public class RefList {
 	 * Fairly long method but quite hard to split up. In any case this is just the starting point
 	 * I guess.
 	 */
-	public List<Referee> getSuitableRefs(String matchLoc, boolean seniorMatch) {
+	public List<Referee> getSuitableRefs(int matchLoc, boolean seniorMatch) {
 		Referee[] arrayToSort = new Referee[refList.size()];
 		arrayToSort = refList.toArray(arrayToSort);
 		Arrays.sort(arrayToSort);
@@ -140,14 +144,14 @@ public class RefList {
 
 		for(int i=0; i < arrayToSort.length; i++) {
 			Referee ref = arrayToSort[i];
-			String home = ref.getHomeArea();
+			int home = ref.getHomeArea();
 			boolean refWillTravel = ref.getTravelInfo(matchLoc);
 
 			if(!seniorMatch || ref.checkIfQualified()) {
-				if (home.equals(matchLoc)) {
+				if (home == matchLoc) {
 					suitableRefs.add(localIndex, ref);
 					localIndex++;
-				} else if ((home.equals("Central") || matchLoc.equals("Central")) && refWillTravel) {
+				} else if ((home == Referee.CENTRAL || matchLoc == Referee.CENTRAL) && refWillTravel) {
 					suitableRefs.add(localIndex + adjIndex, ref);
 					adjIndex++;
 				} else if (refWillTravel) {
