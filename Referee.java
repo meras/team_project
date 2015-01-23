@@ -107,6 +107,10 @@ public class Referee implements Comparable<Referee> {
 	public int getHomeArea() {
 		return homeArea;
 	}
+
+	public String getHomeString() {
+		return AREAS[homeArea];
+	}
 	
 	/*
 	 *since we are inserting new refs directly into the right position into the list, we never

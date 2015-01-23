@@ -211,7 +211,7 @@ public class MainGUI extends JFrame implements ActionListener
 			String name = ref.getFName() + ref.getLName();
 			String qualification = ref.getQualification();
 			Integer allocations = ref.getNumAllocs();
-			int home = ref.getHomeArea();
+			String home = ref.getHomeString();
             //TODO note - changed arguments passed below to constants
 			Boolean north = ref.getTravelInfo(Referee.NORTH);
 			Boolean central = ref.getTravelInfo(Referee.CENTRAL);
