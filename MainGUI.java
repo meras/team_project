@@ -43,7 +43,7 @@ public class MainGUI extends JFrame implements ActionListener
 		left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
         left.setBorder(BorderFactory.createTitledBorder("Allocate matches"));
-        this.add(left,BorderLayout.WEST);
+        this.add(left, BorderLayout.WEST);
 
         //TODO why do we need to setMaximumSize for these panels?
         // Create internal JPanels
@@ -236,6 +236,7 @@ public class MainGUI extends JFrame implements ActionListener
 		
 		// Create JTable, add it to the scrollpane
 		centerTable = new JTable(model);
+        centerTable.setGridColor(Color.LIGHT_GRAY);
     }
 	
 	public void actionPerformed(ActionEvent e) 
