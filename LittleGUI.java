@@ -29,7 +29,13 @@ public class LittleGUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
 
         layoutCenter();
-        layoutBottom(mode);
+        layoutBottom();
+
+        if (mode.equals("Add")) {
+            showAdd();
+        }else if (mode.equals("Search")) {
+            showSearch();
+        }
     }
 
     /**
@@ -101,8 +107,8 @@ public class LittleGUI extends JFrame implements ActionListener {
 
     }
 
-    private void layoutBottom(String mode) {
-            bottom = new JPanel();
+    private void layoutBottom() {
+        bottom = new JPanel();
 
         clearButton = new JButton("Clear");
         editButton = new JButton("Edit");
@@ -116,32 +122,43 @@ public class LittleGUI extends JFrame implements ActionListener {
         saveButton.addActionListener(this);
         deleteButton.addActionListener(this);
 
-        if (mode.equals("Add")) {
-            bottom.add(saveButton);
-            bottom.add(cancelButton);
-            //bottom.add(clearButton);
-        }
-        else if (mode.equals("Search")){
-            bottom.add(editButton);
-            bottom.add(deleteButton);
-            bottom.add(cancelButton);
-        }
-        else if (mode.equals("Edit")) {
-            bottom.add(saveButton);
-            bottom.add(cancelButton);
-        }
+        bottom.add(saveButton);
+        bottom.add(clearButton);
+        bottom.add(editButton);
+        bottom.add(deleteButton);
+        bottom.add(cancelButton);
 
         add(bottom, BorderLayout.SOUTH);
     }
 
-    private void showEdit() {
+    private void hideBottomComponents() {
         for (Component c : bottom.getComponents()) {
             c.setVisible(false);
         }
-        editButton.setVisible(true);
     }
+
+    private void showAdd() {
+        hideBottomComponents();
+        saveButton.setVisible(true);
+        cancelButton.setVisible(true);
+    }
+
+    private void showSearch() {
+        hideBottomComponents();
+        editButton.setVisible(true);
+        deleteButton.setVisible(true);
+        cancelButton.setVisible(true);
+    }
+
+    private void showEdit() {
+        hideBottomComponents();
+        saveButton.setVisible(true);
+        cancelButton.setVisible(true);
+    }
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == deleteButton) {
+            //show joptionpane error
             System.out.println("Are you sure you want to delete this entry");
         }
         if (e.getSource() == editButton) {
