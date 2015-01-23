@@ -27,7 +27,7 @@ public class MainGUI extends JFrame implements ActionListener
 	{
 		this.setTitle("Referee Selection"); //Provisional title
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(1200, 250);
+        this.setSize(1200, 260);
         this.setLocationRelativeTo(null);
 
         refereeList = new RefList();
@@ -42,19 +42,22 @@ public class MainGUI extends JFrame implements ActionListener
 		// Create left JPanel
 		left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+        left.setBorder(BorderFactory.createTitledBorder("Allocate matches"));
         this.add(left,BorderLayout.WEST);
-		
-        // Create internal JPanels 
+
+        //TODO why do we need to setMaximumSize for these panels?
+        // Create internal JPanels
         matchTitlePanel = new JPanel();
-        matchTitlePanel.setMaximumSize(new Dimension(400,400));
+        // matchTitlePanel.setMaximumSize(new Dimension(400,400));
         weekPanel = new JPanel();
-        weekPanel.setMaximumSize(new Dimension(400,400));
+        //weekPanel.setMaximumSize(new Dimension(400,400));
         locationPanel = new JPanel();
-        locationPanel.setMaximumSize(new Dimension(400,400));
+        //locationPanel.setMaximumSize(new Dimension(400,400));
         levelPanel = new JPanel();
-        levelPanel.setMaximumSize(new Dimension(400,400));
+        //levelPanel.setMaximumSize(new Dimension(400,400));
         allocatePanel = new JPanel();
-        allocatePanel.setMaximumSize(new Dimension(400,400));
+        //allocatePanel.setMaximumSize(new Dimension(400,400));
+
 
         // Create label for title/instructions for left panel
         matchTitle = new JLabel("To allocate two suitable referees enter the match details below");
@@ -114,7 +117,7 @@ public class MainGUI extends JFrame implements ActionListener
 
         //Create internal JPanel and scrollpane
         barChartPanel = new JPanel();
-        barChartPanel.setMaximumSize(new Dimension(400,400));
+        //barChartPanel.setMaximumSize(new Dimension(400,400));
 
         // Use the setCenterTable method to populate the table and add it to the scrollpane
         //TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
@@ -125,15 +128,16 @@ public class MainGUI extends JFrame implements ActionListener
         centerTable.setFillsViewportHeight(true);
 
         //Create label and button for bar chart and add to internal JPanel
-        barChartLabel = new JLabel("View the number of allocations per referee:");
-        barChartPanel.add(barChartLabel);
-        barChartButton = new JButton("Bar Chart");
+       // barChartLabel = new JLabel("View the number of allocations per referee:");
+        //barChartPanel.add(barChartLabel);
+        barChartButton = new JButton("View allocations");
         barChartButton.addActionListener(this);
         barChartPanel.add(barChartButton);
 
-        //Add internal panels to center JPanel
+        //Add internal panels to center JPanel TODO why not place it in south?
         center.add(centerScroll);
-        center.add(barChartPanel);
+        //center.add(barChartPanel);
+        this.add(barChartPanel, BorderLayout.SOUTH);
 
         // Create right JPanel
 		right = new JPanel();
@@ -143,26 +147,30 @@ public class MainGUI extends JFrame implements ActionListener
         // Create the internal JPanel
         addPanel = new JPanel();
 		addPanel.setMaximumSize(new Dimension(370,370));
-		searchTitlePanel = new JPanel();
-		searchTitlePanel.setMaximumSize(new Dimension(370,370));
+		searchTitlePanel = new JPanel(new GridLayout(3,1));
+		//searchTitlePanel.setMaximumSize(new Dimension(370,370));
+
         firstPanel = new JPanel();
 		firstPanel.setMaximumSize(new Dimension(370,370));
         lastPanel = new JPanel();
 		lastPanel.setMaximumSize(new Dimension(370,370));
         searchPanel = new JPanel();
-		searchPanel.setMaximumSize(new Dimension(370,370));
+		//searchPanel.setMaximumSize(new Dimension(370,370));
 
         //Create label and button for adding new ref 
-        addRefLabel = new JLabel("Add a new referee:");
-        addPanel.add(addRefLabel);
-        addRefButton = new JButton("Add");
+        //addRefLabel = new JLabel("Add a new referee:");
+        //addPanel.add(addRefLabel);
+        addRefButton = new JButton("Add referee");
         addRefButton.addActionListener(this);
-        addPanel.add(addRefButton);
-        
-        //Create title for search section
-        searchRefTitle = new JLabel("To search for a referee enter their first and last name below");
-        searchTitlePanel.add(searchRefTitle);
+        //addPanel.add(addRefButton);
+        //this.add(addRefButton, BorderLayout.SOUTH);
+        barChartPanel.add(addRefButton);
 
+
+        //Create title for search section
+        //searchRefTitle = new JLabel("To search for a referee enter their first and last name below");
+        //searchTitlePanel.add(searchRefTitle);
+        searchTitlePanel.setBorder(BorderFactory.createTitledBorder("Search:"));
         //Create label and button for first name
         firstNameLabel = new JLabel("First Name:");
         firstPanel.add(firstNameLabel);
@@ -180,12 +188,16 @@ public class MainGUI extends JFrame implements ActionListener
         searchRefButton.addActionListener(this);
         searchPanel.add(searchRefButton);
 
+        searchTitlePanel.add(firstPanel);
+        searchTitlePanel.add(lastPanel);
+        searchTitlePanel.add(searchPanel);
+
         // Add the internal panels to right JPanel
-        right.add(addPanel);
 		right.add(searchTitlePanel);
-        right.add(firstPanel);
-        right.add(lastPanel);
-        right.add(searchPanel);
+        //right.add(addPanel);
+//        right.add(firstPanel);
+//        right.add(lastPanel);
+//        right.add(searchPanel);
 	}
 	
 	private void setCenterTable() {
