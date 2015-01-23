@@ -6,10 +6,6 @@ public class TeamProject {
         System.out.println("Go Goldilocks!");
 		
 		MainGUI main = new MainGUI();
-		main.setVisible(true);		
-        BarChartViewer a = new BarChartViewer();
-        a.printNums();
-        LittleGUI b = new LittleGUI();
-        b.setVisible(true);
+		main.setVisible(true);
     }
 }

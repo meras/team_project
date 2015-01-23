@@ -23,8 +23,7 @@ public class BarChartViewer extends JFrame {
         setTitle("Allocation numbers");
         setSize(460, 300);
         setResizable(false);
-        //TODO change to DISPLAY_ON_CLOSE when integrating with the project
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
 
