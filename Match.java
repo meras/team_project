@@ -18,10 +18,17 @@ public class Match {
 	 * @param area
 	 * @param isSenior
 	 */
-		public  Match(int week, String area, boolean isSenior, String firstRef, String secondRef){
+		public  Match(int week, int area, boolean isSenior, String firstRef, String secondRef){
 			
 			weekNumber = week;
-			matchArea = area;
+			// area is being passed as an int so have to check which it is and set matchArea String accordingly
+			if(area == Referee.NORTH)
+				matchArea = "North";
+			else if(area == Referee.CENTRAL)
+				matchArea = "Central";
+			else if(area == Referee.SOUTH)
+				matchArea = "South";
+
 			if(isSenior == true){
 				matchLevel = "Senior";
 			}

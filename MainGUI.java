@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
+//TODO import .list specifically because otherwise compiler doesn't know if we're using util.List or awt.List
+import java.util.List;
 
 
 
@@ -21,6 +23,9 @@ public class MainGUI extends JFrame implements ActionListener
 	private JTable centerTable;
     private JScrollPane centerScroll;
 	private RefList refereeList;
+    private MatchList matchList;
+    //used in getWeekInfo() below
+    private final int BAD_INFO = -1;
 
 
     public MainGUI()
@@ -33,6 +38,8 @@ public class MainGUI extends JFrame implements ActionListener
         refereeList = new RefList();
         FileProcessor.readIn("RefereesIn.txt", refereeList);
         System.out.println(refereeList.getRefList().get(0).getFName());
+
+        matchList = new MatchList();
 
         this.layoutComponents();
     }
@@ -81,6 +88,8 @@ public class MainGUI extends JFrame implements ActionListener
         locationPanel.add(northButton);
         locationPanel.add(centralButton);
         locationPanel.add(southButton);
+        //set northButton to selected by default
+        northButton.setSelected(true);
 
         // Create label and radio buttons for level        
         levelLabel = new JLabel("Level:");
@@ -94,6 +103,8 @@ public class MainGUI extends JFrame implements ActionListener
         levelGroup.add(seniorButton);
         levelPanel.add(juniorButton);
         levelPanel.add(seniorButton);
+        //set juniorButton to selected by default
+        juniorButton.setSelected(true);
 
         //Create label and button for finding suitable referee
         allocateRefButton = new JButton("Allocate");
@@ -232,7 +243,7 @@ public class MainGUI extends JFrame implements ActionListener
             showLittleGui(LittleGUI.ADD);
 		}
 		if (e.getSource() == allocateRefButton) {
-
+            allocateRefs();
 		}
 		if (e.getSource() == searchRefButton) {
             showLittleGui(LittleGUI.SEARCH);
@@ -248,4 +259,63 @@ public class MainGUI extends JFrame implements ActionListener
         littleGUI.setVisible(true);
 
     }
+
+    private void allocateRefs() {
+        int week = getWeekInfo();
+        int loc = getLocationInfo();
+        boolean senMatch = getSeniorInfo();
+        if(week != BAD_INFO) {
+            //TODO first check if week is already taken
+            List<Referee> suitRefs = refereeList.getSuitableRefs(loc, senMatch);
+            if(suitRefs.size() < 2)
+                //TODO should we have a JOptionPane here? Or should this be printed on the GUI?
+                System.out.println("Not enough suitable refs found");
+            else {
+                Referee ref1 = suitRefs.get(0);
+                Referee ref2 = suitRefs.get(1);
+                //getting refIDs to pass to match constructor - but maybe we should pass the whole Ref objects instead?
+                String ref1Id = ref1.getRefID();
+                String ref2Id = ref2.getRefID();
+                Match match = new Match(week, loc, senMatch, ref1Id, ref2Id);
+                matchList.addMatch(match);
+                ref1.incrementAllocs();
+                ref2.incrementAllocs();
+            }
+        }
+    }
+
+
+    private int getWeekInfo() {
+        try {
+            int week = Integer.parseInt(weekField.getText());
+
+            if(week < 0 || week > 52) {
+                System.out.println("Please enter a valid match week");
+                return BAD_INFO;
+            }
+            else
+                return week;
+        }
+
+        catch(NumberFormatException nfx) {
+            System.out.println("please enter a valid match week");
+            return BAD_INFO;
+        }
+    }
+
+    private int getLocationInfo() {
+            if(northButton.isSelected()) {
+                System.out.println("match is in the north"); 
+                return Referee.NORTH;
+            }
+            else if(centralButton.isSelected())
+                return Referee.CENTRAL;
+            else
+                return Referee.SOUTH;
+    }
+
+    private boolean getSeniorInfo() {
+        return seniorButton.isSelected();
+    }
+
 }
