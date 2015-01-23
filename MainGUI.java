@@ -35,7 +35,6 @@ public class MainGUI extends JFrame implements ActionListener
         System.out.println(refereeList.getRefList().get(0).getFName());
 
         this.layoutComponents();
-
     }
 	
 	public void layoutComponents()
@@ -113,29 +112,28 @@ public class MainGUI extends JFrame implements ActionListener
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
         this.add(center,BorderLayout.CENTER);
 
-        //Create internal JPanel and scrollpane 
-        centerScroll = new JScrollPane();
+        //Create internal JPanel and scrollpane
         barChartPanel = new JPanel();
         barChartPanel.setMaximumSize(new Dimension(400,400));
 
-		// Use the setCenterTable method to populate the table and add it to the scrollpane
-		//TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
-		setCenterTable();
-		centerScroll.add(centerTable);
-		centerTable.setFillsViewportHeight(true);
+        // Use the setCenterTable method to populate the table and add it to the scrollpane
+        //TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
+        setCenterTable();
+        //centerScroll.add(centerTable);
+        centerScroll = new JScrollPane(centerTable);
+
+        centerTable.setFillsViewportHeight(true);
 
         //Create label and button for bar chart and add to internal JPanel
         barChartLabel = new JLabel("View the number of allocations per referee:");
         barChartPanel.add(barChartLabel);
         barChartButton = new JButton("Bar Chart");
-		barChartButton.addActionListener(this);
+        barChartButton.addActionListener(this);
         barChartPanel.add(barChartButton);
 
         //Add internal panels to center JPanel
         center.add(centerScroll);
         center.add(barChartPanel);
-
-
 
         // Create right JPanel
 		right = new JPanel();
@@ -190,30 +188,26 @@ public class MainGUI extends JFrame implements ActionListener
         right.add(searchPanel);
 	}
 	
-	private void setCenterTable()
-	{
+	private void setCenterTable() {
         //TODO referee list is created in the constructor
 		//refereeList = new RefList();
 		//refereeList.addRefFromGui("Jim", "Bob", "NJB2", 9, "North", "YYN");
 		
 		// Create array of the column names and table model for JTable
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
-		DefaultTableModel model = new DefaultTableModel(columns, 12)
-		/*{	// Ensures that the table is uneditable
-			public boolean isCellEditable (int row, int col)
-			{
-				return false;
-			}
-		
-		}*/;
-
-		// Take in the information from the RefList ArrayList and add it to a temporary array
+		DefaultTableModel model = new DefaultTableModel(0, columns.length); /* {
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };*/
+        model.setColumnIdentifiers(columns);
+		//Take in the information from the RefList ArrayList and add it to a temporary array
 		for (int i = 0; i < refereeList.getRefList().size(); i++) {
 
 			String id = refereeList.getRefList().get(i).getRefID();
 			String name = refereeList.getRefList().get(i).getFName() + refereeList.getRefList().get(i).getLName();
 			String qualification = refereeList.getRefList().get(i).getQualification();
-			int allocations = refereeList.getRefList().get(i).getNumAllocs();
+			Integer allocations = refereeList.getRefList().get(i).getNumAllocs();
 			String home = refereeList.getRefList().get(i).getHomeArea();
 			Boolean north = refereeList.getRefList().get(i).getTravelInfo("North");
 			Boolean central = refereeList.getRefList().get(i).getTravelInfo("Central");
@@ -226,7 +220,7 @@ public class MainGUI extends JFrame implements ActionListener
 		
 		// Create JTable, add it to the scrollpane
 		centerTable = new JTable(model);
-	}
+    }
 	
 	public void actionPerformed(ActionEvent e) 
 	{
