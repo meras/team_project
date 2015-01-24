@@ -1,4 +1,4 @@
-![Goldilocks](http://www.arieltheatrical.org/wp-content/uploads/Goldilocks-Logo-with-Bears.jpg)
+![Goldilocks](http://s24.postimg.org/hzstjoxb9/Goldi3_1.png)
 
 Team Goldilocks
 
