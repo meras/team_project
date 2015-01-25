@@ -259,18 +259,23 @@ public class MainGUI extends JFrame implements ActionListener
             allocateRefs();
 		}
 		if (e.getSource() == searchRefButton) {
-            showLittleGui(LittleGUI.SEARCH);
-		}
-		if (e.getSource() == barChartButton) {
-			BarChartViewer a = new BarChartViewer();
-			a.printNums();
+            Referee ref = refereeList.findRef(firstNameField.getText().trim(), lastNameField.getText().trim());
+            showLittleGui(LittleGUI.SEARCH, ref);
+        }
+        if (e.getSource() == barChartButton) {
+//			BarChartViewer a = new BarChartViewer();
+            BarChartViewer b = new BarChartViewer(refereeList);
 		}
 	}
 
     private void showLittleGui(int mode) {
         LittleGUI littleGUI = new LittleGUI(mode);
         littleGUI.setVisible(true);
+    }
 
+    private void showLittleGui(int mode, Referee ref) {
+        LittleGUI littleGUI = new LittleGUI(mode, ref);
+        littleGUI.setVisible(true);
     }
 
     private void allocateRefs() {

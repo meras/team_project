@@ -35,6 +35,20 @@ public class BarChartViewer extends JFrame {
 
     }
 
+    public BarChartViewer(RefList refereeList) {
+        //Create the frame
+        setTitle("Allocation numbers");
+        setSize(460, 300);
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.WHITE);
+
+        BarChart chart = new BarChart(refereeList);
+        add(chart);
+        setVisible(true);
+    }
+
     /**
      * print out test array TODO remove this method
      */
@@ -51,7 +65,8 @@ public class BarChartViewer extends JFrame {
         private final int CHART_HEIGHT = 220;
         private final int barWidth = 30;
         private final int barGap = 5;
-        private final int[] elements;
+        private final  int[] elements;
+        private RefList refereeList;
         private int maxValue;
 
         public BarChart(int[] elements) {
@@ -61,7 +76,24 @@ public class BarChartViewer extends JFrame {
                     maxValue = i;
                 }
             }
+        }
 
+        //todo consider using a list for elements
+
+        /**
+         * Draws a bar chart using allocation numbers
+         * @param refereeList list of referees which contains allocation numbers
+         */
+        public BarChart(RefList refereeList) {
+            this.refereeList = refereeList;
+            elements = new int[refereeList.getRefList().size()];
+
+            for (int i = 0; i < elements.length; i++) {
+                elements[i] = refereeList.getRefAtIndex(i).getNumAllocs();
+                if (elements[i] > maxValue) {
+                    maxValue = elements[i];
+                }
+            }
         }
 
         public void paintComponent(Graphics g) {
@@ -71,25 +103,37 @@ public class BarChartViewer extends JFrame {
 
             drawAxis(g2, unit);
 
+            String id = "123";
             // calculate the size of one unit relative to chart area
-            for (int element : elements) {
+            //for (int element : elements) {
+            for (int i = 0; i < elements.length; i++) {
                 //// calculate bar height relative to the chart area
-                int barHeight = unit * element;
+//                int barHeight = unit * element;
+                int barHeight = unit * elements[i];
 
-                drawBar(g2, element, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight);
+                //todo will change to something better
+                id = refereeList.getRefAtIndex(i).getRefID();
+
+//                drawBar(g2, element, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight, id);
+                drawBar(g2, elements[i], barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight, id);
                 barX += barWidth + barGap;
             }
         }
 
-        private void drawBar(Graphics2D g, int heading, int x, int y, int barWidth, int barHeight) {
+        private void drawBar(Graphics2D g, int heading, int x, int y, int barWidth, int barHeight, String id) {
             g.setColor(Color.MAGENTA);
             g.fillRect(x, y, barWidth, barHeight);
             g.setColor(Color.BLACK);
             g.draw(new Rectangle(x, y, barWidth, barHeight));
             g.drawString("" + heading, x + 5, y - 5);
-            g.drawString("MM2", x, y + barHeight + 15);
+            g.drawString(id, x, y + barHeight + 15);
         }
 
+        /**
+         * Draws gray lines behind the bar chart
+         * @param g graphics component
+         * @param unit the relative pixel distance between each unit
+         */
         private void drawAxis(Graphics2D g, int unit) {
             int lineHeight = CHART_HEIGHT+30;
 

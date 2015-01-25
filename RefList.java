@@ -94,7 +94,7 @@ public class RefList {
 	public void deleteRef(int index) {
 		refList.remove(index);
 	}
-	
+
 	public int findFromName(String first, String last) {
 		Referee ref = null;
 		boolean found = false;
@@ -113,7 +113,31 @@ public class RefList {
 		else
 			return refIndex;
 	}
-	
+
+	/**
+	 *
+	 * I liked Kalin's idea to just have a method to return a ref from search instead of an index.
+	 * This is just a coffee of the above for now as I didn't want to change Tomasz's code (which is beautiful)
+	 * @return Referee object if found, else null
+	 */
+	public Referee findRef(String first, String last) {
+		Referee ref = null;
+		boolean found = false;
+		int refIndex = 0;
+
+		while(!found && refIndex < refList.size()) {
+			ref = refList.get(refIndex);
+			if(ref.getFName().equals(first) && ref.getLName().equals(last))
+				found = true;
+			else
+				refIndex++;
+		}
+
+		if(!found)
+			return null;
+		else
+			return ref;
+	}
 
 	/*
 	 * This is my initial suggestion for allocating refs to matches.

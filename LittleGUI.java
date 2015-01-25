@@ -28,6 +28,20 @@ public class LittleGUI extends JFrame implements ActionListener {
     //SEARCH-
 
     public LittleGUI(int mode) {
+        constructGui(mode);
+    }
+
+    public LittleGUI(int mode, Referee referee) {
+        constructGui(mode);
+        if (referee != null) {
+            fNameField.setText(referee.getFName());
+            lNameField.setText(referee.getLName());
+            idField.setText(referee.getRefID());
+            matchField.setText("" + referee.getNumAllocs());
+        }
+    }
+
+    private void constructGui(int mode) {
         setTitle("edit info");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(350, 400);
@@ -154,6 +168,11 @@ public class LittleGUI extends JFrame implements ActionListener {
 
     private void showSearch() {
         hideBottomComponents();
+
+        fNameField.setEditable(false);
+        lNameField.setEditable(false);
+        matchField.setEditable(false);
+
 
         editButton.setVisible(true);
         deleteButton.setVisible(true);
