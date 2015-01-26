@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -12,15 +13,18 @@ public class BarChartViewer extends JFrame {
     public BarChartViewer(RefList refereeList) {
         //Create the frame
         setTitle("Allocation numbers");
-        setSize(460, 300);
         //setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
 
         BarChart chart = new BarChart(refereeList);
         add(chart);
+        int width = refereeList.getRefList().size() * (chart.barWidth + chart.barGap) + (chart.barMargin * 2)-5;
+        setSize(width, 300);
+        setLocationRelativeTo(null);
+
         setVisible(true);
+
     }
 
     /**
@@ -30,7 +34,8 @@ public class BarChartViewer extends JFrame {
         private final int CHART_HEIGHT = 220;
         private final int barWidth = 30;
         private final int barGap = 5;
-        private RefList refereeList;
+        private final int barMargin = 20;
+        private final RefList refereeList;
         private int maxValue;
 
         /**
@@ -86,12 +91,14 @@ public class BarChartViewer extends JFrame {
          * @param unit the relative pixel distance between each unit
          */
         private void drawAxis(Graphics2D g, int unit) {
-            int lineHeight = CHART_HEIGHT+30;
+            int y = CHART_HEIGHT+30;
 
             g.setColor(Color.LIGHT_GRAY);
             for (int i = 0; i <= maxValue; i++) {
-                g.drawLine(10, lineHeight, refereeList.getRefList().size()*(barWidth+barGap)+30, lineHeight);
-                lineHeight -= unit;
+                int x1 = barMargin / 2;
+                int x2 = refereeList.getRefList().size()*(barWidth+barGap) + barGap + barMargin;
+                g.drawLine(x1, y, x2, y);
+                y -= unit;
             }
         }
     }
