@@ -4,31 +4,33 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * A frame to display a bar chart
+ * A frame to display a bar chart representing allocation numbers of all the referees
  */
 public class BarChartViewer extends JFrame {
+
     /**
-     * Constructor
+     * Creates a frame where the width is scaled to the size of the referee list
+     * and paints a bar chart
+     * @param refereeList object which contains Referee instances
      */
     public BarChartViewer(RefList refereeList) {
         //Create the frame
         setTitle("Allocation numbers");
-        //setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(Color.WHITE);
 
         BarChart chart = new BarChart(refereeList);
         add(chart);
-        int width = refereeList.getRefList().size() * (chart.barWidth + chart.barGap) + (chart.barMargin * 2)-5;
+
+        int width = refereeList.getRefList().size() * (chart.barWidth + chart.barGap) + (chart.barMargin * 2)-chart.barGap;
         setSize(width, 300);
         setLocationRelativeTo(null);
-
         setVisible(true);
 
     }
 
     /**
-     * graphics object
+     * The component that draws the bar chart
      */
     public class BarChart extends JComponent {
         private final int CHART_HEIGHT = 220;
@@ -54,28 +56,36 @@ public class BarChartViewer extends JFrame {
 
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
-            //initial x coordinate to start drawing bars
-            int barX = 20;
+
             //scale the chart
             int unit = Math.round((float) CHART_HEIGHT / maxValue);
 
+            //draw the grey unit lines
             drawAxis(g2, unit);
 
+            //initial x coordinate to start drawing bars
+            int barX = barMargin;
             for (Referee ref : refereeList.getRefList()) {
                 String id = ref.getRefID();
-                int allocs = ref.getNumAllocs();
+                int allocNum = ref.getNumAllocs();
 
                 //calculate bar height relative to the chart area
-                int barHeight = unit * allocs;
+                int barHeight = unit * allocNum;
 
-                //todo will change to something better
-
-
-                drawBar(g2, allocs, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight, id);
+                drawBar(g2, allocNum, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight, id);
                 barX += barWidth + barGap;
             }
         }
 
+        /**
+         * Draws a bar with the number of allocations and the referee id
+         * @param heading displays number of allocations above the bar
+         * @param x the x coordinate
+         * @param y the y coordinate
+         * @param barWidth
+         * @param barHeight
+         * @param id Referee ID to displayed below the bar
+         */
         private void drawBar(Graphics2D g, int heading, int x, int y, int barWidth, int barHeight, String id) {
             g.setColor(Color.MAGENTA);
             g.fillRect(x, y, barWidth, barHeight);
