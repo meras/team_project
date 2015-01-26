@@ -6,40 +6,14 @@ import java.util.Random;
  * A frame to display a bar chart
  */
 public class BarChartViewer extends JFrame {
-    private int[] testNums;
-
     /**
      * Constructor
      */
-    public BarChartViewer() {
-        //setup values for testing
-        testNums = new int[12];
-        Random randInt = new Random();
-        for (int i = 0; i < testNums.length; i++) {
-            testNums[i] = randInt.nextInt(15);
-        }
-
-        //Create the frame
-        setTitle("Allocation numbers");
-        setSize(460, 300);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-        getContentPane().setBackground(Color.WHITE);
-
-
-        BarChart chart = new BarChart(testNums);
-        add(chart);
-
-        setVisible(true);
-
-    }
-
     public BarChartViewer(RefList refereeList) {
         //Create the frame
         setTitle("Allocation numbers");
         setSize(460, 300);
-        setResizable(false);
+        //setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE);
@@ -50,35 +24,14 @@ public class BarChartViewer extends JFrame {
     }
 
     /**
-     * print out test array TODO remove this method
-     */
-    public void printNums() {
-        for (int testNum : testNums) {
-            System.out.println(testNum);
-        }
-    }
-
-    /**
      * graphics object
      */
     public class BarChart extends JComponent {
         private final int CHART_HEIGHT = 220;
         private final int barWidth = 30;
         private final int barGap = 5;
-        private final  int[] elements;
         private RefList refereeList;
         private int maxValue;
-
-        public BarChart(int[] elements) {
-            this.elements = elements;
-            for (int i : elements) {
-                if (i > maxValue) {
-                    maxValue = i;
-                }
-            }
-        }
-
-        //todo consider using a list for elements
 
         /**
          * Draws a bar chart using allocation numbers
@@ -86,36 +39,34 @@ public class BarChartViewer extends JFrame {
          */
         public BarChart(RefList refereeList) {
             this.refereeList = refereeList;
-            elements = new int[refereeList.getRefList().size()];
 
-            for (int i = 0; i < elements.length; i++) {
-                elements[i] = refereeList.getRefAtIndex(i).getNumAllocs();
-                if (elements[i] > maxValue) {
-                    maxValue = elements[i];
+            for (Referee ref : this.refereeList.getRefList()) {
+                if (ref.getNumAllocs() > maxValue) {
+                    maxValue = ref.getNumAllocs();
                 }
             }
         }
 
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
+            //initial x coordinate to start drawing bars
             int barX = 20;
+            //scale the chart
             int unit = Math.round((float) CHART_HEIGHT / maxValue);
 
             drawAxis(g2, unit);
 
-            String id = "123";
-            // calculate the size of one unit relative to chart area
-            //for (int element : elements) {
-            for (int i = 0; i < elements.length; i++) {
-                //// calculate bar height relative to the chart area
-//                int barHeight = unit * element;
-                int barHeight = unit * elements[i];
+            for (Referee ref : refereeList.getRefList()) {
+                String id = ref.getRefID();
+                int allocs = ref.getNumAllocs();
+
+                //calculate bar height relative to the chart area
+                int barHeight = unit * allocs;
 
                 //todo will change to something better
-                id = refereeList.getRefAtIndex(i).getRefID();
 
-//                drawBar(g2, element, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight, id);
-                drawBar(g2, elements[i], barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight, id);
+
+                drawBar(g2, allocs, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight, id);
                 barX += barWidth + barGap;
             }
         }
@@ -139,7 +90,7 @@ public class BarChartViewer extends JFrame {
 
             g.setColor(Color.LIGHT_GRAY);
             for (int i = 0; i <= maxValue; i++) {
-                g.drawLine(10, lineHeight, elements.length*(barWidth+barGap)+30, lineHeight);
+                g.drawLine(10, lineHeight, refereeList.getRefList().size()*(barWidth+barGap)+30, lineHeight);
                 lineHeight -= unit;
             }
         }

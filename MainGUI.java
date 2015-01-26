@@ -263,7 +263,7 @@ public class MainGUI extends JFrame implements ActionListener
             showLittleGui(LittleGUI.SEARCH, ref);
         }
         if (e.getSource() == barChartButton) {
-//			BarChartViewer a = new BarChartViewer();
+			//BarChartViewer a = new BarChartViewer();
             BarChartViewer b = new BarChartViewer(refereeList);
 		}
 	}
