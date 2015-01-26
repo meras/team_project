@@ -186,5 +186,14 @@ public class RefList {
 		}
 		return suitableRefs;
 	}
+
+	public void printReferees ()
+	{
+		   for (Referee r : refList)
+		    {
+		    	System.out.println(r.getRefID() + " " + r.getFName() + " " + r.getLName() + " " + r.getQualification() + " " +  r.getNumAllocs() + " " + r.getHomeString() + " " + r.getTravelInfo(r.getHomeArea()));
+		    }
+	}
+	
 	
 }
