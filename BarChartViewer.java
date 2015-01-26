@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * A frame to display a bar chart representing allocation numbers of all the referees
@@ -26,7 +24,6 @@ public class BarChartViewer extends JFrame {
         setSize(width, 300);
         setLocationRelativeTo(null);
         setVisible(true);
-
     }
 
     /**
