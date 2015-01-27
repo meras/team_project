@@ -221,6 +221,5 @@ public class LittleGUI extends JFrame implements ActionListener {
             showEdit();
           
         }
-
     }
 }
