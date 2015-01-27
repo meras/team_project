@@ -9,26 +9,23 @@ public class RefList {
 	 * since it seems we are using an array list there is no need to keep count of how many
 	 * refs we have; we can just use ArrayList.size() every time we need to check this
 	 */
-	
+
 	public RefList() {
 		refList = new ArrayList<Referee>();
 	}
-	
+
 	public List<Referee> getRefList(){
 		return refList;
 	}
 
-	public Referee getRefAtIndex(int index) {
-		return refList.get(index);
-	}
-	
+
 	/*
 	 * to be used in GUI when checking if a new ref can be added
 	 */
 	public boolean checkForSpace() {
 		return (refList.size() < MAX_REFS);
 	}
-	
+
 	/*
 	 * as the refs are in order as we read them from the file, here we can just add
 	 * the ref to the end of the arraylist
@@ -37,7 +34,7 @@ public class RefList {
 		Referee newRef = new Referee(refString);
 		refList.add(newRef);
 	}
-	
+
 	/*
 	 * when a new ref is added from the GUI, we first call a method to create an ID based on their name, pass the
 	 * info to the Referee constructor and then loop through the arraylist to find where the
@@ -52,7 +49,7 @@ public class RefList {
 		String newId = createId(firstNm, lastNm);
 		String refData = newId + " " + lastNm + " " + qual + " " + allocs + " " + home + " " + travelInfo;
 		Referee newRef = new Referee(refData);
-		
+
 		boolean added = false;
 		int i = 0;
 		while(!added && i < refList.size()) {
@@ -64,55 +61,47 @@ public class RefList {
 			else
 				i++;
 		}
-		
+
 		if(!added)
 			refList.add(newRef);
 	}
-	
+
 	private String createId(String first, String last) {
 		String letterPart = "" + first.charAt(0) + last.charAt(0);
 		int numPart = 1;
-		
+
 		for(int i = 0; i < refList.size(); i++) {
 			Referee ref = refList.get(i);
 			String otherInitials = ref.getRefID().substring(0,2);
 			if(letterPart.equals(otherInitials))
 				numPart++;
 		}
-	
+
 		String newRefId = letterPart + numPart;
 		return newRefId;
 	}
-	
+
 	/*
 	 * What I am imagining with the 2 methods below: the GUI reads in the ref's
 	 * first and last name. It passes them to findFromName, which returns the index
 	 * position of the ref within the list (or a "sentinel value" if the ref was not found).
 	 * Then the GUI class calls deleteRef using that index.
 	 */
-	
-	public void deleteRef(int index) {
-		refList.remove(index);
+
+	public boolean deleteRef(String first, String last)
+	{
+		Referee findRefResult=findRef(first, last);
+
+		if (findRefResult != null)
+		{
+			refList.remove(findRefResult);
+			return true;
+		}
+		else
+			return false;
 	}
 
-	public int findFromName(String first, String last) {
-		Referee ref = null;
-		boolean found = false;
-		int refIndex = 0;
-		
-		while(!found && refIndex < refList.size()) {
-			ref = refList.get(refIndex);
-			if(ref.getFName().equals(first) && ref.getLName().equals(last))
-				found = true;
-			else
-				refIndex++;
-		}
-	
-		if(!found)
-			return REF_NOT_FOUND;
-		else
-			return refIndex;
-	}
+
 
 	/**
 	 *
@@ -189,11 +178,38 @@ public class RefList {
 
 	public void printReferees ()
 	{
-		   for (Referee r : refList)
-		    {
-		    	System.out.println(r.getRefID() + " " + r.getFName() + " " + r.getLName() + " " + r.getQualification() + " " +  r.getNumAllocs() + " " + r.getHomeString() + " " + r.getTravelInfo(r.getHomeArea()));
-		    }
+		for (Referee r : refList)
+		{
+			System.out.println(r.getRefID() + " " + r.getFName() + " " + r.getLName() + " " + r.getQualification() + " " +  r.getNumAllocs() + " " + r.getHomeString() + " " + r.getTravelInfo(r.getHomeArea()));
+		}
 	}
-	
-	
+
+	/*
+	public Referee getRefAtIndex(int index) {
+		return refList.get(index);
+	}
+
+	public void deleteRef(int index) {
+		refList.remove(index);
+	}
+
+	public int findFromName(String first, String last) {
+		Referee ref = null;
+		boolean found = false;
+		int refIndex = 0;
+
+		while(!found && refIndex < refList.size()) {
+			ref = refList.get(refIndex);
+			if(ref.getFName().equals(first) && ref.getLName().equals(last))
+				found = true;
+			else
+				refIndex++;
+		}
+
+		if(!found)
+			return REF_NOT_FOUND;
+		else
+			return refIndex;
+	}
+	 */
 }

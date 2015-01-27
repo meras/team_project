@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 import javax.swing.table.*;
+
 //TODO import .list specifically because otherwise compiler doesn't know if we're using util.List or awt.List
 import java.util.List;
 
@@ -227,9 +229,9 @@ public class MainGUI extends JFrame implements ActionListener
         };
         model.setColumnIdentifiers(columns);
 		//Take in the information from the RefList ArrayList and add it to a temporary array
-		for (int i = 0; i < refereeList.getRefList().size(); i++) {
-            //NOTE - I added a getRefAtIndex method to RefList to make this simpler
-            Referee ref = refereeList.getRefAtIndex(i);
+        
+		for (Referee ref : refereeList.getRefList()) 
+		{
 			String id = ref.getRefID();
 			String name = ref.getFName() + " " + ref.getLName();
 			String qualification = ref.getQualification();
@@ -258,13 +260,32 @@ public class MainGUI extends JFrame implements ActionListener
 		if (e.getSource() == allocateRefButton) {
             allocateRefs();
 		}
-		if (e.getSource() == searchRefButton) {
+		if (e.getSource() == searchRefButton) 
+		
+		if (!firstNameField.getText().trim().equals("") && !lastNameField.getText().trim().equals(""))
+		{
+			
+		{
             Referee ref = refereeList.findRef(firstNameField.getText().trim(), lastNameField.getText().trim());
+            if (ref!=null)
             showLittleGui(LittleGUI.SEARCH, ref);
+            else
+            {
+            	JOptionPane.showMessageDialog(this, "The referee " +firstNameField.getText().trim() + " " + lastNameField.getText().trim() + " " + "was not found in the database.", 
+						"Error", JOptionPane.ERROR_MESSAGE);
+            	clearNameFields();     	
+            }
+            	
         }
         if (e.getSource() == barChartButton) {
 			//BarChartViewer a = new BarChartViewer();
             BarChartViewer b = new BarChartViewer(refereeList);
+		}
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(this, "The First Name and Last Name fields cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+        	clearNameFields();     	
 		}
 	}
 
@@ -338,4 +359,9 @@ public class MainGUI extends JFrame implements ActionListener
         return seniorButton.isSelected();
     }
 
+    private void clearNameFields()
+    {
+    firstNameField.setText("");
+    lastNameField.setText("");
+    }
 }

@@ -1,7 +1,20 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 /**
  *
@@ -10,14 +23,11 @@ public class LittleGUI extends JFrame implements ActionListener {
     private JButton editButton, saveButton, deleteButton, clearButton, cancelButton;
     private final String[] qualificationList = {"", "First", "Second", "Third", "Fourth"};
     private final String[] qualificationTypeList = {"", "NJB","IJB"};
-    private JTextField fNameField;
-    private JTextField lNameField;
-    private JTextField idField;
-    private JTextField matchField;
+    private JTextField fNameField, lNameField, idField, matchField;
     private JComboBox qualificationTypeCombo, qualificationsCombo;
-    private JRadioButton northRadio;
-    private JRadioButton centerRadio;
-    private JRadioButton southRadio;
+    private JRadioButton northRadio, centerRadio, southRadio;
+    private Checkbox northCheck, centerCheck, southCheck;
+
     private JPanel bottom;
 
     /* following constants are used to set the GUI mode */
@@ -39,6 +49,12 @@ public class LittleGUI extends JFrame implements ActionListener {
             lNameField.setText(referee.getLName());
             idField.setText(referee.getRefID());
             matchField.setText("" + referee.getNumAllocs());
+            
+            /* TO DO Need to split qualification into string and int or split strings. Needs to display appropriately from the search appropriately and set the value accordingly.
+            qualificationTypeCombo.setSelectedItem(referee.getQualification())
+            qualificationsCombo.setSelectedItem(referee.getQualification());
+            */
+            
         }
     }
 
@@ -74,6 +90,7 @@ public class LittleGUI extends JFrame implements ActionListener {
         qualificationsCombo = new JComboBox(qualificationList);
 
         ButtonGroup homeGroup = new ButtonGroup();
+       
 
         JPanel fname = new JPanel();
         fname.add(new JLabel("First name:"));
@@ -109,16 +126,17 @@ public class LittleGUI extends JFrame implements ActionListener {
         home.add(southRadio);
 
         JPanel preferrence = new JPanel();
-        northRadio = new JRadioButton("North");
-        centerRadio = new JRadioButton("Center");
-        southRadio = new JRadioButton("South");
-        homeGroup.add(northRadio);
-        homeGroup.add(centerRadio);
-        homeGroup.add(southRadio);
-        preferrence.add(new JLabel("Home:"));
-        preferrence.add(northRadio);
-        preferrence.add(centerRadio);
-        preferrence.add(southRadio);
+        
+        //TO DO Needs to automatically spot when a referee radiobutton is clicked to highlight which is the default preference, 
+        //needs also to be modified for search to automatically show results.
+        northCheck = new Checkbox("North", false);
+        centerCheck = new Checkbox("Center", false);
+        southCheck = new Checkbox("South", false);
+        preferrence.add(new JLabel("Preference:"));
+        preferrence.add(northCheck);
+        preferrence.add(centerCheck);
+        preferrence.add(southCheck);
+      
 
         //add all the panels to the center JPanel
         center.add(fname);
@@ -177,6 +195,9 @@ public class LittleGUI extends JFrame implements ActionListener {
         fNameField.setEditable(false);
         lNameField.setEditable(false);
         matchField.setEditable(false);
+        qualificationTypeCombo.setEnabled(false);
+        qualificationsCombo.setEnabled(false);
+        
 
 
         editButton.setVisible(true);
@@ -198,6 +219,7 @@ public class LittleGUI extends JFrame implements ActionListener {
         }
         if (e.getSource() == editButton) {
             showEdit();
+          
         }
 
     }
