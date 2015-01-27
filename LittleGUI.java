@@ -8,12 +8,13 @@ import java.awt.event.ActionListener;
  */
 public class LittleGUI extends JFrame implements ActionListener {
     private JButton editButton, saveButton, deleteButton, clearButton, cancelButton;
-    private final String[] qualificationList = {"", "First", "Second", "Third"};
+    private final String[] qualificationList = {"", "First", "Second", "Third", "Fourth"};
+    private final String[] qualificationTypeList = {"", "NJB","IJB"};
     private JTextField fNameField;
     private JTextField lNameField;
     private JTextField idField;
     private JTextField matchField;
-    private JComboBox qualificationsCombo;
+    private JComboBox qualificationTypeCombo, qualificationsCombo;
     private JRadioButton northRadio;
     private JRadioButton centerRadio;
     private JRadioButton southRadio;
@@ -69,6 +70,7 @@ public class LittleGUI extends JFrame implements ActionListener {
         idField.setEditable(false);
         matchField = new JTextField(7);
         matchField.setEditable(false);
+        qualificationTypeCombo = new JComboBox(qualificationTypeList);
         qualificationsCombo = new JComboBox(qualificationList);
 
         ButtonGroup homeGroup = new ButtonGroup();
@@ -88,6 +90,9 @@ public class LittleGUI extends JFrame implements ActionListener {
         info.add(matchField);
 
         JPanel qualification = new JPanel();
+        
+        qualification.add(new JLabel("Qualification Type:"));
+        qualification.add(qualificationTypeCombo);
         qualification.add(new JLabel("Qualification:"));
         qualification.add(qualificationsCombo);
 
