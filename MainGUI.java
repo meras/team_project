@@ -230,6 +230,11 @@ public class MainGUI extends JFrame implements ActionListener
         model.setColumnIdentifiers(columns);
 		//Take in the information from the RefList ArrayList and add it to a temporary array
         
+		/*quoting from AE3 general feedback: "FitnessProgram is an array class, and its main instance variable was intended to be 
+		an array of FitnessClass objects. There should not be an accessor method to return this"
+		I think the same probably applies here and we should not have a getRefList() method; we should be using a method to get each
+		individual ref
+		*/
 		for (Referee ref : refereeList.getRefList()) 
 		{
 			String id = ref.getRefID();
@@ -261,7 +266,7 @@ public class MainGUI extends JFrame implements ActionListener
             allocateRefs();
 		}
 		if (e.getSource() == searchRefButton) 
-		
+		//should we have these checks in a separate method?
 		if (!firstNameField.getText().trim().equals("") && !lastNameField.getText().trim().equals(""))
 		{
 			
