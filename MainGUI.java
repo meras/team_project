@@ -249,7 +249,7 @@ public class MainGUI extends JFrame implements ActionListener {
             showLittleGui(LittleGUI.ADD);
         }
         if (e.getSource() == allocateRefButton) {
-            allocateRefs();
+            checkForSuitableRefs();
             clearAllocComponents();
         }
 
@@ -294,40 +294,50 @@ public class MainGUI extends JFrame implements ActionListener {
     /**
      * Displays two referees which are suitable for the match which has been entered if they exist
      */
-    private void allocateRefs() {
+    private void checkForSuitableRefs() {
+        //first make sure there is room for another match
+        if (matchList.getNoMatches() == 52) {
+            errorPane("All the weeks in the year are allocated");
+            return; //if no room for more matches, exit method
+        }
+        //if there is room for another match, get match info input by user
         int week = getWeekInfo();
         int loc = getLocationInfo();
-        boolean senMatch = getSeniorInfo();
-
-        if (week != BAD_INFO) {
-            if (matchList.getNoMatches() == 52) {
-                errorPane("All the weeks in the year are allocated");
-            }
+        //check that all info has been input and is OK
+        if (levelIsSelected() && week != BAD_INFO && loc != BAD_INFO) {
             if (!matchList.checkWeekAllocation(week)) {
                 errorPane("Week " + week + " is already allocated");
+                return; //if week is already taken, exit method
             }
 
-            List<Referee> suitRefs = refereeList.getSuitableRefs(loc, senMatch);
-            if (suitRefs.size() < 2)
+            boolean senMatch = getSeniorInfo();
+            List<Referee> suitableRefs = refereeList.getSuitableRefs(loc, senMatch);
+            if (suitableRefs.size() < 2)
                 //TODO should we have a JOptionPane here? Or should this be printed on the GUI?
                 errorPane("Not enough suitable refs found");
-            else {
-                Referee ref1 = suitRefs.get(0);
-                Referee ref2 = suitRefs.get(1);
-                //getting refIDs to pass to match constructor - but maybe we should pass the whole Ref objects instead?
-                String ref1Id = ref1.getRefID();
-                String ref2Id = ref2.getRefID();
-                Match match = new Match(week, loc, senMatch, ref1Id, ref2Id);
-
-                matchList.addMatch(match);
-
-                ref1.incrementAllocs();
-                ref2.incrementAllocs();
+            else
+                allocateTwoRefs(suitableRefs, week, loc, senMatch);
                 //TODO call method to update center area with list of suitable refs
-                //and say which 2 refs have been allocated to the match
-            }
+                //and display which 2 refs have been allocated to the match
             clearNameFields();
+            //TODO testing if we got the right refs....
+            for(Referee r : suitableRefs) {
+                System.out.println(r.getFName() + " " + r.getLName());
+            }
         }
+    }
+
+    private void allocateTwoRefs(List<Referee> suitRefs, int weekNumber, int place, boolean senior) {
+        Referee ref1 = suitRefs.get(0);
+        Referee ref2 = suitRefs.get(1);
+        //TODO now passing Ref's full name to Match constructor - but I still think we should be passing the whole object. maybe.
+        String ref1Name = ref1.getFName() + " " + ref1.getLName();
+        String ref2Name = ref2.getFName() + " " + ref2.getLName();
+
+        matchList.alternativeAddMatch(weekNumber, place, senior, ref1Name, ref2Name);
+
+        ref1.incrementAllocs();
+        ref2.incrementAllocs();
     }
 
     /**
@@ -338,12 +348,15 @@ public class MainGUI extends JFrame implements ActionListener {
     private int getWeekInfo() {
         try {
             int week = Integer.parseInt(weekField.getText());
-
-            if (week < 0 || week > MatchList.MAX_MATCHES) {
-                errorPane("Please enter a week between 0 and " + MatchList.MAX_MATCHES);
+            //I'm assuming that the first week is week 1 and not 0 right?
+            if (week < 1 || week > MatchList.MAX_MATCHES) {
+                errorPane("Please enter a week between 1 and " + MatchList.MAX_MATCHES);
                 return BAD_INFO;
-            } else return week;
-        } catch (NumberFormatException nfx) {
+            } 
+            else return week;
+        } 
+
+        catch (NumberFormatException nfx) {
             errorPane("Please enter a valid week");
             return BAD_INFO;
         }
@@ -360,13 +373,27 @@ public class MainGUI extends JFrame implements ActionListener {
             return Referee.NORTH;
         } else if (centralButton.isSelected())
             return Referee.CENTRAL;
-        else
+        else if(southButton.isSelected())
             return Referee.SOUTH;
+        else {
+            errorPane("Please select the match location");
+            return BAD_INFO;
+        } 
     }
 
     /**
      *
      */
+    private boolean levelIsSelected() {
+        if(juniorButton.isSelected() || seniorButton.isSelected())
+            return true;
+        else {
+            errorPane("Please select the match level");
+            return false;
+        }
+           
+    }
+
     private boolean getSeniorInfo() {
         return seniorButton.isSelected();
     }

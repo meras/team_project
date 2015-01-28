@@ -34,6 +34,12 @@ public class MatchList implements Iterable<Match> {
 			matchList.add(newMatch);
 	}
 
+	//TODO temporary name
+	public void alternativeAddMatch(int week, int loc, boolean senior, String ref1Nm, String ref2Nm) {
+		Match newMatch = new Match(week, loc, senior, ref1Nm, ref2Nm);
+		matchList.add(newMatch);
+	}
+
 	/**
 	 * get number of matches currently in the match list
 	 */
