@@ -203,25 +203,30 @@ public class MainGUI extends JFrame implements ActionListener
     /**
     * Creates the table to display the referees and their information in the center of the main GUI
     */
-	private void setCenterTable() {
-		
-		// Create array of the column names and table model for JTable
+	private void setCenterTable() 
+    {   /*quoting from AE3 general feedback: "FitnessProgram is an array class, and its main instance variable was intended to be 
+        an array of FitnessClass objects. There should not be an accessor method to return this"
+        I think the same probably applies here and we should not have a getRefList() method; we should be using a method to get each
+        individual ref
+        */
+
+		// Create the array of the column names for the JTable
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
 
-        //we don't need to specify row number in DefaultTableModel because addRow adds additional rows.
-		DefaultTableModel model = new DefaultTableModel() {
+		// Create the array which will contain the information on each referee
+        Object[] refArray = new Object[8];
+
+        // Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
+        DefaultTableModel model = new DefaultTableModel() {
+            
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
         model.setColumnIdentifiers(columns);
-		//Take in the information from the RefList ArrayList and add it to a temporary array
-        
-		/*quoting from AE3 general feedback: "FitnessProgram is an array class, and its main instance variable was intended to be 
-		an array of FitnessClass objects. There should not be an accessor method to return this"
-		I think the same probably applies here and we should not have a getRefList() method; we should be using a method to get each
-		individual ref
-		*/
+
+
+
 		for (Referee ref : refereeList.getRefList()) 
 		{
 			String id = ref.getRefID();
@@ -234,11 +239,11 @@ public class MainGUI extends JFrame implements ActionListener
 			Boolean central = ref.getTravelInfo(Referee.CENTRAL);
 			Boolean south = ref.getTravelInfo(Referee.SOUTH);
 
-			Object[] refArray = {id, name, qualification, allocations, home, north, central, south};
+			refArray = {id, name, qualification, allocations, home, north, central, south};
 
-			model.addRow(refArray);
+            model.addRow(refArray);
 		}
-		
+
 		// Create JTable, add it to the scrollpane
 		centerTable = new JTable(model);
         centerTable.setGridColor(Color.LIGHT_GRAY);
