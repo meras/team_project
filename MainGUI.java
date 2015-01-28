@@ -203,43 +203,51 @@ public class MainGUI extends JFrame implements ActionListener
     /**
     * Creates the table to display the referees and their information in the center of the main GUI
     */
-	private void setCenterTable() {
-		
-		// Create array of the column names and table model for JTable
+	private void setCenterTable() 
+    {   /*quoting from AE3 general feedback: "FitnessProgram is an array class, and its main instance variable was intended to be 
+        an array of FitnessClass objects. There should not be an accessor method to return this"
+        I think the same probably applies here and we should not have a getRefList() method; we should be using a method to get each
+        individual ref
+        */
+
+		// Create the array of the column names for the JTable
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
 
-        //we don't need to specify row number in DefaultTableModel because addRow adds additional rows.
-		DefaultTableModel model = new DefaultTableModel() {
+		// Create the array which will contain the information on each referee
+        final Object[] refArray = new Object[8];
+
+        // Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
+        DefaultTableModel model = new DefaultTableModel() {
+            
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
+
+            public Class<?> getColumnClass(int colIndex) {
+                return refArray[colIndex].getClass();
+            }
         };
+       
+        // Use the columns array to set the column names
         model.setColumnIdentifiers(columns);
-		//Take in the information from the RefList ArrayList and add it to a temporary array
-        
-		/*quoting from AE3 general feedback: "FitnessProgram is an array class, and its main instance variable was intended to be 
-		an array of FitnessClass objects. There should not be an accessor method to return this"
-		I think the same probably applies here and we should not have a getRefList() method; we should be using a method to get each
-		individual ref
-		*/
+
+        // Create an array for each of the referees 
 		for (Referee ref : refereeList.getRefList()) 
 		{
-			String id = ref.getRefID();
-			String name = ref.getFName() + " " + ref.getLName();
-			String qualification = ref.getQualification();
-			Integer allocations = ref.getNumAllocs();
-			String home = ref.getHomeString();
-            //TODO note - changed arguments passed below to constants
-			Boolean north = ref.getTravelInfo(Referee.NORTH);
-			Boolean central = ref.getTravelInfo(Referee.CENTRAL);
-			Boolean south = ref.getTravelInfo(Referee.SOUTH);
+			refArray[0] = ref.getRefID();
+			refArray[1] = ref.getFName() + " " + ref.getLName();
+			refArray[2] = ref.getQualification();
+			refArray[3] = ref.getNumAllocs();
+			refArray[4] = ref.getHomeString();
+			refArray[5] = ref.getTravelInfo(Referee.NORTH);
+			refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
+			refArray[7] = ref.getTravelInfo(Referee.SOUTH);
 
-			Object[] refArray = {id, name, qualification, allocations, home, north, central, south};
-
-			model.addRow(refArray);
+            // Add the array for each referee into each of the rows of the table
+            model.addRow(refArray);
 		}
-		
-		// Create JTable, add it to the scrollpane
+
+		// Create JTable and add it to the scrollpane
 		centerTable = new JTable(model);
         centerTable.setGridColor(Color.LIGHT_GRAY);
     }
