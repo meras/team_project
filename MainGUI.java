@@ -214,7 +214,7 @@ public class MainGUI extends JFrame implements ActionListener
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
 
 		// Create the array which will contain the information on each referee
-        Object[] refArray = new Object[8];
+        final Object[] refArray = new Object[8];
 
         // Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
         DefaultTableModel model = new DefaultTableModel() {
@@ -222,29 +222,32 @@ public class MainGUI extends JFrame implements ActionListener
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
+
+            public Class<?> getColumnClass(int colIndex) {
+                return refArray[colIndex].getClass();
+            }
         };
+       
+        // Use the columns array to set the column names
         model.setColumnIdentifiers(columns);
 
-
-
+        // Create an array for each of the referees 
 		for (Referee ref : refereeList.getRefList()) 
 		{
-			String id = ref.getRefID();
-			String name = ref.getFName() + " " + ref.getLName();
-			String qualification = ref.getQualification();
-			Integer allocations = ref.getNumAllocs();
-			String home = ref.getHomeString();
-            //TODO note - changed arguments passed below to constants
-			Boolean north = ref.getTravelInfo(Referee.NORTH);
-			Boolean central = ref.getTravelInfo(Referee.CENTRAL);
-			Boolean south = ref.getTravelInfo(Referee.SOUTH);
+			refArray[0] = ref.getRefID();
+			refArray[1] = ref.getFName() + " " + ref.getLName();
+			refArray[2] = ref.getQualification();
+			refArray[3] = ref.getNumAllocs();
+			refArray[4] = ref.getHomeString();
+			refArray[5] = ref.getTravelInfo(Referee.NORTH);
+			refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
+			refArray[7] = ref.getTravelInfo(Referee.SOUTH);
 
-			refArray = {id, name, qualification, allocations, home, north, central, south};
-
+            // Add the array for each referee into each of the rows of the table
             model.addRow(refArray);
 		}
 
-		// Create JTable, add it to the scrollpane
+		// Create JTable and add it to the scrollpane
 		centerTable = new JTable(model);
         centerTable.setGridColor(Color.LIGHT_GRAY);
     }
