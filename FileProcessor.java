@@ -27,7 +27,9 @@ public class FileProcessor {
     /**
      *
      */
-    public static void saveAndClose(String matchAllocsFile, MatchList matchList) {
+    public static void saveAndClose(String matchAllocsFile) {
+
+        MatchList matchList = new MatchList();
 
         PrintWriter out = null;
 

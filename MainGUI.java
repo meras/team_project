@@ -1,37 +1,40 @@
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
+import java.awt.event.*;
+
+import javax.swing.*;
+import javax.swing.table.*;
 
 //TODO import .list specifically because otherwise compiler doesn't know if we're using util.List or awt.List
+import java.util.List;
+
 
 
 /**
- * Main GUI which allows the user to enter match details, view information about the referees and search for a referee.
- */
-public class MainGUI extends JFrame implements ActionListener {
+* Main GUI which allows the user to enter match details, view information about the referees and search for a referee.
+*/ 
+public class MainGUI extends JFrame implements ActionListener
+{
+	private JPanel left, center, right, matchTitlePanel, weekPanel, locationPanel, levelPanel, 
+            allocatePanel, barChartPanel, addPanel, searchTitlePanel, firstPanel, lastPanel, searchPanel; // panels which are used to house the components, internal panels aid in layout
+	private JLabel matchTitle, weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
+	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
+	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton;   // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
+	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
+	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
+	private JTable centerTable;     // the JTable which displays the information about the referees
+    private JScrollPane centerScroll;   // the scrollpane object which houses the JTable component
+	private RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
+    private MatchList matchList;    // a MatchList object which contains all the matches that have been entered
     //used in getWeekInfo() below
     private final int BAD_INFO = -1;
-    private JPanel left, center, right, weekPanel, locationPanel, levelPanel,
-            allocatePanel, barChartPanel, addPanel, searchTitlePanel, firstPanel, lastPanel, searchPanel; // panels which are used to house the components, internal panels aid in layout
-    private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
-    private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
-    private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton;   // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
-    private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
-    private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
-    private JTable centerTable;     // the JTable which displays the information about the referees
-    private JScrollPane centerScroll;   // the scrollpane object which houses the JTable component
-    private RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
-    private MatchList matchList;    // a MatchList object which contains all the matches that have been entered
 
     /**
-     * Constructs the main GUI window and creates the MatchList and RefList objects
-     */
-    public MainGUI() {
-        this.setTitle("Referee Selection");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    * Constructs the main GUI window and creates the MatchList and RefList objects
+    */
+    public MainGUI()
+	{
+		this.setTitle("Referee Selection");
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(1200, 260);
         this.setLocationRelativeTo(null);
 
@@ -43,50 +46,58 @@ public class MainGUI extends JFrame implements ActionListener {
 
         this.layoutComponents();
     }
-
+	
     /**
-     * Sets out the different GUI components within the JFrame
-     */
-    public void layoutComponents() {
-        // Create left JPanel
-        left = new JPanel();
+    * Sets out the different GUI components within the JFrame
+    */
+	public void layoutComponents()
+	{
+		// Create left JPanel
+		left = new JPanel();
         left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
         left.setBorder(BorderFactory.createTitledBorder("Allocate Referees"));
         this.add(left, BorderLayout.WEST);
 
         // Create internal JPanels
+        matchTitlePanel = new JPanel();
         weekPanel = new JPanel();
         locationPanel = new JPanel();
         levelPanel = new JPanel();
         allocatePanel = new JPanel();
 
-        // Create label and textField for match week number
-        weekLabel = new JLabel("Week Number (1-52):");
-        weekPanel.add(weekLabel);
-        weekField = new JTextField(2);
-        weekPanel.add(weekField);
 
-        //Create Label and radio buttons for match location
-        locationLabel = new JLabel("Match Location:");
-        locationPanel.add(locationLabel);
-        northButton = new JRadioButton("North");
-        centralButton = new JRadioButton("Central");
-        southButton = new JRadioButton("South");
+        // Create label for title/instructions for left panel
+        matchTitle = new JLabel("To allocate two suitable referees enter the match details below");
+        matchTitlePanel.add(matchTitle);
 
-        //Group the location JRadioButtons so that they are mutually exclusive
-        locationGroup = new ButtonGroup();
-        locationGroup.add(northButton);
-        locationGroup.add(centralButton);
-        locationGroup.add(southButton);
+		// Create label and textField for match week number
+		weekLabel = new JLabel("Week Number (1-52):");
+		weekPanel.add(weekLabel);
+		weekField = new JTextField(2);
+		weekPanel.add(weekField);
+		
+		//Create Label and radio buttons for match location
+		locationLabel = new JLabel("Match Location:");
+		locationPanel.add(locationLabel);
+		northButton = new JRadioButton("North");
+		centralButton = new JRadioButton("Central");
+		southButton = new JRadioButton("South");
+		
+		//Group the location JRadioButtons so that they are mutually exclusive
+		locationGroup = new ButtonGroup();
+		locationGroup.add(northButton);
+		locationGroup.add(centralButton);
+		locationGroup.add(southButton);
         locationPanel.add(northButton);
         locationPanel.add(centralButton);
         locationPanel.add(southButton);
-
+        //set northButton to selected by default
+        northButton.setSelected(true);
 
         // Create label and radio buttons for level        
         levelLabel = new JLabel("Level:");
         levelPanel.add(levelLabel);
-        juniorButton = new JRadioButton("Junior");
+        juniorButton = new JRadioButton("Junior");  
         seniorButton = new JRadioButton("Senior");
 
         // Group the level JRadioButtons so they are mutually exclusive
@@ -95,6 +106,8 @@ public class MainGUI extends JFrame implements ActionListener {
         levelGroup.add(seniorButton);
         levelPanel.add(juniorButton);
         levelPanel.add(seniorButton);
+        //set juniorButton to selected by default
+        juniorButton.setSelected(true);
 
         //Create label and button for finding suitable referee
         allocateRefButton = new JButton("Allocate");
@@ -102,6 +115,7 @@ public class MainGUI extends JFrame implements ActionListener {
         allocatePanel.add(allocateRefButton);
 
         // Add internal panels to the left JPanel
+        left.add(matchTitlePanel);
         left.add(weekPanel);
         left.add(locationPanel);
         left.add(levelPanel);
@@ -110,7 +124,7 @@ public class MainGUI extends JFrame implements ActionListener {
         // Create center JPanel
         center = new JPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
-        this.add(center, BorderLayout.CENTER);
+        this.add(center,BorderLayout.CENTER);
 
         //Create internal JPanel and scrollpane
         barChartPanel = new JPanel();
@@ -135,14 +149,14 @@ public class MainGUI extends JFrame implements ActionListener {
         this.add(barChartPanel, BorderLayout.SOUTH);
 
         // Create right JPanel
-        right = new JPanel();
+		right = new JPanel();
         right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
-        this.add(right, BorderLayout.EAST);
+        this.add(right,BorderLayout.EAST);
 
         // Create the internal JPanel
         addPanel = new JPanel();
-        searchTitlePanel = new JPanel(new GridLayout(3, 1));
-        //searchTitlePanel.setMaximumSize(new Dimension(370,370));
+		searchTitlePanel = new JPanel(new GridLayout(3,1));
+		//searchTitlePanel.setMaximumSize(new Dimension(370,370));
 
         firstPanel = new JPanel();
         lastPanel = new JPanel();
@@ -179,31 +193,32 @@ public class MainGUI extends JFrame implements ActionListener {
         searchTitlePanel.add(searchPanel);
 
         // Add the internal panels to right JPanel
-        right.add(searchTitlePanel);
+		right.add(searchTitlePanel);
         //right.add(addPanel);
 //        right.add(firstPanel);
 //        right.add(lastPanel);
 //        right.add(searchPanel);
-    }
-
+	}
+	
     /**
-     * Creates the table to display the referees and their information in the center of the main GUI
-     */
-    private void setCenterTable() {   /*quoting from AE3 general feedback: "FitnessProgram is an array class, and its main instance variable was intended to be
+    * Creates the table to display the referees and their information in the center of the main GUI
+    */
+	private void setCenterTable() 
+    {   /*quoting from AE3 general feedback: "FitnessProgram is an array class, and its main instance variable was intended to be 
         an array of FitnessClass objects. There should not be an accessor method to return this"
         I think the same probably applies here and we should not have a getRefList() method; we should be using a method to get each
         individual ref
         */
 
-        // Create the array of the column names for the JTable
-        String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
+		// Create the array of the column names for the JTable
+		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
 
-        // Create the array which will contain the information on each referee
+		// Create the array which will contain the information on each referee
         final Object[] refArray = new Object[8];
 
         // Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
         DefaultTableModel model = new DefaultTableModel() {
-
+            
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
@@ -212,40 +227,42 @@ public class MainGUI extends JFrame implements ActionListener {
                 return refArray[colIndex].getClass();
             }
         };
-
+       
         // Use the columns array to set the column names
         model.setColumnIdentifiers(columns);
 
         // Create an array for each of the referees 
-        for (Referee ref : refereeList.getRefList()) {
-            refArray[0] = ref.getRefID();
-            refArray[1] = ref.getFName() + " " + ref.getLName();
-            refArray[2] = ref.getQualification();
-            refArray[3] = ref.getNumAllocs();
-            refArray[4] = ref.getHomeString();
-            refArray[5] = ref.getTravelInfo(Referee.NORTH);
-            refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
-            refArray[7] = ref.getTravelInfo(Referee.SOUTH);
+		for (Referee ref : refereeList.getRefList()) 
+		{
+			refArray[0] = ref.getRefID();
+			refArray[1] = ref.getFName() + " " + ref.getLName();
+			refArray[2] = ref.getQualificationType()+ref.getQualificationLevel();
+			refArray[3] = ref.getNumAllocs();
+			refArray[4] = ref.getHomeString();
+			refArray[5] = ref.getTravelInfo(Referee.NORTH);
+			refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
+			refArray[7] = ref.getTravelInfo(Referee.SOUTH);
 
             // Add the array for each referee into each of the rows of the table
             model.addRow(refArray);
-        }
+		}
 
-        // Create JTable and add it to the scrollpane
-        centerTable = new JTable(model);
+		// Create JTable and add it to the scrollpane
+		centerTable = new JTable(model);
         centerTable.setGridColor(Color.LIGHT_GRAY);
     }
 
     /**
-     * Decides which action will be taken depending on which input the user has given
-     *
-     * @param e the action event which results from the user pressing one of the buttons
-     */
-    public void actionPerformed(ActionEvent e) {
+    * Decides which action will be taken depending on which input the user has given
+    * @param e the action event which results from the user pressing one of the buttons 
+    */	
+	public void actionPerformed(ActionEvent e) 
+	{
         if (e.getSource() == barChartButton) {
-            BarChartViewer chart = new BarChartViewer(refereeList);
-        }
-        if (e.getSource() == addRefButton) {
+			//BarChartViewer a = new BarChartViewer();
+            BarChartViewer b = new BarChartViewer(refereeList);
+		}
+		if (e.getSource() == addRefButton) {
             showLittleGui(LittleGUI.ADD);
         }
         if (e.getSource() == allocateRefButton) {
@@ -255,37 +272,40 @@ public class MainGUI extends JFrame implements ActionListener {
 
         if (e.getSource() == searchRefButton) {
             //should we have these checks in a separate method?
-            if (!firstNameField.getText().trim().equals("") && !lastNameField.getText().trim().equals("")) {
+		    if (!firstNameField.getText().trim().equals("") && !lastNameField.getText().trim().equals(""))
+		    {
                 Referee ref = refereeList.findRef(firstNameField.getText().trim(), lastNameField.getText().trim());
-                if (ref != null)
+                if (ref!=null)
                     showLittleGui(LittleGUI.SEARCH, ref);
-                else {
-                    errorPane("The referee " + firstNameField.getText().trim() + " " + lastNameField.getText().trim() + " " + "was not found in the database.");
-                    clearNameFields();
+                else
+                {
+            	    JOptionPane.showMessageDialog(this, "The referee " +firstNameField.getText().trim() + " " + lastNameField.getText().trim() + " " + "was not found in the database.", 
+					    	"Error", JOptionPane.ERROR_MESSAGE);
+            	    clearNameFields();     	
                 }
-            } else {
-                errorPane("First Name and Last Name fields cannot be empty.");
-                clearNameFields();
             }
+		    else
+		    {
+			    JOptionPane.showMessageDialog(this, "The First Name and Last Name fields cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+        	    clearNameFields();     	
+		    }
         }
-    }
+	}
 
     /**
-     * Constructs the window where the user can enter information about a referee
-     *
-     * @param mode sets whether or not the information will be editable as set down in the LittleGUI
-     */
+    * Constructs the window where the user can enter information about a referee
+    * @param mode sets whether or not the information will be editable as set down in the LittleGUI
+    */
     private void showLittleGui(int mode) {
         LittleGUI littleGUI = new LittleGUI(mode);
         littleGUI.setVisible(true);
     }
 
     /**
-     * Constructs the windows where the user can view and edit the inforamtion about a referee
-     *
-     * @param mode sets whether the information about the referee is editable or not
-     * @param ref  the referee object which will be displayed and can be edited
-     */
+    * Constructs the windows where the user can view and edit the inforamtion about a referee
+    * @param mode sets whether the information about the referee is editable or not
+    * @param ref the referee object which will be displayed and can be edited
+    */
     private void showLittleGui(int mode, Referee ref) {
         LittleGUI littleGUI = new LittleGUI(mode, ref);
         littleGUI.setVisible(true);
@@ -341,10 +361,9 @@ public class MainGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Retrieves the week number from its respective textfield and ensures it is valid
-     *
-     * @throws nfx thrown if the input into the week number field is not an integer
-     */
+    * Retrieves the week number from its respective textfield and ensures it is valid
+    * @exception nfx thrown if the input into the week number field is not an integer
+    */
     private int getWeekInfo() {
         try {
             int week = Integer.parseInt(weekField.getText());
@@ -363,11 +382,13 @@ public class MainGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Retrieves the location of the match and returns it as a constant value which is set down in the Referee class
-     *
-     * @return Referee.SOUTH the final integer 2 which is used as an indicator
-     */
+    * Retrieves the location of the match and returns it as a constant value which is set down in the Referee class
+    * @return Referee.NORTH the final integer 0 which is used as an indicator for ease of comparison
+    * @return Referee.CENTRAL the final integer 1 which is used as an indicator
+    * @return Referee.SOUTH the final integer 2 which is used as an indicator
+    */
     private int getLocationInfo() {
+<<<<<<< HEAD
         if (northButton.isSelected()) {
             System.out.println("match is in the north");
             return Referee.NORTH;
@@ -398,23 +419,9 @@ public class MainGUI extends JFrame implements ActionListener {
         return seniorButton.isSelected();
     }
 
-    private void clearNameFields() {
-        firstNameField.setText("");
-        lastNameField.setText("");
-    }
-
-    private void clearAllocComponents() {
-        weekField.setText("");
-        locationGroup.clearSelection();
-        levelGroup.clearSelection();
-    }
-    /**
-     * Creates a JOption pane with a custom error message
-     *
-     * @param errorMessage Message to display on the JOptionPane
-     */
-    public void errorPane(String errorMessage) {
-        JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
-        //clearFields();
+    private void clearNameFields()
+    {
+    firstNameField.setText("");
+    lastNameField.setText("");
     }
 }

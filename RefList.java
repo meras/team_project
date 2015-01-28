@@ -143,6 +143,15 @@ public class RefList implements Iterable<Referee> {
 	 * Fairly long method but quite hard to split up. In any case this is just the starting point
 	 * I guess.
 	 */
+	
+	public void printReferees ()
+	{
+		for (Referee r : refList)
+		{
+			System.out.println(r.getRefID() + " " + r.getFName() + " " + r.getLName() + " " + r.getQualificationType() + r.getQualificationLevel() + " " +  r.getNumAllocs() + " " + r.getHomeString() + " " + r.getTravelInfo(r.getHomeArea()));
+		}
+	}
+
 	public List<Referee> getSuitableRefs(int matchLoc, boolean seniorMatch) {
 		Referee[] arrayToSort = new Referee[refList.size()];
 		arrayToSort = refList.toArray(arrayToSort);
@@ -176,13 +185,6 @@ public class RefList implements Iterable<Referee> {
 		return suitableRefs;
 	}
 
-	public void printReferees ()
-	{
-		for (Referee r : refList)
-		{
-			System.out.println(r.getRefID() + " " + r.getFName() + " " + r.getLName() + " " + r.getQualification() + " " +  r.getNumAllocs() + " " + r.getHomeString() + " " + r.getTravelInfo(r.getHomeArea()));
-		}
-	}
 
 	/**
 	 * Returns an iterator over elements of type Referee.
