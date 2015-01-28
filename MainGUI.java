@@ -236,7 +236,7 @@ public class MainGUI extends JFrame implements ActionListener
 		{
 			refArray[0] = ref.getRefID();
 			refArray[1] = ref.getFName() + " " + ref.getLName();
-			refArray[2] = ref.getQualification();
+			refArray[2] = ref.getQualificationType()+ref.getQualificationLevel();
 			refArray[3] = ref.getNumAllocs();
 			refArray[4] = ref.getHomeString();
 			refArray[5] = ref.getTravelInfo(Referee.NORTH);
@@ -333,7 +333,9 @@ public class MainGUI extends JFrame implements ActionListener
                 Match match = new Match(week, loc, senMatch, ref1Id, ref2Id);
                 matchList.addMatch(match);
                 ref1.incrementAllocs();
+                ref1.setAllocated(true);
                 ref2.incrementAllocs();
+                ref2.setAllocated(true);
                 //TODO call method to update center area with list of suitable refs
                 //and say which 2 refs have been allocated to the match
             }

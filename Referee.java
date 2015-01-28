@@ -1,15 +1,16 @@
 
 public class Referee implements Comparable<Referee> {
 	
-	private String refID, fName, lName, qualification;
+	private String refID, fName, lName, qualificationType;
+	
 	/* n.b. was going to have qualification as a boolean (e.g. would be true if qualification
 	 * above 1 and false otherwise). But since we're going to have to store the actual name of the
 	 * qualification to use in other parts of program (e.g. to print out the report at the end), better
 	 * to record the string itself. Then checkIfQualified() checks if the number in the qualification
 	 * is above 1 and returns true or false accordingly.
 	 */
-	//TODO change homeArea to int?
-	private int homeArea;
+	private boolean allocated = false;
+	private int homeArea, qualificationLevel;
 	private static final int NUM_AREAS = 3;
 	//2 arrays here, one to hold the names of the different areas,
 	//one to hold the boolean values representing whether the ref will travel
@@ -19,7 +20,6 @@ public class Referee implements Comparable<Referee> {
 	private boolean[] travelInfo;
 	private int numAllocations;
 
-	//TODO this will bring great pleasure
 	public static final int NORTH = 0;
 	public static final int CENTRAL = 1;
 	public static final int SOUTH = 2;
@@ -29,7 +29,8 @@ public class Referee implements Comparable<Referee> {
 		refID = infoTokens[0];
 		fName = infoTokens[1];
 		lName = infoTokens[2];
-		qualification = infoTokens[3];
+		qualificationType = infoTokens[3].substring(0,3);
+		qualificationLevel = Integer.parseInt(infoTokens[3].substring(3));
 		numAllocations = Integer.parseInt(infoTokens[4].trim());
 		setHomeArea(infoTokens[5]);
 		travelInfo = new boolean [NUM_AREAS];
@@ -38,8 +39,18 @@ public class Referee implements Comparable<Referee> {
 	
 	//mutator methods
 	
-	public void setQualification(String qual) {
-		qualification = qual;
+	public void setQualificationType(String qual) {
+		qualificationType = qual;
+	}
+	
+	public void setAllocated(boolean allocated) {
+		this.allocated = allocated;
+	}
+	
+
+	public void setQualificationLevel(int level)
+	{
+		qualificationLevel = level;
 	}
 
 	public void setHomeArea(String home) {
@@ -74,7 +85,6 @@ public class Referee implements Comparable<Referee> {
 	 * (north, central, south) to find a match with that parameter. 
 	 * Then it returns the corresponding boolean value from the parallel travelInfo array.
 	 */
-	//TODO great pleasure here removes the loop
 	public boolean getTravelInfo(int area) {
 		return travelInfo[area];
 	}
@@ -91,13 +101,17 @@ public class Referee implements Comparable<Referee> {
 		return lName;
 	}
 	
-	public String getQualification(){
-		return qualification;
+	public String getQualificationType(){
+		return qualificationType;
+	}
+	
+	public int getQualificationLevel()
+	{
+		return qualificationLevel;
 	}
 	
 	public boolean checkIfQualified() {
-		int qualNum = Integer.parseInt(qualification.substring(3));
-		return (qualNum > 1);
+		return (qualificationLevel > 1);
 	}
 	
 	public int getNumAllocs() {
@@ -112,6 +126,9 @@ public class Referee implements Comparable<Referee> {
 		return AREAS[homeArea];
 	}
 	
+	public boolean isAllocated() {
+		return allocated;
+	}
 	/*
 	 *since we are inserting new refs directly into the right position into the list, we never
 	 *have to sort on ID. Therefore we can use compareTo to sort on number of allocations.
