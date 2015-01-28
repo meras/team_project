@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class RefList {
+public class RefList implements Iterable<Referee> {
 	private static final int MAX_REFS = 12;
 	//list of Referee objects - will be implemented as ArrayList
 	private List<Referee> refList;
@@ -182,6 +182,15 @@ public class RefList {
 		{
 			System.out.println(r.getRefID() + " " + r.getFName() + " " + r.getLName() + " " + r.getQualification() + " " +  r.getNumAllocs() + " " + r.getHomeString() + " " + r.getTravelInfo(r.getHomeArea()));
 		}
+	}
+
+	/**
+	 * Returns an iterator over elements of type Referee.
+	 *
+	 * @return an Iterator.
+	 */
+	public Iterator<Referee> iterator() {
+		return refList.iterator();
 	}
 
 	/*

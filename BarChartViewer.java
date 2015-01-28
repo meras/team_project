@@ -44,7 +44,7 @@ public class BarChartViewer extends JFrame {
         public BarChart(RefList refereeList) {
             this.refereeList = refereeList;
 
-            for (Referee ref : this.refereeList.getRefList()) {
+            for (Referee ref : this.refereeList) {
                 if (ref.getNumAllocs() > maxValue) {
                     maxValue = ref.getNumAllocs();
                 }
