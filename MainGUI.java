@@ -259,8 +259,7 @@ public class MainGUI extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
         if (e.getSource() == barChartButton) {
-			//BarChartViewer a = new BarChartViewer();
-            BarChartViewer b = new BarChartViewer(refereeList);
+            BarChartViewer chart = new BarChartViewer(refereeList);
 		}
 		if (e.getSource() == addRefButton) {
             showLittleGui(LittleGUI.ADD);
@@ -277,16 +276,14 @@ public class MainGUI extends JFrame implements ActionListener
                 Referee ref = refereeList.findRef(firstNameField.getText().trim(), lastNameField.getText().trim());
                 if (ref!=null)
                     showLittleGui(LittleGUI.SEARCH, ref);
-                else
-                {
-            	    JOptionPane.showMessageDialog(this, "The referee " +firstNameField.getText().trim() + " " + lastNameField.getText().trim() + " " + "was not found in the database.", 
-					    	"Error", JOptionPane.ERROR_MESSAGE);
-            	    clearNameFields();     	
+                else {
+                    errorPane("The referee " + firstNameField.getText().trim() + " " + lastNameField.getText().trim() + " " + "was not found in the database.");
+                    clearNameFields();
                 }
             }
 		    else
 		    {
-			    JOptionPane.showMessageDialog(this, "The First Name and Last Name fields cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                errorPane("First Name and Last Name fields cannot be empty.");
         	    clearNameFields();     	
 		    }
         }
@@ -318,12 +315,20 @@ public class MainGUI extends JFrame implements ActionListener
         int week = getWeekInfo();
         int loc = getLocationInfo();
         boolean senMatch = getSeniorInfo();
+
         if(week != BAD_INFO) {
             //TODO first check if week is already taken
+            if (matchList.getNoMatches() == 52) {
+                errorPane("All the weeks in the year are allocated");
+            }
+            if (!matchList.checkWeekAllocation(week)) {
+                errorPane("Week " +week+" is already allocated");
+            }
+
             List<Referee> suitRefs = refereeList.getSuitableRefs(loc, senMatch);
-            if(suitRefs.size() < 2)
+            if (suitRefs.size() < 2)
                 //TODO should we have a JOptionPane here? Or should this be printed on the GUI?
-                System.out.println("Not enough suitable refs found");
+                errorPane("Not enough suitable refs found");
             else {
                 Referee ref1 = suitRefs.get(0);
                 Referee ref2 = suitRefs.get(1);
@@ -331,7 +336,9 @@ public class MainGUI extends JFrame implements ActionListener
                 String ref1Id = ref1.getRefID();
                 String ref2Id = ref2.getRefID();
                 Match match = new Match(week, loc, senMatch, ref1Id, ref2Id);
+
                 matchList.addMatch(match);
+
                 ref1.incrementAllocs();
                 ref2.incrementAllocs();
                 //TODO call method to update center area with list of suitable refs
@@ -341,23 +348,20 @@ public class MainGUI extends JFrame implements ActionListener
     }
 
     /**
-    * Retrieves the week number from its respective textfield and ensures it is valid
-    * @exception nfx thrown if the input into the week number field is not an integer
-    */
+     * Retrieves the week number from its respective textfield and ensures it is valid
+     *
+     * @throws nfx thrown if the input into the week number field is not an integer
+     */
     private int getWeekInfo() {
         try {
             int week = Integer.parseInt(weekField.getText());
 
-            if(week < 0 || week > 52) {
-                System.out.println("Please enter a valid match week");
+            if (week < 0 || week > MatchList.MAX_MATCHES) {
+                errorPane("Please enter a week between 0 and " + MatchList.MAX_MATCHES);
                 return BAD_INFO;
-            }
-            else
-                return week;
-        }
-
-        catch(NumberFormatException nfx) {
-            System.out.println("please enter a valid match week");
+            } else return week;
+        } catch (NumberFormatException nfx) {
+            errorPane("Please enter a valid week");
             return BAD_INFO;
         }
     }
@@ -390,5 +394,9 @@ public class MainGUI extends JFrame implements ActionListener
     {
     firstNameField.setText("");
     lastNameField.setText("");
+    }
+    public void errorPane(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+        //clearFields();
     }
 }
