@@ -5,7 +5,9 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,14 +19,20 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 /**
- *
+ *Referee instance variable for the GUI which is 
+ *Save button for edit part, add for the add part 
+ *When adding a refe
+ *Split qualification into a string and integer
+ *Search should all work
+ *Check if referee has been allocated any matches so he/she can't be deleted
  */
 public class LittleGUI extends JFrame implements ActionListener {
     private JButton editButton, saveButton, deleteButton, clearButton, cancelButton;
-    private final String[] qualificationList = {"", "First", "Second", "Third", "Fourth"};
-    private final String[] qualificationTypeList = {"", "NJB","IJB"};
+    private final String[] qualificationTypeList = {"Type", "NJB","IJB"};
+    private final String[] qualificationList = {"Level","1","2","3","4"}; 
     private JTextField fNameField, lNameField, idField, matchField;
     private JComboBox qualificationTypeCombo, qualificationsCombo;
+    private ButtonGroup homeGroup;
     private JRadioButton northRadio, centerRadio, southRadio;
     private Checkbox northCheck, centerCheck, southCheck;
 
@@ -44,17 +52,25 @@ public class LittleGUI extends JFrame implements ActionListener {
 
     public LittleGUI(int mode, Referee referee) {
         constructGui(mode);
+        
         if (referee != null) {
             fNameField.setText(referee.getFName());
             lNameField.setText(referee.getLName());
             idField.setText(referee.getRefID());
-            matchField.setText("" + referee.getNumAllocs());
+            matchField.setText("" + referee.getNumAllocs());     
+            qualificationTypeCombo.setSelectedItem(referee.getQualificationType());
+            qualificationsCombo.setSelectedItem(String.valueOf(referee.getQualificationLevel()));   
             
-            /* TO DO Need to split qualification into string and int or split strings. Needs to display appropriately from the search appropriately and set the value accordingly.
-            qualificationTypeCombo.setSelectedItem(referee.getQualification())
-            qualificationsCombo.setSelectedItem(referee.getQualification());
-            */
+            if (referee.getHomeArea() == 0)
+            	northRadio.setSelected(true);
+            else if (referee.getHomeArea() == 1)
+            	centerRadio.setSelected(true);
+            else
+            	southRadio.setSelected(true);      
             
+            northCheck.setState(referee.getTravelInfo(Referee.NORTH));
+            centerCheck.setState(referee.getTravelInfo(Referee.CENTRAL));
+            southCheck.setState(referee.getTravelInfo(Referee.SOUTH));     
         }
     }
 
@@ -89,9 +105,6 @@ public class LittleGUI extends JFrame implements ActionListener {
         qualificationTypeCombo = new JComboBox(qualificationTypeList);
         qualificationsCombo = new JComboBox(qualificationList);
 
-        ButtonGroup homeGroup = new ButtonGroup();
-       
-
         JPanel fname = new JPanel();
         fname.add(new JLabel("First name:"));
         fname.add(fNameField);
@@ -108,15 +121,16 @@ public class LittleGUI extends JFrame implements ActionListener {
 
         JPanel qualification = new JPanel();
         
-        qualification.add(new JLabel("Qualification Type:"));
+        qualification.add(new JLabel("Qualification: "));
         qualification.add(qualificationTypeCombo);
-        qualification.add(new JLabel("Qualification:"));
         qualification.add(qualificationsCombo);
 
         JPanel home = new JPanel();
         northRadio = new JRadioButton("North");
         centerRadio = new JRadioButton("Center");
-        southRadio = new JRadioButton("South");
+        southRadio = new JRadioButton("South"); 
+        
+        homeGroup = new ButtonGroup();
         homeGroup.add(northRadio);
         homeGroup.add(centerRadio);
         homeGroup.add(southRadio);
@@ -129,9 +143,11 @@ public class LittleGUI extends JFrame implements ActionListener {
         
         //TO DO Needs to automatically spot when a referee radiobutton is clicked to highlight which is the default preference, 
         //needs also to be modified for search to automatically show results.
+        
         northCheck = new Checkbox("North", false);
         centerCheck = new Checkbox("Center", false);
         southCheck = new Checkbox("South", false);
+        
         preferrence.add(new JLabel("Preference:"));
         preferrence.add(northCheck);
         preferrence.add(centerCheck);
@@ -197,8 +213,14 @@ public class LittleGUI extends JFrame implements ActionListener {
         matchField.setEditable(false);
         qualificationTypeCombo.setEnabled(false);
         qualificationsCombo.setEnabled(false);
-        
-
+        Enumeration<AbstractButton> homeRadios = homeGroup.getElements();
+        while (homeRadios.hasMoreElements())
+        {
+        	homeRadios.nextElement().setEnabled(false);
+        }
+        northCheck.setEnabled(false);
+        centerCheck.setEnabled(false);
+        southCheck.setEnabled(false);
 
         editButton.setVisible(true);
         deleteButton.setVisible(true);
