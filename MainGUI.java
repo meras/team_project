@@ -278,7 +278,7 @@ individual ref
 	 * @param mode sets whether or not the information will be editable as set down in the LittleGUI
 	 */
 	private void showLittleGui(int mode) {
-		LittleGUI littleGUI = new LittleGUI(mode);
+		LittleGUI littleGUI = new LittleGUI(mode, refereeList);
 		littleGUI.setVisible(true);
 	}
 	/**

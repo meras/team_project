@@ -47,7 +47,7 @@ public class RefList implements Iterable<Referee> {
 	 */
 	public void addRefFromGui(String firstNm, String lastNm, String qual, int allocs, String home, String travelInfo) {
 		String newId = createId(firstNm, lastNm);
-		String refData = newId + " " + lastNm + " " + qual + " " + allocs + " " + home + " " + travelInfo;
+		String refData = newId + " " + firstNm + " " + lastNm + " " + qual + " " + allocs + " " + home + " " + travelInfo;
 		Referee newRef = new Referee(refData);
 
 		boolean added = false;

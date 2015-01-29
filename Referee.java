@@ -39,6 +39,11 @@ public class Referee implements Comparable<Referee> {
 	
 	//mutator methods
 	
+	public void setNumAllocs(int numAloc) 
+	{
+		 numAllocations = numAloc;
+	}
+	
 	public void setQualificationType(String qual) {
 		qualificationType = qual;
 	}
