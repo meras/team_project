@@ -2,22 +2,12 @@ import java.util.*;
 
 public class RefList implements Iterable<Referee> {
 	private static final int MAX_REFS = 12;
-	//list of Referee objects - will be implemented as ArrayList
 	private List<Referee> refList;
 	public final int REF_NOT_FOUND = -1;
-	/*
-	 * since it seems we are using an array list there is no need to keep count of how many
-	 * refs we have; we can just use ArrayList.size() every time we need to check this
-	 */
 
 	public RefList() {
 		refList = new ArrayList<Referee>();
 	}
-
-	public List<Referee> getRefList(){
-		return refList;
-	}
-
 
 	/*
 	 * to be used in GUI when checking if a new ref can be added
@@ -33,6 +23,10 @@ public class RefList implements Iterable<Referee> {
 	public void addRefFromFile(String refString) {
 		Referee newRef = new Referee(refString);
 		refList.add(newRef);
+	}
+
+	public int getRefereeCount() {
+		return refList.size();
 	}
 
 	/*

@@ -9,6 +9,7 @@ public class BarChartViewer extends JFrame {
     /**
      * Creates a frame where the width is scaled to the size of the referee list
      * and paints a bar chart
+     *
      * @param refereeList object which contains Referee instances
      */
     public BarChartViewer(RefList refereeList) {
@@ -20,7 +21,7 @@ public class BarChartViewer extends JFrame {
         BarChart chart = new BarChart(refereeList);
         add(chart);
 
-        int width = refereeList.getRefList().size() * (chart.barWidth + chart.barGap) + (chart.barMargin * 2)-chart.barGap;
+        int width = refereeList.getRefereeCount() * (chart.barWidth + chart.barGap) + (chart.barMargin * 2) - chart.barGap;
         setSize(width, 300);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -39,6 +40,7 @@ public class BarChartViewer extends JFrame {
 
         /**
          * Draws a bar chart using allocation numbers
+         *
          * @param refereeList list of referees which contains allocation numbers
          */
         public BarChart(RefList refereeList) {
@@ -62,7 +64,7 @@ public class BarChartViewer extends JFrame {
 
             //initial x coordinate to start drawing bars
             int barX = barMargin;
-            for (Referee ref : refereeList.getRefList()) {
+            for (Referee ref : refereeList) {
                 String id = ref.getRefID();
                 int allocNum = ref.getNumAllocs();
 
@@ -76,12 +78,13 @@ public class BarChartViewer extends JFrame {
 
         /**
          * Draws a bar with the number of allocations and the referee id
-         * @param heading displays number of allocations above the bar
-         * @param x the x coordinate
-         * @param y the y coordinate
+         *
+         * @param heading   displays number of allocations above the bar
+         * @param x         the x coordinate
+         * @param y         the y coordinate
          * @param barWidth
          * @param barHeight
-         * @param id Referee ID to displayed below the bar
+         * @param id        Referee ID to displayed below the bar
          */
         private void drawBar(Graphics2D g, int heading, int x, int y, int barWidth, int barHeight, String id) {
             g.setColor(Color.MAGENTA);
@@ -94,16 +97,17 @@ public class BarChartViewer extends JFrame {
 
         /**
          * Draws gray lines behind the bar chart
-         * @param g graphics component
+         *
+         * @param g    graphics component
          * @param unit the relative pixel distance between each unit
          */
         private void drawAxis(Graphics2D g, int unit) {
-            int y = CHART_HEIGHT+30;
+            int y = CHART_HEIGHT + 30;
 
             g.setColor(Color.LIGHT_GRAY);
             for (int i = 0; i <= maxValue; i++) {
                 int x1 = barMargin / 2;
-                int x2 = refereeList.getRefList().size()*(barWidth+barGap) + barGap + barMargin;
+                int x2 = refereeList.getRefereeCount() * (barWidth + barGap) + barGap + barMargin;
                 g.drawLine(x1, y, x2, y);
                 y -= unit;
             }

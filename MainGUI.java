@@ -33,7 +33,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 		refereeList = new RefList();
 		FileProcessor.readIn("RefereesIn.txt", refereeList);
-		System.out.println(refereeList.getRefList().get(0).getFName());
 		matchList = new MatchList();
 		this.layoutComponents();
 	}
@@ -195,12 +194,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	/**
 	 * Creates the table to display the referees and their information in the center of the main GUI
 	 */
-	private void setCenterTable() { /*quoting from AE3 general feedback: "FitnessProgram is an array class, and its main instance variable was intended to be
-an array of FitnessClass objects. There should not be an accessor method to return this"
-I think the same probably applies here and we should not have a getRefList() method; we should be using a method to get each
-individual ref
-	 */
-
+	private void setCenterTable() {
 		// Create the array of the column names for the JTable
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
 		// Create the array which will contain the information on each referee
@@ -221,7 +215,7 @@ individual ref
 		// Use the columns array to set the column names
 		model.setColumnIdentifiers(columns);
 		// Create an array for each of the referees
-		for (Referee ref : refereeList.getRefList()) {
+		for (Referee ref : refereeList) {
 			refArray[0] = ref.getRefID();
 			refArray[1] = ref.getFName() + " " + ref.getLName();
 			refArray[2] = ref.getQualificationType()+ref.getQualificationLevel();
