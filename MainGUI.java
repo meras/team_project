@@ -1,5 +1,5 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -191,17 +191,21 @@ public class MainGUI extends JFrame implements ActionListener {
 		// right.add(lastPanel);
 		// right.add(searchPanel);
 	}
+
 	/**
 	 * Creates the table to display the referees and their information in the center of the main GUI
 	 */
-	private void setCenterTable() {
+    DefaultTableModel model;
+    Object[] refArray;
+    private void setCenterTable() {
 		// Create the array of the column names for the JTable
 		String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
 		// Create the array which will contain the information on each referee
-		final Object[] refArray = new Object[8];
-
+		//final Object[] refArray = new Object[8];
+        refArray = new Object[8];
 		// Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
-		DefaultTableModel model = new DefaultTableModel() 
+//		DefaultTableModel model = new DefaultTableModel()
+        model = new DefaultTableModel()
 		{
 			public boolean isCellEditable(int row, int col) 
 			{
@@ -212,25 +216,44 @@ public class MainGUI extends JFrame implements ActionListener {
 				return refArray[colIndex].getClass();
 			}
 		};
+
 		// Use the columns array to set the column names
 		model.setColumnIdentifiers(columns);
+        populateTable();
 		// Create an array for each of the referees
-		for (Referee ref : refereeList) {
-			refArray[0] = ref.getRefID();
-			refArray[1] = ref.getFName() + " " + ref.getLName();
-			refArray[2] = ref.getQualificationType()+ref.getQualificationLevel();
-			refArray[3] = ref.getNumAllocs();
-			refArray[4] = ref.getHomeString();
-			refArray[5] = ref.getTravelInfo(Referee.NORTH);
-			refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
-			refArray[7] = ref.getTravelInfo(Referee.SOUTH);
-			// Add the array for each referee into each of the rows of the table
-			model.addRow(refArray);
-		}
+//		for (Referee ref : refereeList) {
+//			refArray[0] = ref.getRefID();
+//			refArray[1] = ref.getFName() + " " + ref.getLName();
+//			refArray[2] = ref.getQualificationType()+ref.getQualificationLevel();
+//			refArray[3] = ref.getNumAllocs();
+//			refArray[4] = ref.getHomeString();
+//			refArray[5] = ref.getTravelInfo(Referee.NORTH);
+//			refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
+//			refArray[7] = ref.getTravelInfo(Referee.SOUTH);
+//			// Add the array for each referee into each of the rows of the table
+//			model.addRow(refArray);
+//		}
 		// Create JTable and add it to the scrollpane
 		centerTable = new JTable(model);
 		centerTable.setGridColor(Color.LIGHT_GRAY);
 	}
+
+    public void populateTable() {
+        for (Referee ref : refereeList) {
+            refArray[0] = ref.getRefID();
+            refArray[1] = ref.getFName() + " " + ref.getLName();
+            refArray[2] = ref.getQualificationType()+ref.getQualificationLevel();
+            refArray[3] = ref.getNumAllocs();
+            refArray[4] = ref.getHomeString();
+            refArray[5] = ref.getTravelInfo(Referee.NORTH);
+            refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
+            refArray[7] = ref.getTravelInfo(Referee.SOUTH);
+            // Add the array for each referee into each of the rows of the table
+            model.addRow(refArray);
+        }
+    }
+
+
 	/**
 	 * Decides which action will be taken depending on which input the user has given
 	 *
@@ -246,7 +269,8 @@ public class MainGUI extends JFrame implements ActionListener {
 		if (e.getSource() == allocateRefButton) {
 			checkForSuitableRefs();
 			clearAllocComponents();
-		}
+            populateTable();
+        }
 		if (e.getSource() == searchRefButton) {
 			//should we have these checks in a separate method?
 			if (!firstNameField.getText().trim().equals("") && !lastNameField.getText().trim().equals("")) 
