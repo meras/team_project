@@ -73,10 +73,15 @@ public class MainGUI extends JFrame implements ActionListener {
 		southButton = new JRadioButton("South");
 
 		//Group the location JRadioButtons so that they are mutually exclusive
+		
 		locationGroup = new ButtonGroup();
 		locationGroup.add(northButton);
 		locationGroup.add(centralButton);
 		locationGroup.add(southButton);
+		
+		locationPanel.add(northButton);
+		locationPanel.add(centralButton);
+		locationPanel.add(southButton);
 		
 		//set northButton to selected by default
 		northButton.setSelected(true);
@@ -292,7 +297,7 @@ individual ref
 	private void checkForSuitableRefs() {
 		//first make sure there is room for another match
 		if (matchList.getNoMatches() == 52) {
-			errorPane("All the weeks in the year are allocated");
+			errorPane("All the weeks in the year are allocated.");
 			return; //if no room for more matches, exit method
 		}
 		//if there is room for another match, get match info input by user
@@ -301,14 +306,14 @@ individual ref
 		//check that all info has been input and is OK
 		if (levelIsSelected() && week != BAD_INFO && loc != BAD_INFO) {
 			if (!matchList.checkWeekAllocation(week)) {
-				errorPane("Week " + week + " is already allocated");
+				errorPane("Week " + week + " is already allocated.");
 				return; //if week is already taken, exit method
 			}
 			boolean senMatch = getSeniorInfo();
 			List<Referee> suitableRefs = refereeList.getSuitableRefs(loc, senMatch);
 			if (suitableRefs.size() < 2)
 				//TODO should we have a JOptionPane here? Or should this be printed on the GUI?
-				errorPane("Not enough suitable refs found");
+				errorPane("Not enough suitable refs found.");
 			else
 				allocateTwoRefs(suitableRefs, week, loc, senMatch);
 			//TODO call method to update center area with list of suitable refs
@@ -342,13 +347,13 @@ individual ref
 			int week = Integer.parseInt(weekField.getText());
 			//I'm assuming that the first week is week 1 and not 0 right?
 			if (week < 1 || week > MatchList.MAX_MATCHES) {
-				errorPane("Please enter a week between 1 and " + MatchList.MAX_MATCHES);
+				errorPane("Please enter a week between 1 and " + MatchList.MAX_MATCHES + ".");
 				return BAD_INFO;
 			}
 			else return week;
 		}
 		catch (NumberFormatException nfx) {
-			errorPane("Please enter a valid week");
+			errorPane("Please enter a valid week.");
 			return BAD_INFO;
 		}
 	}
@@ -366,7 +371,7 @@ individual ref
 		else if(southButton.isSelected())
 			return Referee.SOUTH;
 		else {
-			errorPane("Please select the match location");
+			errorPane("Please select the match location.");
 			return BAD_INFO;
 		}
 	}
@@ -375,7 +380,7 @@ individual ref
 		if(juniorButton.isSelected() || seniorButton.isSelected())
 			return true;
 		else {
-			errorPane("Please select the match level");
+			errorPane("Please select the match level.");
 			return false;
 		}
 	}
