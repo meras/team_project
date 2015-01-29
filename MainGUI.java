@@ -288,7 +288,7 @@ individual ref
 	 * @param ref the referee object which will be displayed and can be edited
 	 */
 	private void showLittleGui(int mode, Referee ref) {
-		LittleGUI littleGUI = new LittleGUI(mode, ref);
+		LittleGUI littleGUI = new LittleGUI(mode, ref, refereeList);
 		littleGUI.setVisible(true);
 	}
 	/**

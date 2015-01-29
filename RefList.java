@@ -45,7 +45,8 @@ public class RefList implements Iterable<Referee> {
 	 * This isn't ideal but seems nicer than having a constructor with 7 parameters.
 	 * To be discussed...
 	 */
-	public void addRefFromGui(String firstNm, String lastNm, String qual, int allocs, String home, String travelInfo) {
+	public void addRefFromGui(String firstNm, String lastNm, String qual, int allocs, String home, String travelInfo) 
+	{
 		String newId = createId(firstNm, lastNm);
 		String refData = newId + " " + firstNm + " " + lastNm + " " + qual + " " + allocs + " " + home + " " + travelInfo;
 		Referee newRef = new Referee(refData);
@@ -90,7 +91,7 @@ public class RefList implements Iterable<Referee> {
 
 	public boolean deleteRef(String first, String last)
 	{
-		Referee findRefResult=findRef(first, last);
+		Referee findRefResult = findRef(first, last);
 
 		if (findRefResult != null)
 		{

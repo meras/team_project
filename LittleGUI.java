@@ -39,7 +39,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 	private Referee referee;
 	private RefList refList;
 	private Enumeration<AbstractButton> homeRadios;
-
+	
 
 	private JPanel bottom;
 
@@ -57,9 +57,10 @@ public class LittleGUI extends JFrame implements ActionListener {
 		refList = refereeList;
 	}
 
-	public LittleGUI(int mode, Referee ref) {
+	public LittleGUI(int mode, Referee ref, RefList refereeList) 
+	{
 		constructGui(mode);
-
+		refList = refereeList;
 		referee = ref;
 
 		if (referee != null) {
@@ -193,6 +194,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 		editButton.addActionListener(this);
 		saveAddButton.addActionListener(this);
 		deleteButton.addActionListener(this);
+		cancelButton.addActionListener(this);
 
 		bottom.add(saveAddButton);
 		bottom.add(clearButton);
@@ -265,10 +267,9 @@ public class LittleGUI extends JFrame implements ActionListener {
 
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == deleteButton) {
-			JOptionPane.showMessageDialog(this, "Are you sure you want to delete this entry?", "Error", JOptionPane.YES_NO_OPTION);
-		}
+	public void actionPerformed(ActionEvent e) 
+	{
+
 		if (e.getSource() == editButton) {
 			showEdit();
 		}
@@ -285,18 +286,58 @@ public class LittleGUI extends JFrame implements ActionListener {
 				}		
 			}
 
-			//saveAddButton = "Add"
+			//the Add button is pressed
 			else
 			{
 				if (validateFields())
 				{
+					if (refList.findRef(fNameField.getText(), lNameField.getText()) != null)
+							{
+						JOptionPane.showMessageDialog(this, "Adding referee failed. The referee already exists in the database.",
+								"Error", JOptionPane.ERROR_MESSAGE);	
+							}
+					else if (!refList.checkForSpace())
+					{
+						JOptionPane.showMessageDialog(this, "Adding referee failed. There can't be more than 12 referees in the database.",
+								"Error", JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						
+					
 					refList.addRefFromGui(fNameField.getText(), lNameField.getText(), (String)qualificationTypeCombo.getSelectedItem() + Integer.parseInt((String)(qualificationsCombo.getSelectedItem())),  
 							Integer.parseInt(matchField.getText()) , getHomeArea(), getTravelInfo()); 
-					
+
 					JOptionPane.showMessageDialog(this, "The referee has been added to the database.",
-							"Success", JOptionPane.INFORMATION_MESSAGE);	
+							"Success", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
+			}	
+		}
+
+		if (e.getSource() == deleteButton)
+		{
+			int dialogResult = JOptionPane.showConfirmDialog (this, "Would you like to delete this referee?","Warning", JOptionPane.YES_NO_OPTION);
+
+			if (dialogResult == JOptionPane.YES_OPTION)
+			{
+
+				boolean deleted = false;
+				deleted = refList.deleteRef(referee.getFName(), referee.getLName());
+				if (deleted)
+				{
+					JOptionPane.showMessageDialog(this, "The referee has been deleted from the database.",
+							"Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else
+					JOptionPane.showMessageDialog(this, "The referee does no longer exist in the database.",
+							"Error", JOptionPane.ERROR_MESSAGE);		
 			}
+		}
+
+		if (e.getSource() == cancelButton)
+		{
+			dispose(); 
 		}
 	}
 
@@ -352,7 +393,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-		
+
 		if (getHomeArea().equals(""))
 		{
 			JOptionPane.showMessageDialog(this, "Please select a home area.",
@@ -363,6 +404,13 @@ public class LittleGUI extends JFrame implements ActionListener {
 		if (getTravelInfo().equals("NNN"))
 		{	
 			JOptionPane.showMessageDialog(this, "Please select at least one preference.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+
+		if (!checkHomePreference())
+		{
+			JOptionPane.showMessageDialog(this, "The preferences should include the home area of the referee.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -393,10 +441,10 @@ public class LittleGUI extends JFrame implements ActionListener {
 		else
 			return "";
 	}
-	
-    private String getTravelInfo()
-    {
-    	String travelInfo = "";
+
+	private String getTravelInfo()
+	{
+		String travelInfo = "";
 
 		if (northCheck.getState())
 			travelInfo += "Y";
@@ -411,6 +459,18 @@ public class LittleGUI extends JFrame implements ActionListener {
 		else
 			travelInfo += "N";
 		return travelInfo;
-    }
+	}
 
+	private boolean checkHomePreference()
+	{
+		if (northRadio.isSelected()&&northCheck.getState())
+			return true;
+		if (centerRadio.isSelected()&&centerCheck.getState())
+			return true;
+		if (southRadio.isSelected()&&southCheck.getState())
+			return true;
+		
+		return false;
+		
+	}
 }
