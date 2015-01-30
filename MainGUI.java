@@ -218,22 +218,11 @@ public class MainGUI extends JFrame implements ActionListener {
         // Use the columns array to set the column names
         model.setColumnIdentifiers(columns);
         populateTable();
-        // Create an array for each of the referees
-//		for (Referee ref : refereeList) {
-//			refArray[0] = ref.getRefID();
-//			refArray[1] = ref.getFName() + " " + ref.getLName();
-//			refArray[2] = ref.getQualificationType()+ref.getQualificationLevel();
-//			refArray[3] = ref.getNumAllocs();
-//			refArray[4] = ref.getHomeString();
-//			refArray[5] = ref.getTravelInfo(Referee.NORTH);
-//			refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
-//			refArray[7] = ref.getTravelInfo(Referee.SOUTH);
-//			// Add the array for each referee into each of the rows of the table
-//			model.addRow(refArray);
-//		}
+
         // Create JTable and add it to the scrollpane
         centerTable = new JTable(model);
         centerTable.setGridColor(Color.LIGHT_GRAY);
+
     }
 
     public void populateTable() {
@@ -355,6 +344,7 @@ public class MainGUI extends JFrame implements ActionListener {
         //TODO now passing Ref's full name to Match constructor - but I still think we should be passing the whole object. maybe.
         String ref1Name = ref1.getFName() + " " + ref1.getLName();
         String ref2Name = ref2.getFName() + " " + ref2.getLName();
+        //TODO updateRows
         matchList.alternativeAddMatch(weekNumber, place, senior, ref1Name, ref2Name);
         ref1.incrementAllocs();
         ref1.setAllocated(true);

@@ -10,7 +10,8 @@ import java.util.Scanner;
  */
 public class FileProcessor {
 
-    private FileProcessor() {}
+    private FileProcessor() {
+    }
 
     public static void readIn(String refereesInFile, RefList referees) {
         Scanner in = null;
@@ -22,7 +23,9 @@ public class FileProcessor {
         } catch (FileNotFoundException e) {
             //TODO joptionpane here
         } finally {
-            if (in != null) { in.close(); }
+            if (in != null) {
+                in.close();
+            }
         }
     }
 
@@ -51,7 +54,9 @@ public class FileProcessor {
         } catch (IOException e) {
             //showError("I/O exception: " + e.getMessage());
         } finally {
-            if (out != null) { out.close(); }
+            if (out != null) {
+                out.close();
+            }
         }
         //might move system exit to main gui to reduce <<coupling>> between classes
         System.exit(0);
