@@ -22,7 +22,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	allocatePanel, barChartPanel, addPanel, searchTitlePanel, firstPanel, lastPanel, searchPanel; // panels which are used to house the components, internal panels aid in layout
 	private JLabel matchTitle, weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
 	private JTextField weekField, firstNameField, lastNameField; // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
-	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton; // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
+	private JButton allocateRefButton, barChartButton, addRefButton, exitButton, searchRefButton; // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton; // the radio buttons to select the match location and level
 	private ButtonGroup locationGroup, levelGroup; // the groups for the radio buttons to ensure that they are mutually exclusive
 	private JTable centerTable; // the JTable which displays the information about the referees
@@ -166,8 +166,14 @@ public class MainGUI extends JFrame implements ActionListener {
 		addRefButton.addActionListener(this);
 		//addPanel.add(addRefButton);
 		//this.add(addRefButton, BorderLayout.SOUTH);
-		barChartPanel.add(addRefButton)
-		;
+		barChartPanel.add(addRefButton);
+		
+		
+		//Create button for closing the program and writing the current database to a file
+		exitButton = new JButton("Save & Exit");
+		addRefButton.addActionListener(this);
+		barChartPanel.add(exitButton);
+		
 		//Add a border and title to the searchpanel
 		searchTitlePanel.setBorder(BorderFactory.createTitledBorder("Search:"));
 
