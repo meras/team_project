@@ -38,6 +38,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 	private Checkbox northCheck, centralCheck, southCheck;
 	private Referee referee;
 	private RefList refList;
+	private MainGUI mainGUI;
 	private Enumeration<AbstractButton> homeRadios;
 	
 
@@ -51,17 +52,20 @@ public class LittleGUI extends JFrame implements ActionListener {
 	///ADD ref - everything is editable
 	//SEARCH-
 
-	public LittleGUI(int mode, RefList refereeList) 
+	public LittleGUI(int mode, RefList refereeList, MainGUI refGUI) 
 	{
 		constructGui(mode);
 		refList = refereeList;
+		mainGUI = refGUI;
 	}
 
-	public LittleGUI(int mode, Referee ref, RefList refereeList) 
+	public LittleGUI(int mode, Referee ref, RefList refereeList, MainGUI refGUI) 
 	{
 		constructGui(mode);
 		refList = refereeList;
 		referee = ref;
+		mainGUI = refGUI;
+		
 
 		if (referee != null) {
 			fNameField.setText(referee.getFName());
@@ -278,6 +282,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 				if (validateFields())
 				{
 					setFields();
+					mainGUI.updateTable();
 					JOptionPane.showMessageDialog(this, "The referee details have been updated.",
 							"Success", JOptionPane.INFORMATION_MESSAGE);
 				}		
@@ -304,7 +309,8 @@ public class LittleGUI extends JFrame implements ActionListener {
 					
 					refList.addRefFromGui(fNameField.getText(), lNameField.getText(), (String)qualificationTypeCombo.getSelectedItem() + Integer.parseInt((String)(qualificationsCombo.getSelectedItem())),  
 							Integer.parseInt(matchField.getText()) , getHomeArea(), getTravelInfo()); 
-
+					
+					mainGUI.updateTable();
 					JOptionPane.showMessageDialog(this, "The referee has been added to the database.",
 							"Success", JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -323,6 +329,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 				deleted = refList.deleteRef(referee.getFName(), referee.getLName());
 				if (deleted)
 				{
+					mainGUI.updateTable();
 					JOptionPane.showMessageDialog(this, "The referee has been deleted from the database.",
 							"Success", JOptionPane.INFORMATION_MESSAGE);
 				}
