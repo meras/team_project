@@ -34,8 +34,8 @@ public class LittleGUI extends JFrame implements ActionListener {
 	private JTextField fNameField, lNameField, idField, matchField;
 	private JComboBox qualificationTypeCombo, qualificationsCombo;
 	private ButtonGroup homeGroup;
-	private JRadioButton northRadio, centerRadio, southRadio;
-	private Checkbox northCheck, centerCheck, southCheck;
+	private JRadioButton northRadio, centralRadio, southRadio;
+	private Checkbox northCheck, centralCheck, southCheck;
 	private Referee referee;
 	private RefList refList;
 	private Enumeration<AbstractButton> homeRadios;
@@ -70,16 +70,16 @@ public class LittleGUI extends JFrame implements ActionListener {
 			matchField.setText("" + referee.getNumAllocs());     
 			qualificationTypeCombo.setSelectedItem(referee.getQualificationType());
 			qualificationsCombo.setSelectedItem(String.valueOf(referee.getQualificationLevel()));   
-
+			
 			if (referee.getHomeArea() == 0)
 				northRadio.setSelected(true);
 			else if (referee.getHomeArea() == 1)
-				centerRadio.setSelected(true);
+				centralRadio.setSelected(true);
 			else
 				southRadio.setSelected(true);      
 
 			northCheck.setState(referee.getTravelInfo(Referee.NORTH));
-			centerCheck.setState(referee.getTravelInfo(Referee.CENTRAL));
+			centralCheck.setState(referee.getTravelInfo(Referee.CENTRAL));
 			southCheck.setState(referee.getTravelInfo(Referee.SOUTH));     
 		}
 	}
@@ -137,12 +137,12 @@ public class LittleGUI extends JFrame implements ActionListener {
 
 		JPanel home = new JPanel();
 		northRadio = new JRadioButton("North");
-		centerRadio = new JRadioButton("Center");
+		centralRadio = new JRadioButton("Central");
 		southRadio = new JRadioButton("South"); 
 
 		homeGroup = new ButtonGroup();
 		homeGroup.add(northRadio);
-		homeGroup.add(centerRadio);
+		homeGroup.add(centralRadio);
 		homeGroup.add(southRadio);
 		homeRadios = homeGroup.getElements();
 		home.add(new JLabel("Home:"));  
@@ -151,21 +151,18 @@ public class LittleGUI extends JFrame implements ActionListener {
 			home.add(homeRadios.nextElement());
 		}
 
-
-
-
 		JPanel preferrence = new JPanel();
 
 		//TO DO Needs to automatically spot when a referee radiobutton is clicked to highlight which is the default preference, 
 		//needs also to be modified for search to automatically show results.
 
 		northCheck = new Checkbox("North", false);
-		centerCheck = new Checkbox("Center", false);
+		centralCheck = new Checkbox("Central", false);
 		southCheck = new Checkbox("South", false);
 
 		preferrence.add(new JLabel("Preference:"));
 		preferrence.add(northCheck);
-		preferrence.add(centerCheck);
+		preferrence.add(centralCheck);
 		preferrence.add(southCheck);
 
 
@@ -221,7 +218,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 		saveAddButton.setText("Add");
 		cancelButton.setVisible(true);
 		matchField.setEditable(true);
-		centerRadio.setSelected(true);
+		centralRadio.setSelected(true);
 
 	}
 
@@ -239,7 +236,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 			homeRadios.nextElement().setEnabled(false);
 		}
 		northCheck.setEnabled(false);
-		centerCheck.setEnabled(false);
+		centralCheck.setEnabled(false);
 		southCheck.setEnabled(false);
 
 		editButton.setVisible(true);
@@ -261,7 +258,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 			homeRadios.nextElement().setEnabled(true);
 		}
 		northCheck.setEnabled(true);
-		centerCheck.setEnabled(true);
+		centralCheck.setEnabled(true);
 		southCheck.setEnabled(true);
 
 
@@ -434,8 +431,8 @@ public class LittleGUI extends JFrame implements ActionListener {
 	{
 		if (northRadio.isSelected())
 			return "North";
-		else if (centerRadio.isSelected())
-			return "Center";
+		else if (centralRadio.isSelected())
+			return "Central";
 		else if (southRadio.isSelected())
 			return ("South");
 		else
@@ -450,7 +447,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 			travelInfo += "Y";
 		else
 			travelInfo += "N";
-		if (centerCheck.getState())
+		if (centralCheck.getState())
 			travelInfo += "Y";
 		else
 			travelInfo += "N";
@@ -465,7 +462,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 	{
 		if (northRadio.isSelected()&&northCheck.getState())
 			return true;
-		if (centerRadio.isSelected()&&centerCheck.getState())
+		if (centralRadio.isSelected()&&centralCheck.getState())
 			return true;
 		if (southRadio.isSelected()&&southCheck.getState())
 			return true;
