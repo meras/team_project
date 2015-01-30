@@ -24,8 +24,8 @@ public class MainGUI extends JFrame implements ActionListener {
 	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
 	private JTable centerTable;     // the JTable which displays the information about the referees
 	private JScrollPane tableScroll, textScroll;   // the scrollpane object which houses the JTable component
-	private RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
-	private MatchList matchList;    // a MatchList object which contains all the matches that have been entered
+	private final RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
+	private final MatchList matchList;    // a MatchList object which contains all the matches that have been entered
 
 	/**
 	 * Constructs the main GUI window and creates the MatchList and RefList objects
@@ -44,7 +44,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	/**
 	 * Sets out the different GUI components within the JFrame
 	 */
-	public void layoutComponents() {
+	private void layoutComponents() {
 		// Create allocRefsPanel JPanel which will contain the match allocation components
 		allocRefsPanel = new JPanel();
 		allocRefsPanel.setLayout(new BoxLayout(allocRefsPanel, BoxLayout.Y_AXIS));
@@ -192,17 +192,9 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 
-	DefaultTableModel model;
-	private Object[] refArray;
+	private DefaultTableModel model;
 	private void setCenterTable() {
-		// Create the array of the column names for the JTable
-		//String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
-		// Create the array which will contain the information on each referee
-		//final Object[] refArray = new Object[8];
-
 		// Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
-		//		DefaultTableModel model = new DefaultTableModel()
-
 		model = new DefaultTableModel(columnNames, 0)
 		{
 
@@ -211,22 +203,14 @@ public class MainGUI extends JFrame implements ActionListener {
 			}
 
 			public Class<?> getColumnClass(int colIndex) {
-			    return getValueAt(0, colIndex).getClass();
+				return getValueAt(0, colIndex).getClass();
 			}
 
 		};
-		// Use the columns array to set the column names
-		//model.setColumnIdentifiers(columns);
 		populateTable();
-		System.out.println(((Vector)model.getDataVector().elementAt(1)).elementAt(1));
-
-
 	}
 
-	public void populateTable()
-	{
-		refArray = new Object[8];
-
+	private void populateTable() {
 		for (Referee ref : refereeList) {
 			model.addRow(new Object[]{
 					ref.getRefID(),
@@ -239,12 +223,10 @@ public class MainGUI extends JFrame implements ActionListener {
 					ref.getTravelInfo(Referee.SOUTH),
 			});
 		}
-
 		// Create JTable and add it to the scrollpane
 		centerTable = new JTable(model);
 		centerTable.setGridColor(Color.LIGHT_GRAY);
 	}
-
 
 	/**
 	 * Decides which action will be taken depending on which input the user has given
@@ -335,10 +317,11 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 	/**
+	 *
 	 * @param suitRefs
-	 * @param weekNumber
+	 * @param weekNumber week number when the match is on
 	 * @param place
-	 * @param senior
+	 * @param senior True if match requires senior coach
 	 */
 	private void allocateTwoRefs(List<Referee> suitRefs, int weekNumber, int place, boolean senior) {
 		Referee ref1 = suitRefs.get(0);
@@ -370,9 +353,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	/**
 	 * Inputs the suitable referee list and selected referees into the text area.
 	 * Hides the JTable but makes the button to view the table visible
-	 * @param one the first referee that has been allocated
-	 * @param two the second referee that has been allocated
-	 * @param suitable the array list of all the referees that were suitable for the match
+	 * @param suitable
 	 */
 	private void displayAllocatedRefs(List<Referee> suitable)
 	{
@@ -384,20 +365,17 @@ public class MainGUI extends JFrame implements ActionListener {
 				+"\n\nThe referees which are suitable for the match are: \n";
 		StringBuilder display = new StringBuilder(allocated);
 
-		for (int i = 0; i < suitable.size(); i++)
-		{
-			String suitableRef = String.format("%-35s%s%n", suitable.get(i).getFName()+" "+suitable.get(i).getLName(), "Number of Allocations: "+suitable.get(i).getNumAllocs());
+		for (Referee aSuitable : suitable) {
+			String suitableRef = String.format("%-35s%s%n", aSuitable.getFName() + " " + aSuitable.getLName(), "Number of Allocations: " + aSuitable.getNumAllocs());
 			display.append(suitableRef);
 		}
 		String displayString = display.toString();
 		centerText.setText(displayString);
 	}
 
-
 	/**
 	 * Retrieves the week number from its respective textfield and ensures it is valid
-	 *
-	 * @throws nfx thrown if the input into the week number field is not an integer
+	 * @return BAD_INFO constant if the week is invalid, week number otherwise
 	 */
 	private int getWeekInfo() {
 		try {
