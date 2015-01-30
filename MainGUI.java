@@ -301,12 +301,13 @@ public class MainGUI extends JFrame implements ActionListener {
 				errorPane("Week " + week + " is already allocated.");
 				return; //if week is already taken, exit method
 			}
-			boolean senMatch = getSeniorInfo();
+			boolean senMatch = seniorButton.isSelected();
 			List<Referee> suitableRefs = refereeList.getSuitableRefs(loc, senMatch);
 			if (suitableRefs.size() < 2)
 				displayNoSuitableRefs();
 			else
 				allocateTwoRefs(suitableRefs, week, loc, senMatch);
+			
 			displayAllocatedRefs(suitableRefs);
 			clearNameFields();
 			//TODO testing if we got the searchPanel refs....
@@ -418,10 +419,6 @@ public class MainGUI extends JFrame implements ActionListener {
 			errorPane("Please select the match level.");
 			return false;
 		}
-	}
-
-	private boolean getSeniorInfo() {
-		return seniorButton.isSelected();
 	}
 
 	private void clearNameFields() {

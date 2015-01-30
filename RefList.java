@@ -72,7 +72,7 @@ public class RefList implements Iterable<Referee> {
 				numPart++;
 		}
 
-		String newRefId = letterPart + numPart;
+		String newRefId = letterPart.toUpperCase() + numPart;
 		return newRefId;
 	}
 
