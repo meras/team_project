@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Vector;
 //TODO import .list specifically because otherwise compiler doesn't know if we're using util.List or awt.List
 
 /**
@@ -15,8 +16,6 @@ public class MainGUI extends JFrame implements ActionListener {
 	/**
 	 * Creates the table to display the referees and their information in the center of the main GUI
 	 */
-	DefaultTableModel model;
-	private Object[] refArray;
 	private final Object[] columnNames = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
 	private JPanel left, center, right, matchTitlePanel, weekPanel, locationPanel, levelPanel,
 	allocatePanel, barChartPanel, addPanel, searchTitlePanel, firstPanel, lastPanel, searchPanel; // panels which are used to house the components, internal panels aid in layout
@@ -205,6 +204,9 @@ public class MainGUI extends JFrame implements ActionListener {
 		// right.add(searchPanel);
 	}
 
+
+    DefaultTableModel model;
+    private Object[] refArray;
 	private void setCenterTable() {
 		// Create the array of the column names for the JTable
 		//String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
@@ -221,32 +223,31 @@ public class MainGUI extends JFrame implements ActionListener {
 				return false;
 			}
 
-			public Class<?> getColumnClass(int colIndex) {
-				return refArray[colIndex].getClass();
-			}
 		};
 		// Use the columns array to set the column names
 		//model.setColumnIdentifiers(columns);
-		populateTable();        
+		populateTable();
+        System.out.println(((Vector)model.getDataVector().elementAt(1)).elementAt(1));
 
-	}
 
-	public void populateTable() 
-	{		
-		refArray = new Object[8];
+    }
 
-		for (Referee ref : refereeList) {
-			refArray[0] = ref.getRefID();
-			refArray[1] = ref.getFName() + " " + ref.getLName();
-			refArray[2] = ref.getQualificationType() + ref.getQualificationLevel();
-			refArray[3] = ref.getNumAllocs();
-			refArray[4] = ref.getHomeString();
-			refArray[5] = ref.getTravelInfo(Referee.NORTH);
-			refArray[6] = ref.getTravelInfo(Referee.CENTRAL);
-			refArray[7] = ref.getTravelInfo(Referee.SOUTH);
-			// Add the array for each referee into each of the rows of the table
-			model.addRow(refArray);
-		}
+    public void populateTable()
+    {
+        refArray = new Object[8];
+
+        for (Referee ref : refereeList) {
+            model.addRow(new Object[]{
+                    ref.getRefID(),
+                    ref.getFName() +" "+ ref.getLName(),
+                    ref.getQualificationType() + ref.getQualificationLevel(),
+                    ref.getNumAllocs(),
+                    ref.getHomeString(),
+                    ref.getTravelInfo(Referee.NORTH),
+                    ref.getTravelInfo(Referee.CENTRAL),
+                    ref.getTravelInfo(Referee.SOUTH),
+            });
+        }
 
 		// Create JTable and add it to the scrollpane
 		centerTable = new JTable(model);
