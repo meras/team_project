@@ -14,18 +14,18 @@ public class MainGUI extends JFrame implements ActionListener {
 	//used in getWeekInfo() below
 	private final int BAD_INFO = -1;
 	private final Object[] columnNames = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
-    private JPanel grid, top, left, right, center, bottom, weekPanel, locationPanel, levelPanel, 
-            allocatePanel, firstPanel, lastPanel, searchButtonPanel; // panels which are used to house the components, internal panels aid in layout
-    private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
-    private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
-    private JTextArea centerText;
-    private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton, viewRefsButton;   // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
-    private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
-    private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
-    private JTable centerTable;     // the JTable which displays the information about the referees
-    private JScrollPane tableScroll, textScroll;   // the scrollpane object which houses the JTable component
-    private RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
-    private MatchList matchList;    // a MatchList object which contains all the matches that have been entered
+	private JPanel grid, top, left, right, center, bottom, weekPanel, locationPanel, levelPanel,
+			allocatePanel, firstPanel, lastPanel, searchButtonPanel; // panels which are used to house the components, internal panels aid in layout
+	private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
+	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
+	private JTextArea centerText;
+	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton, viewRefsButton;   // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
+	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
+	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
+	private JTable centerTable;     // the JTable which displays the information about the referees
+	private JScrollPane tableScroll, textScroll;   // the scrollpane object which houses the JTable component
+	private RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
+	private MatchList matchList;    // a MatchList object which contains all the matches that have been entered
 
 	/**
 	 * Constructs the main GUI window and creates the MatchList and RefList objects
@@ -46,158 +46,158 @@ public class MainGUI extends JFrame implements ActionListener {
 	 */
 	public void layoutComponents() {
 		// Create left JPanel which will contain the match allocation components
-        left = new JPanel();
-        left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-        left.setBorder(BorderFactory.createTitledBorder("Allocate Referees"));
+		left = new JPanel();
+		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
+		left.setBorder(BorderFactory.createTitledBorder("Allocate Referees"));
 
-        // Create internal JPanels for each of the components
-        weekPanel = new JPanel();
-        locationPanel = new JPanel();
-        levelPanel = new JPanel();
-        allocatePanel = new JPanel();
+		// Create internal JPanels for each of the components
+		weekPanel = new JPanel();
+		locationPanel = new JPanel();
+		levelPanel = new JPanel();
+		allocatePanel = new JPanel();
 
-        // Create label and textField for match week number
-        weekLabel = new JLabel("Week Number (1-52):");
-        weekPanel.add(weekLabel);
-        weekField = new JTextField(2);
-        weekPanel.add(weekField);
-        
-        //Create Label and radio buttons for match location
-        locationLabel = new JLabel("Match Location:");
-        locationPanel.add(locationLabel);
-        northButton = new JRadioButton("North");
-        centralButton = new JRadioButton("Central");
-        southButton = new JRadioButton("South");
-        
-        //Group the location JRadioButtons so that they are mutually exclusive
-        locationGroup = new ButtonGroup();
-        locationGroup.add(northButton);
-        locationGroup.add(centralButton);
-        locationGroup.add(southButton);
-        locationPanel.add(northButton);
-        locationPanel.add(centralButton);
-        locationPanel.add(southButton);
-        //set northButton to selected by default
-        northButton.setSelected(true);
+		// Create label and textField for match week number
+		weekLabel = new JLabel("Week Number (1-52):");
+		weekPanel.add(weekLabel);
+		weekField = new JTextField(2);
+		weekPanel.add(weekField);
 
-        // Create label and radio buttons for level        
-        levelLabel = new JLabel("Level:");
-        levelPanel.add(levelLabel);
-        juniorButton = new JRadioButton("Junior");  
-        seniorButton = new JRadioButton("Senior");
+		//Create Label and radio buttons for match location
+		locationLabel = new JLabel("Match Location:");
+		locationPanel.add(locationLabel);
+		northButton = new JRadioButton("North");
+		centralButton = new JRadioButton("Central");
+		southButton = new JRadioButton("South");
 
-        // Group the level JRadioButtons so they are mutually exclusive
-        levelGroup = new ButtonGroup();
-        levelGroup.add(juniorButton);
-        levelGroup.add(seniorButton);
-        levelPanel.add(juniorButton);
-        levelPanel.add(seniorButton);
-        //set juniorButton to selected by default
-        juniorButton.setSelected(true);
+		//Group the location JRadioButtons so that they are mutually exclusive
+		locationGroup = new ButtonGroup();
+		locationGroup.add(northButton);
+		locationGroup.add(centralButton);
+		locationGroup.add(southButton);
+		locationPanel.add(northButton);
+		locationPanel.add(centralButton);
+		locationPanel.add(southButton);
+		//set northButton to selected by default
+		northButton.setSelected(true);
 
-        //Create label and button for finding suitable referee
-        allocateRefButton = new JButton("Allocate");
-        allocateRefButton.addActionListener(this);
-        allocatePanel.add(allocateRefButton);
+		// Create label and radio buttons for level
+		levelLabel = new JLabel("Level:");
+		levelPanel.add(levelLabel);
+		juniorButton = new JRadioButton("Junior");
+		seniorButton = new JRadioButton("Senior");
 
-        // Add internal panels to the left JPanel
-        left.add(weekPanel);
-        left.add(locationPanel);
-        left.add(levelPanel);
-        left.add(allocatePanel);
+		// Group the level JRadioButtons so they are mutually exclusive
+		levelGroup = new ButtonGroup();
+		levelGroup.add(juniorButton);
+		levelGroup.add(seniorButton);
+		levelPanel.add(juniorButton);
+		levelPanel.add(seniorButton);
+		//set juniorButton to selected by default
+		juniorButton.setSelected(true);
 
+		//Create label and button for finding suitable referee
+		allocateRefButton = new JButton("Allocate");
+		allocateRefButton.addActionListener(this);
+		allocatePanel.add(allocateRefButton);
 
-
-
-        // Create right JPanel for the search referee components
-        right = new JPanel(new GridLayout(3,1));
-        right.setBorder(BorderFactory.createTitledBorder("Search for Referee"));
-
-        // Create the internal JPanels for each of the components
-        firstPanel = new JPanel();
-        lastPanel = new JPanel();
-        searchButtonPanel = new JPanel();
-
-
-        //Create label and button for first name
-        firstNameLabel = new JLabel("First Name:");
-        firstPanel.add(firstNameLabel);
-        firstNameField = new JTextField(10);
-        firstPanel.add(firstNameField);
-
-        // Create label and button for last name
-        lastNameLabel = new JLabel("Last Name:");
-        lastPanel.add(lastNameLabel);
-        lastNameField = new JTextField(10);
-        lastPanel.add(lastNameField);
-
-        // Create the button for searching for the referee
-        searchRefButton = new JButton("Search");
-        searchRefButton.addActionListener(this);
-        searchButtonPanel.add(searchRefButton);
-
-        // Add the internal panels to right JPanel
-        right.add(firstPanel);
-        right.add(lastPanel);
-        right.add(searchButtonPanel);
+		// Add internal panels to the left JPanel
+		left.add(weekPanel);
+		left.add(locationPanel);
+		left.add(levelPanel);
+		left.add(allocatePanel);
 
 
 
-        //Create the top JPanel which will contain both the left and right JPanel so that they sit side by side
-        top = new JPanel();
-        top.add(left);
-        top.add(right);
 
-        // Use the setCenterTable method to populate the table and add it to the scrollpane
-        //TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
-        setCenterTable();
-        tableScroll = new JScrollPane(centerTable);
-        centerTable.setFillsViewportHeight(true);
-        tableScroll.setVisible(true);
+		// Create right JPanel for the search referee components
+		right = new JPanel(new GridLayout(3,1));
+		right.setBorder(BorderFactory.createTitledBorder("Search for Referee"));
 
-        // Create the text field which can be used to display information about the allocated referees
-        centerText = new JTextArea(30, 41);
-        centerText.setEditable(false);
-        textScroll = new JScrollPane(centerText);
-        textScroll.setVisible(false);
-
-        // The center panel which contains the table or text field
-        center = new JPanel();
-        center.add(tableScroll);
-        center.add(textScroll);
-
-        // Create the grid GUI which will contain the main sections and the table
-        grid = new JPanel(new GridLayout(2,1));
-        grid.add(top);
-        grid.add(center);
-        this.add(grid, BorderLayout.CENTER);
+		// Create the internal JPanels for each of the components
+		firstPanel = new JPanel();
+		lastPanel = new JPanel();
+		searchButtonPanel = new JPanel();
 
 
+		//Create label and button for first name
+		firstNameLabel = new JLabel("First Name:");
+		firstPanel.add(firstNameLabel);
+		firstNameField = new JTextField(10);
+		firstPanel.add(firstNameField);
 
-        // Create bottom JPanel
-        bottom = new JPanel();
-        this.add(bottom, BorderLayout.SOUTH);
+		// Create label and button for last name
+		lastNameLabel = new JLabel("Last Name:");
+		lastPanel.add(lastNameLabel);
+		lastNameField = new JTextField(10);
+		lastPanel.add(lastNameField);
 
-        // Create button to return to table view of referees after a ref has been allocated
-        viewRefsButton = new JButton("View all referees");
-        viewRefsButton.addActionListener(this);
-        viewRefsButton.setVisible(false);
-        bottom.add(viewRefsButton);
+		// Create the button for searching for the referee
+		searchRefButton = new JButton("Search");
+		searchRefButton.addActionListener(this);
+		searchButtonPanel.add(searchRefButton);
 
-        //Create button for bar chart and add to internal JPanel
-        barChartButton = new JButton("View allocations");
-        barChartButton.addActionListener(this);
-        bottom.add(barChartButton);
+		// Add the internal panels to right JPanel
+		right.add(firstPanel);
+		right.add(lastPanel);
+		right.add(searchButtonPanel);
 
-        //Create button for adding new ref 
-        addRefButton = new JButton("Add referee");
-        addRefButton.addActionListener(this);
-        bottom.add(addRefButton);
+
+
+		//Create the top JPanel which will contain both the left and right JPanel so that they sit side by side
+		top = new JPanel();
+		top.add(left);
+		top.add(right);
+
+		// Use the setCenterTable method to populate the table and add it to the scrollpane
+		//TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
+		setCenterTable();
+		tableScroll = new JScrollPane(centerTable);
+		centerTable.setFillsViewportHeight(true);
+		tableScroll.setVisible(true);
+
+		// Create the text field which can be used to display information about the allocated referees
+		centerText = new JTextArea(30, 41);
+		centerText.setEditable(false);
+		textScroll = new JScrollPane(centerText);
+		textScroll.setVisible(false);
+
+		// The center panel which contains the table or text field
+		center = new JPanel();
+		center.add(tableScroll);
+		center.add(textScroll);
+
+		// Create the grid GUI which will contain the main sections and the table
+		grid = new JPanel(new GridLayout(2,1));
+		grid.add(top);
+		grid.add(center);
+		this.add(grid, BorderLayout.CENTER);
+
+
+
+		// Create bottom JPanel
+		bottom = new JPanel();
+		this.add(bottom, BorderLayout.SOUTH);
+
+		// Create button to return to table view of referees after a ref has been allocated
+		viewRefsButton = new JButton("View all referees");
+		viewRefsButton.addActionListener(this);
+		viewRefsButton.setVisible(false);
+		bottom.add(viewRefsButton);
+
+		//Create button for bar chart and add to internal JPanel
+		barChartButton = new JButton("View allocations");
+		barChartButton.addActionListener(this);
+		bottom.add(barChartButton);
+
+		//Create button for adding new ref
+		addRefButton = new JButton("Add referee");
+		addRefButton.addActionListener(this);
+		bottom.add(addRefButton);
 	}
 
 
-    DefaultTableModel model;
-    private Object[] refArray;
+	DefaultTableModel model;
+	private Object[] refArray;
 	private void setCenterTable() {
 		// Create the array of the column names for the JTable
 		//String[] columns = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
@@ -207,42 +207,42 @@ public class MainGUI extends JFrame implements ActionListener {
 		// Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
 		//		DefaultTableModel model = new DefaultTableModel()
 
-		model = new DefaultTableModel(columnNames, 0) 
+		model = new DefaultTableModel(columnNames, 0)
 		{
 
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
 
-           // public Class<?> getColumnClass(int colIndex) {
-            //    return refArray[colIndex].getClass();
-            //}
+			// public Class<?> getColumnClass(int colIndex) {
+			//    return refArray[colIndex].getClass();
+			//}
 
 		};
 		// Use the columns array to set the column names
 		//model.setColumnIdentifiers(columns);
 		populateTable();
-        System.out.println(((Vector)model.getDataVector().elementAt(1)).elementAt(1));
+		System.out.println(((Vector)model.getDataVector().elementAt(1)).elementAt(1));
 
 
-    }
+	}
 
-    public void populateTable()
-    {
-        refArray = new Object[8];
+	public void populateTable()
+	{
+		refArray = new Object[8];
 
-        for (Referee ref : refereeList) {
-            model.addRow(new Object[]{
-                    ref.getRefID(),
-                    ref.getFName() +" "+ ref.getLName(),
-                    ref.getQualificationType() + ref.getQualificationLevel(),
-                    ref.getNumAllocs(),
-                    ref.getHomeString(),
-                    ref.getTravelInfo(Referee.NORTH),
-                    ref.getTravelInfo(Referee.CENTRAL),
-                    ref.getTravelInfo(Referee.SOUTH),
-            });
-        }
+		for (Referee ref : refereeList) {
+			model.addRow(new Object[]{
+					ref.getRefID(),
+					ref.getFName() +" "+ ref.getLName(),
+					ref.getQualificationType() + ref.getQualificationLevel(),
+					ref.getNumAllocs(),
+					ref.getHomeString(),
+					ref.getTravelInfo(Referee.NORTH),
+					ref.getTravelInfo(Referee.CENTRAL),
+					ref.getTravelInfo(Referee.SOUTH),
+			});
+		}
 
 		// Create JTable and add it to the scrollpane
 		centerTable = new JTable(model);
@@ -267,29 +267,29 @@ public class MainGUI extends JFrame implements ActionListener {
 			clearAllocComponents();
 			model.setValueAt(null, 0, 0);
 		}
-		if (e.getSource() == searchRefButton) 
-        {
+		if (e.getSource() == searchRefButton)
+		{
 			//should we have these checks in a separate method?
-					if (!firstNameField.getText().trim().equals("") && !lastNameField.getText().trim().equals("")) {
-						Referee ref = refereeList.findRef(firstNameField.getText().trim(), lastNameField.getText().trim());
-						if (ref != null)
-							showLittleGui(LittleGUI.SEARCH, ref);
-						else {
-							errorPane("The referee " + firstNameField.getText().trim() + " " + lastNameField.getText().trim() + " " + "was not found in the database.");
-							clearNameFields();
-						}
-					} else {
-						errorPane("First Name and Last Name fields cannot be empty.");
-						clearNameFields();
-					}
+			if (!firstNameField.getText().trim().equals("") && !lastNameField.getText().trim().equals("")) {
+				Referee ref = refereeList.findRef(firstNameField.getText().trim(), lastNameField.getText().trim());
+				if (ref != null)
+					showLittleGui(LittleGUI.SEARCH, ref);
+				else {
+					errorPane("The referee " + firstNameField.getText().trim() + " " + lastNameField.getText().trim() + " " + "was not found in the database.");
+					clearNameFields();
+				}
+			} else {
+				errorPane("First Name and Last Name fields cannot be empty.");
+				clearNameFields();
+			}
 		}
-        
-         if (e.getSource() == viewRefsButton) {
-            tableScroll.setVisible(true);
-            textScroll.setVisible(false);
-            viewRefsButton.setVisible(false);
-        }
-    
+
+		if (e.getSource() == viewRefsButton) {
+			tableScroll.setVisible(true);
+			textScroll.setVisible(false);
+			viewRefsButton.setVisible(false);
+		}
+
 	}
 
 	/**
@@ -368,43 +368,43 @@ public class MainGUI extends JFrame implements ActionListener {
 		ref1.setAllocated(true);
 	}
 
-    /**
-    * Inputs the error message that not enough referees were found into the text area.
-    * Hides the JTable but makes the button to view the table visible
-    */
-    private void displayNoSuitableRefs()
-    {
-        tableScroll.setVisible(false);
-        viewRefsButton.setVisible(true);
-        textScroll.setVisible(true);
-        centerText.setText("Not enough suitable refs found");
-    }
+	/**
+	 * Inputs the error message that not enough referees were found into the text area.
+	 * Hides the JTable but makes the button to view the table visible
+	 */
+	private void displayNoSuitableRefs()
+	{
+		tableScroll.setVisible(false);
+		viewRefsButton.setVisible(true);
+		textScroll.setVisible(true);
+		centerText.setText("Not enough suitable refs found");
+	}
 
-    /**
-    * Inputs the suitable referee list and selected referees into the text area.
-    * Hides the JTable but makes the button to view the table visible
-    * @param one the first referee that has been allocated
-    * @param two the second referee that has been allocated
-    * @param suitable the array list of all the referees that were suitable for the match
-    */
-    private void displayAllocatedRefs(List<Referee> suitable)
-    {
-        tableScroll.setVisible(false);
-        viewRefsButton.setVisible(true);
-        textScroll.setVisible(true);
-        
-        String allocated = "The referees allocated to the match are \n"+suitable.get(0).getFName()+" "+suitable.get(0).getLName()+" and "+suitable.get(1).getFName()+" "+suitable.get(1).getLName()
-                            +"\n\nThe referees which are suitable for the match are: \n";
-        StringBuilder display = new StringBuilder(allocated);
+	/**
+	 * Inputs the suitable referee list and selected referees into the text area.
+	 * Hides the JTable but makes the button to view the table visible
+	 * @param one the first referee that has been allocated
+	 * @param two the second referee that has been allocated
+	 * @param suitable the array list of all the referees that were suitable for the match
+	 */
+	private void displayAllocatedRefs(List<Referee> suitable)
+	{
+		tableScroll.setVisible(false);
+		viewRefsButton.setVisible(true);
+		textScroll.setVisible(true);
 
-        for (int i = 0; i < suitable.size(); i++)
-        {
-            String suitableRef = String.format("%-35s%s%n", suitable.get(i).getFName()+" "+suitable.get(i).getLName(), "Number of Allocations: "+suitable.get(i).getNumAllocs());
-            display.append(suitableRef);
-        }
-        String displayString = display.toString();
-        centerText.setText(displayString);
-    }
+		String allocated = "The referees allocated to the match are \n"+suitable.get(0).getFName()+" "+suitable.get(0).getLName()+" and "+suitable.get(1).getFName()+" "+suitable.get(1).getLName()
+				+"\n\nThe referees which are suitable for the match are: \n";
+		StringBuilder display = new StringBuilder(allocated);
+
+		for (int i = 0; i < suitable.size(); i++)
+		{
+			String suitableRef = String.format("%-35s%s%n", suitable.get(i).getFName()+" "+suitable.get(i).getLName(), "Number of Allocations: "+suitable.get(i).getNumAllocs());
+			display.append(suitableRef);
+		}
+		String displayString = display.toString();
+		centerText.setText(displayString);
+	}
 
 
 	/**
