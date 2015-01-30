@@ -256,12 +256,12 @@ public class MainGUI extends JFrame implements ActionListener {
 			BarChartViewer chart = new BarChartViewer(refereeList);
 		}
 		if (e.getSource() == addRefButton) {
-			showLittleGui(LittleGUI.ADD);
+			showLittleGui(LittleGUI.ADD, null);
 		}
 		if (e.getSource() == allocateRefButton) {
 			checkForSuitableRefs();
 			clearAllocComponents();
-			model.setValueAt(null, 0, 0);
+			updateTable();
 		}
 		if (e.getSource() == searchRefButton)
 		{
@@ -288,18 +288,9 @@ public class MainGUI extends JFrame implements ActionListener {
 
 	}
 
-	/**
-	 * Constructs the window where the user can enter information about a referee
-	 *
-	 * @param mode sets whether or not the information will be editable as set down in the LittleGUI
-	 */
-	private void showLittleGui(int mode) {
-		LittleGUI littleGUI = new LittleGUI(mode, refereeList, this);
-		littleGUI.setVisible(true);
-	}
 
 	/**
-	 * Constructs the windows where the user can view and edit the inforamtion about a referee
+	 * Shows either a blank add referee window or displays search results
 	 *
 	 * @param mode sets whether the information about the referee is editable or not
 	 * @param ref  the referee object which will be displayed and can be edited
