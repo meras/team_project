@@ -316,6 +316,7 @@ public class MainGUI extends JFrame implements ActionListener {
             errorPane("All the weeks in the year are allocated.");
             return; //if no room for more matches, exit method
         }
+
         //if there is room for another match, get match info input by user
         int week = getWeekInfo();
         int loc = getLocationInfo();
@@ -328,7 +329,6 @@ public class MainGUI extends JFrame implements ActionListener {
             boolean senMatch = getSeniorInfo();
             List<Referee> suitableRefs = refereeList.getSuitableRefs(loc, senMatch);
             if (suitableRefs.size() < 2)
-                //TODO should we have a JOptionPane here? Or should this be printed on the GUI?
                 errorPane("Not enough suitable refs found.");
             else
                 allocateTwoRefs(suitableRefs, week, loc, senMatch);
@@ -351,6 +351,7 @@ public class MainGUI extends JFrame implements ActionListener {
     private void allocateTwoRefs(List<Referee> suitRefs, int weekNumber, int place, boolean senior) {
         Referee ref1 = suitRefs.get(0);
         Referee ref2 = suitRefs.get(1);
+
         //TODO now passing Ref's full name to Match constructor - but I still think we should be passing the whole object. maybe.
         String ref1Name = ref1.getFName() + " " + ref1.getLName();
         String ref2Name = ref2.getFName() + " " + ref2.getLName();
