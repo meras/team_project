@@ -14,7 +14,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	//used in getWeekInfo() below
 	private final int BAD_INFO = -1;
 	private final Object[] columnNames = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
-	private JPanel grid, top, left, right, center, bottom, weekPanel, locationPanel, levelPanel,
+	private JPanel grid, top, allocRefsPanel, searchPanel, center, bottom, weekPanel, locationPanel, levelPanel,
 			allocatePanel, firstPanel, lastPanel, searchButtonPanel; // panels which are used to house the components, internal panels aid in layout
 	private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
 	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
@@ -33,7 +33,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	public MainGUI() {
 		this.setTitle("Referee Selection");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(650, 400);
+		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		refereeList = new RefList();
 		FileProcessor.readIn("RefereesIn.txt", refereeList);
@@ -45,10 +45,10 @@ public class MainGUI extends JFrame implements ActionListener {
 	 * Sets out the different GUI components within the JFrame
 	 */
 	public void layoutComponents() {
-		// Create left JPanel which will contain the match allocation components
-		left = new JPanel();
-		left.setLayout(new BoxLayout(left, BoxLayout.Y_AXIS));
-		left.setBorder(BorderFactory.createTitledBorder("Allocate Referees"));
+		// Create allocRefsPanel JPanel which will contain the match allocation components
+		allocRefsPanel = new JPanel();
+		allocRefsPanel.setLayout(new BoxLayout(allocRefsPanel, BoxLayout.Y_AXIS));
+		allocRefsPanel.setBorder(BorderFactory.createTitledBorder("Allocate Referees"));
 
 		// Create internal JPanels for each of the components
 		weekPanel = new JPanel();
@@ -100,24 +100,20 @@ public class MainGUI extends JFrame implements ActionListener {
 		allocateRefButton.addActionListener(this);
 		allocatePanel.add(allocateRefButton);
 
-		// Add internal panels to the left JPanel
-		left.add(weekPanel);
-		left.add(locationPanel);
-		left.add(levelPanel);
-		left.add(allocatePanel);
+		// Add internal panels to the allocRefsPanel JPanel
+		allocRefsPanel.add(weekPanel);
+		allocRefsPanel.add(locationPanel);
+		allocRefsPanel.add(levelPanel);
+		allocRefsPanel.add(allocatePanel);
 
-
-
-
-		// Create right JPanel for the search referee components
-		right = new JPanel(new GridLayout(3,1));
-		right.setBorder(BorderFactory.createTitledBorder("Search for Referee"));
+		// Create searchPanel JPanel for the search referee components
+		searchPanel = new JPanel(new GridLayout(3,1));
+		searchPanel.setBorder(BorderFactory.createTitledBorder("Search for Referee"));
 
 		// Create the internal JPanels for each of the components
 		firstPanel = new JPanel();
 		lastPanel = new JPanel();
 		searchButtonPanel = new JPanel();
-
 
 		//Create label and button for first name
 		firstNameLabel = new JLabel("First Name:");
@@ -136,17 +132,19 @@ public class MainGUI extends JFrame implements ActionListener {
 		searchRefButton.addActionListener(this);
 		searchButtonPanel.add(searchRefButton);
 
-		// Add the internal panels to right JPanel
-		right.add(firstPanel);
-		right.add(lastPanel);
-		right.add(searchButtonPanel);
+		// Add the internal panels to searchPanel JPanel
+		searchPanel.add(firstPanel);
+		searchPanel.add(lastPanel);
+		searchPanel.add(searchButtonPanel);
 
-
-
-		//Create the top JPanel which will contain both the left and right JPanel so that they sit side by side
-		top = new JPanel();
-		top.add(left);
-		top.add(right);
+		//Create the top JPanel which will contain both the allocRefsPanel and searchPanel JPanel so that they sit side by side
+		top = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridwidth = 2;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.VERTICAL;
+		top.add(allocRefsPanel, c);
+		top.add(searchPanel, c);
 
 		// Use the setCenterTable method to populate the table and add it to the scrollpane
 		//TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
@@ -171,8 +169,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		grid.add(top);
 		grid.add(center);
 		this.add(grid, BorderLayout.CENTER);
-
-
 
 		// Create bottom JPanel
 		bottom = new JPanel();
@@ -214,9 +210,9 @@ public class MainGUI extends JFrame implements ActionListener {
 				return false;
 			}
 
-			// public Class<?> getColumnClass(int colIndex) {
-			//    return refArray[colIndex].getClass();
-			//}
+			public Class<?> getColumnClass(int colIndex) {
+			    return getValueAt(0, colIndex).getClass();
+			}
 
 		};
 		// Use the columns array to set the column names
@@ -340,7 +336,7 @@ public class MainGUI extends JFrame implements ActionListener {
 				allocateTwoRefs(suitableRefs, week, loc, senMatch);
 			displayAllocatedRefs(suitableRefs);
 			clearNameFields();
-			//TODO testing if we got the right refs....
+			//TODO testing if we got the searchPanel refs....
 			for (Referee r : suitableRefs) {
 				System.out.println(r.getFName() + " " + r.getLName());
 			}
@@ -415,7 +411,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	private int getWeekInfo() {
 		try {
 			int week = Integer.parseInt(weekField.getText());
-			//I'm assuming that the first week is week 1 and not 0 right?
+			//I'm assuming that the first week is week 1 and not 0 searchPanel?
 			if (week < 1 || week > MatchList.MAX_MATCHES) {
 				errorPane("Please enter a week between 1 and " + MatchList.MAX_MATCHES + ".");
 				return BAD_INFO;
