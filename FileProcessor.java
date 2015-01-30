@@ -10,6 +10,8 @@ import java.util.Scanner;
  */
 public class FileProcessor {
 
+    private FileProcessor() {}
+
     public static void readIn(String refereesInFile, RefList referees) {
         Scanner in = null;
         try {
