@@ -245,31 +245,15 @@ public class MainGUI extends JFrame implements ActionListener {
 			clearAllocComponents();
 			updateTable();
 		}
-		if (e.getSource() == searchRefButton)
-		{
-			//should we have these checks in a separate method?
-			if (!firstNameField.getText().trim().equals("") && !lastNameField.getText().trim().equals("")) {
-				Referee ref = refereeList.findRef(firstNameField.getText().trim(), lastNameField.getText().trim());
-				if (ref != null)
-					showLittleGui(LittleGUI.SEARCH, ref);
-				else {
-					errorPane("The referee " + firstNameField.getText().trim() + " " + lastNameField.getText().trim() + " " + "was not found in the database.");
-					clearNameFields();
-				}
-			} else {
-				errorPane("First Name and Last Name fields cannot be empty.");
-				clearNameFields();
-			}
+		if (e.getSource() == searchRefButton) {
+			processSearch();
 		}
-
 		if (e.getSource() == viewRefsButton) {
 			tableScroll.setVisible(true);
 			textScroll.setVisible(false);
 			viewRefsButton.setVisible(false);
 		}
-
 	}
-
 
 	/**
 	 * Shows either a blank add referee window or displays search results
@@ -283,7 +267,9 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Displays two referees which are suitable for the match which has been entered if they exist
+	 * Gets match info from GUI and checks for suitable referees for that match;
+	 * calls methods to allocate 2 refs to the match and display information
+	 * on the suitable refs in the GUI
 	 */
 	private void checkForSuitableRefs() {
 		//first make sure there is room for another match
@@ -297,42 +283,43 @@ public class MainGUI extends JFrame implements ActionListener {
 		int loc = getLocationInfo();
 		//check that all info has been input and is OK
 		if (levelIsSelected() && week != BAD_INFO && loc != BAD_INFO) {
+			//check if week does not already have a match scheduled
 			if (!matchList.checkWeekAllocation(week)) {
 				errorPane("Week " + week + " is already allocated.");
 				return; //if week is already taken, exit method
 			}
-			boolean senMatch = seniorButton.isSelected();
+			boolean senMatch = seniorButton.isSelected(); //check if match is senior or junior
+			//after all match info has been checked, get list of suitable refs
 			List<Referee> suitableRefs = refereeList.getSuitableRefs(loc, senMatch);
-			if (suitableRefs.size() < 2)
+			if (suitableRefs.size() < 2) //if not enough suitable refs found, display message
 				displayNoSuitableRefs();
-			else
+			else // else call method to allocate 2 most suitable refs to match
 				allocateTwoRefs(suitableRefs, week, loc, senMatch);
 			
 			displayAllocatedRefs(suitableRefs);
 			clearNameFields();
-			//TODO testing if we got the searchPanel refs....
-			for (Referee r : suitableRefs) {
-				System.out.println(r.getFName() + " " + r.getLName());
-			}
 		}
 	}
 
 	/**
-	 *
-	 * @param suitRefs
+	 * gets the two most suitable refs and passes them to a new match object constructor 
+	 * along with other match info
+	 * @param suitRefs the full list of suitable refs
 	 * @param weekNumber week number when the match is on
-	 * @param place
-	 * @param senior True if match requires senior coach
+	 * @param place the location of the match
+	 * @param senior True if match requires senior referee
 	 */
 	private void allocateTwoRefs(List<Referee> suitRefs, int weekNumber, int place, boolean senior) {
-		Referee ref1 = suitRefs.get(0);
-		Referee ref2 = suitRefs.get(1);
+		Referee ref1 = suitRefs.get(0); //most suitable ref
+		Referee ref2 = suitRefs.get(1); //second most suitable ref
 
 		//TODO now passing Ref's full name to Match constructor - but I still think we should be passing the whole object. maybe.
 		String ref1Name = ref1.getFName() + " " + ref1.getLName();
 		String ref2Name = ref2.getFName() + " " + ref2.getLName();
 		//TODO updateRows
+		//create new match
 		matchList.alternativeAddMatch(weekNumber, place, senior, ref1Name, ref2Name);
+		//increment the number of allocations of the 2 allocated refs
 		ref1.incrementAllocs();
 		ref2.incrementAllocs();
 	}
@@ -390,7 +377,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 	}
 
-
 	/**
 	 * Retrieves the location of the match and returns it as a constant value which is set down in the Referee class
 	 *
@@ -410,6 +396,10 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * checks if the match level has been selected
+	 * @return true if it has, false otherwise
+	 */
 	private boolean levelIsSelected() {
 		if (juniorButton.isSelected() || seniorButton.isSelected())
 			return true;
@@ -419,15 +409,44 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * clears the name text fields in the search area of the GUI
+	 */
 	private void clearNameFields() {
 		firstNameField.setText("");
 		lastNameField.setText("");
 	}
 
+	/**
+	 * clears the components for inputting match info
+	 */
 	private void clearAllocComponents() {
 		weekField.setText("");
 		locationGroup.clearSelection();
 		levelGroup.clearSelection();
+	}
+
+	/**
+	 * gets ref's names input into search textfields and checks if ref exists;
+	 * if so, opens LittleGUI to display info on searched ref
+	 */
+	private void processSearch() {
+		//get ref's first and last name from GUI
+		String firstName = firstNameField.getText().trim();
+		String lastName = lastNameField.getText().trim();
+
+		if(!firstName.equals("") && !lastName.equals("")) { //check if textfields were empty
+			Referee ref = refereeList.findRef(firstName, lastName); //search for ref
+			if (ref != null) //ref exists, show Little GUI
+				showLittleGui(LittleGUI.SEARCH, ref);
+			else { //ref doesn't exist, show error messge
+				errorPane("The referee " + firstName + " " + lastName + " " + "was not found in the database.");
+				clearNameFields();
+			}
+		} 
+		else {
+			errorPane("First Name and Last Name fields cannot be empty.");
+		}
 	}
 
 	/**
