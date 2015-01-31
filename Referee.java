@@ -2,62 +2,75 @@
 public class Referee implements Comparable<Referee> {
 	
 	private String refID, fName, lName, qualificationType;
-	
-	/* n.b. was going to have qualification as a boolean (e.g. would be true if qualification
-	 * above 1 and false otherwise). But since we're going to have to store the actual name of the
-	 * qualification to use in other parts of program (e.g. to print out the report at the end), better
-	 * to record the string itself. Then checkIfQualified() checks if the number in the qualification
-	 * is above 1 and returns true or false accordingly.
-	 */
-	private boolean allocated = false;
 	private int homeArea, qualificationLevel;
-	private static final int NUM_AREAS = 3;
-	//2 arrays here, one to hold the names of the different areas,
-	//one to hold the boolean values representing whether the ref will travel
-	//to the area. Used as parallel arrays.
-	//see getTravelInfo() below... Thoughts?
-	private static final String[] AREAS = {"North", "Central", "South"};
 	private boolean[] travelInfo;
 	private int numAllocations;
-
+	//boolean to keep track if ref has been allocated to a match within the program (to prevent deletion of ref if so)
+	private boolean allocated = false;
+	
+	private static final int NUM_AREAS = 3;
+	private static final String[] AREAS = {"North", "Central", "South"};
+	//int constants to represent each area
 	public static final int NORTH = 0;
 	public static final int CENTRAL = 1;
 	public static final int SOUTH = 2;
 
+	/**
+	 * Referee constructor - takes line read from input file, tokenises and sets
+	 * instance variables accordingly
+	 * @param refInfo the line read from the input file
+	 */
 	public Referee(String refInfo) {
 		String [] infoTokens = refInfo.split("[ ]+");
+		
 		refID = infoTokens[0];
 		fName = infoTokens[1];
 		lName = infoTokens[2];
+		
 		qualificationType = infoTokens[3].substring(0,3);
 		qualificationLevel = Integer.parseInt(infoTokens[3].substring(3));
+		
 		numAllocations = Integer.parseInt(infoTokens[4].trim());
+		
 		setHomeArea(infoTokens[5]);
+		
 		travelInfo = new boolean [NUM_AREAS];
 		setTravelInfo(infoTokens[6]);
 	}
 	
 	//mutator methods
 	
-	public void setNumAllocs(int numAloc) 
+	/**
+	 * Mutator method for number of match allocations
+	 * @param numAlloc the number of allocations
+	 */
+	public void setNumAllocs(int numAlloc) 
 	{
-		 numAllocations = numAloc;
+		 numAllocations = numAlloc;
 	}
 	
+	/**
+	 * mutator for qualification type
+	 * @param qual the type of qualification
+	 */
 	public void setQualificationType(String qual) {
 		qualificationType = qual;
 	}
 	
-	public void setAllocated(boolean allocated) {
-		this.allocated = allocated;
-	}
-	
-
+	/**
+	 * mutator for qualification level
+	 * @param level the level of the ref's qualification
+	 */
 	public void setQualificationLevel(int level)
 	{
 		qualificationLevel = level;
 	}
 
+	/**
+	 * mutator for the ref's home area. takes a string and sets homeArea as the corresponding
+	 * int constant
+	 * @param home the ref's home area as a string 
+	 */
 	public void setHomeArea(String home) {
 		if(home.equals("North"))
 			homeArea = NORTH;
@@ -67,76 +80,127 @@ public class Referee implements Comparable<Referee> {
 			homeArea = SOUTH;
 	}
 	
-	//should we have mutator methods for each area? i.e. north, central, south?
-	/* TODO we discussed passing a boolean array to this but this needs to take a string 
-	because that's what the file's going to give it.
-	Can have a separate method to set the travel info when editing/adding a ref from the GUI,
-	which could take a boolean array. Or this boolean array could just be passed to the alternative
-	constructor
-	*/ 
+	/**
+	 * mutator for ref's travel info. takes a string indicating travel preferences e.g. "YYN"
+	 * checks each character - if 'Y' sets corresponding position of travelInfo array to true
+	 * if 'N' sets to false
+	 * @param travelStr string indicating ref's travel preferences
+	 */ 
 	public void setTravelInfo(String travelStr) {
 		for(int i=0; i < travelInfo.length; i++)
 			travelInfo[i] = (travelStr.charAt(i) == 'Y');
 	}
 
+	/**
+	 * called whenever ref is allocated to a match
+	 * besides incrementing numAllocs, checks if ref has been allocated to a match yet; 
+	 * if not, sets allocated to true
+	 */
 	public void incrementAllocs() {
 		numAllocations++;
+		
+		if(!allocated) 
+			allocated = true;
 	}
 	
 	//accessor methods
 	
-	/*
-	 * this takes an area as a parameter and loops through the array of areas 
-	 * (north, central, south) to find a match with that parameter. 
-	 * Then it returns the corresponding boolean value from the parallel travelInfo array.
+	/**
+	 * gets info on whether ref will travel to a certain area. takes in the area as an integer
+	 * and returns the boolean value of the travelInfo array at that position of the array
+	 * @param area the area as an integer constant
+	 * @return true if ref is willing to travel to the area, false if not
 	 */
 	public boolean getTravelInfo(int area) {
 		return travelInfo[area];
 	}
 	
+	/**
+	 * accessor for refId
+	 * @return the refID
+	 */
 	public String getRefID() {
 		return refID;
 	}
 	
+	/**
+	 * accessor for ref's first name
+	 * @return the ref's first name
+	 */
 	public String getFName() {
 		return fName;
 	}
 	
+	/**
+	 * accessor the ref's last name
+	 * @return the ref's last name
+	 */
 	public String getLName() {
 		return lName;
 	}
 	
+	/**
+	 * accessor for the ref's qualification type
+	 * @return the the ref's qualification type
+	 */
 	public String getQualificationType(){
 		return qualificationType;
 	}
 	
+	/**
+	 * accessor for the ref's qualification level
+	 * @return the ref's qualification level
+	 */
 	public int getQualificationLevel()
 	{
 		return qualificationLevel;
 	}
 	
+	/**
+	 * checks if the ref is qualified for senior matches
+	 * @return true if ref is qualified, false if not
+	 */
 	public boolean checkIfQualified() {
+		//ref is qualified if qualificationLevel is greater than 1
 		return (qualificationLevel > 1);
 	}
 	
+	/**
+	 * accessor for number of allocations
+	 * @return the ref's number of allocations
+	 */
 	public int getNumAllocs() {
 		return numAllocations;
 	}
 	
+	/**
+	 * accessor for the ref's home area as an int
+	 * @return the ref's home area as an int
+	 */
 	public int getHomeArea() {
 		return homeArea;
 	}
 
+	/**
+	 * accessor for the ref's home area as a string
+	 * @return the ref's home area as a string
+	 */
 	public String getHomeString() {
 		return AREAS[homeArea];
 	}
 	
+	/**
+	 * checks if the ref has been allocated to a match in Hibernia
+	 * @return true if they have, false if not
+	 */
 	public boolean isAllocated() {
 		return allocated;
 	}
-	/*
-	 *since we are inserting new refs directly into the right position into the list, we never
-	 *have to sort on ID. Therefore we can use compareTo to sort on number of allocations.
+	/**
+	 * compareTo method to be used in getSuitableRefs() in RefList.
+	 * compares Referee objects based on number of allocations
+	 * @param other the referee to be compared
+	 * @return the result of the comparison
 	 */
 	public int compareTo(Referee other) {
 		int thisAllocs = this.getNumAllocs();
@@ -148,6 +212,5 @@ public class Referee implements Comparable<Referee> {
 		else
 			return 0;
 	}
-	
 	
 }

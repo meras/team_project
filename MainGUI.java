@@ -334,9 +334,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		//TODO updateRows
 		matchList.alternativeAddMatch(weekNumber, place, senior, ref1Name, ref2Name);
 		ref1.incrementAllocs();
-		ref1.setAllocated(true);
 		ref2.incrementAllocs();
-		ref1.setAllocated(true);
 	}
 
 	/**
