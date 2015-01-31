@@ -40,7 +40,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 	private RefList refList;
 	private MainGUI mainGUI;
 	private Enumeration<AbstractButton> homeRadios;
-	
+
 
 	private JPanel bottom;
 
@@ -65,7 +65,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 		refList = refereeList;
 		referee = ref;
 		mainGUI = refGUI;
-		
+
 
 		if (referee != null) {
 			fNameField.setText(referee.getFName());
@@ -74,7 +74,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 			matchField.setText("" + referee.getNumAllocs());     
 			qualificationTypeCombo.setSelectedItem(referee.getQualificationType());
 			qualificationsCombo.setSelectedItem(String.valueOf(referee.getQualificationLevel()));   
-			
+
 			if (referee.getHomeArea() == 0)
 				northRadio.setSelected(true);
 			else if (referee.getHomeArea() == 1)
@@ -283,6 +283,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 				{
 					setFields();
 					mainGUI.updateTable();
+					dispose();
 					JOptionPane.showMessageDialog(this, "The referee details have been updated.",
 							"Success", JOptionPane.INFORMATION_MESSAGE);
 				}		
@@ -294,10 +295,10 @@ public class LittleGUI extends JFrame implements ActionListener {
 				if (validateFields())
 				{
 					if (refList.findRef(fNameField.getText(), lNameField.getText()) != null)
-							{
+					{
 						JOptionPane.showMessageDialog(this, "Adding referee failed. The referee already exists in the database.",
 								"Error", JOptionPane.ERROR_MESSAGE);	
-							}
+					}
 					else if (!refList.checkForSpace())
 					{
 						JOptionPane.showMessageDialog(this, "Adding referee failed. There can't be more than 12 referees in the database.",
@@ -305,14 +306,12 @@ public class LittleGUI extends JFrame implements ActionListener {
 					}
 					else
 					{
-						
-					
-					refList.addRefFromGui(fNameField.getText(), lNameField.getText(), (String)qualificationTypeCombo.getSelectedItem() + Integer.parseInt((String)(qualificationsCombo.getSelectedItem())),  
-							Integer.parseInt(matchField.getText()) , getHomeArea(), getTravelInfo()); 
-					
-					mainGUI.updateTable();
-					JOptionPane.showMessageDialog(this, "The referee has been added to the database.",
-							"Success", JOptionPane.INFORMATION_MESSAGE);
+						refList.addRefFromGui(fNameField.getText(), lNameField.getText(), (String)qualificationTypeCombo.getSelectedItem() + Integer.parseInt((String)(qualificationsCombo.getSelectedItem())),  
+								Integer.parseInt(matchField.getText()) , getHomeArea(), getTravelInfo()); 
+
+						mainGUI.updateTable();
+						JOptionPane.showMessageDialog(this, "The referee has been added to the database.",
+								"Success", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}	
@@ -330,11 +329,13 @@ public class LittleGUI extends JFrame implements ActionListener {
 				if (deleted)
 				{
 					mainGUI.updateTable();
+					dispose();
 					JOptionPane.showMessageDialog(this, "The referee has been deleted from the database.",
-							"Success", JOptionPane.INFORMATION_MESSAGE);
+							"Success", JOptionPane.INFORMATION_MESSAGE);		
 				}
 				else
-					JOptionPane.showMessageDialog(this, "The referee does no longer exist in the database.",
+					dispose();
+					JOptionPane.showMessageDialog(this, "There was a problem deleting the referee. Please check if the referee still exists in the dabase.",
 							"Error", JOptionPane.ERROR_MESSAGE);		
 			}
 		}
@@ -473,8 +474,8 @@ public class LittleGUI extends JFrame implements ActionListener {
 			return true;
 		if (southRadio.isSelected()&&southCheck.getState())
 			return true;
-		
+
 		return false;
-		
+
 	}
 }

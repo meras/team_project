@@ -96,8 +96,6 @@ public class RefList implements Iterable<Referee> {
 			return false;
 	}
 
-
-
 	/**
 	 *
 	 * I liked Kalin's idea to just have a method to return a ref from search instead of an index.
@@ -179,8 +177,6 @@ public class RefList implements Iterable<Referee> {
 		}
 		return suitableRefs;
 	}
-
-
 	/**
 	 * Returns an iterator over elements of type Referee.
 	 *
@@ -189,33 +185,4 @@ public class RefList implements Iterable<Referee> {
 	public Iterator<Referee> iterator() {
 		return refList.iterator();
 	}
-
-	/*
-	public Referee getRefAtIndex(int index) {
-		return refList.get(index);
-	}
-
-	public void deleteRef(int index) {
-		refList.remove(index);
-	}
-
-	public int findFromName(String first, String last) {
-		Referee ref = null;
-		boolean found = false;
-		int refIndex = 0;
-
-		while(!found && refIndex < refList.size()) {
-			ref = refList.get(refIndex);
-			if(ref.getFName().equals(first) && ref.getLName().equals(last))
-				found = true;
-			else
-				refIndex++;
-		}
-
-		if(!found)
-			return REF_NOT_FOUND;
-		else
-			return refIndex;
-	}
-	 */
 }
