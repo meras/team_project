@@ -78,7 +78,7 @@ public class RefList implements Iterable<Referee> {
 	 */
 	private String createId(String first, String last) {
 		//get letter part of ID from initials
-		String letterPart = "" + first.charAt(0) + last.charAt(0);
+		String letterPart = ("" + first.charAt(0) + last.charAt(0)).toUpperCase();
 		int numPart = 1; // set number part to 1 initially
 
 		for(int i = 0; i < refList.size(); i++) { //loop through refList
@@ -88,7 +88,7 @@ public class RefList implements Iterable<Referee> {
 				numPart++; //if matching initials found, increment the number part of ID
 		}
 		//concatenate the letter part and number part
-		String newRefId = letterPart.toUpperCase() + numPart;
+		String newRefId = letterPart + numPart;
 		return newRefId;
 	}
 
