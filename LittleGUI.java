@@ -320,96 +320,34 @@ public class LittleGUI extends JFrame implements ActionListener
 	 */
 	public void actionPerformed(ActionEvent e) 
 	{
-
 		//Edit button is pressed
 		if (e.getSource() == editButton) 
 		{
 			showEdit();
 		}
-
 		//Save Button is pressed
 		if (e.getSource() == saveAddButton)
 		{
 			if (saveAddButton.getText().equals("Save"))
 			{
-				if (validateFields())
-				{
-					setFields();
-					mainGUI.updateTable();
-					dispose();
-					JOptionPane.showMessageDialog(this, "The referee details have been updated.",
-							"Success", JOptionPane.INFORMATION_MESSAGE);
-				}		
+				processSave();
 			}
-
 			//Add button is pressed
 			else
 			{
-				if (validateFields())
-				{
-					//If the referee with the same names has already been added to the database return an error
-					if (refList.findRef(fNameField.getText(), lNameField.getText()) != null)
-					{
-						JOptionPane.showMessageDialog(this, "Adding referee failed. The referee already exists in the database.",
-								"Error", JOptionPane.ERROR_MESSAGE);	
-					}
-					/**
-					 * If the {@link RefList} has already have 12 referees added return an error
-					 */
-					else if (!refList.checkForSpace())
-					{
-						JOptionPane.showMessageDialog(this, "Adding referee failed. There can't be more than 12 referees in the database.",
-								"Error", JOptionPane.ERROR_MESSAGE);
-					}
-					/**
-					 * if all checks have been passed add a new referee to {@link RefList}, update the MainGUI and display a message to feedback sucess
-					 */
-					else
-					{
-						refList.addRefFromGui(fNameField.getText(), lNameField.getText(), (String)qualificationTypeCombo.getSelectedItem() + Integer.parseInt((String)(qualificationsCombo.getSelectedItem())),  
-								Integer.parseInt(matchField.getText()) , getHomeArea(), getTravelInfo()); 
-
-						mainGUI.updateTable();
-						clearFields();
-						JOptionPane.showMessageDialog(this, "The referee has been added to the database.",
-								"Success", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
+				processAdd();
 			}	
 		}
-
 		//Delete button is pressed
 		if (e.getSource() == deleteButton)
 		{
-			//Display a prompt to the user to confirm that they want to delete the referee
-			int dialogResult = JOptionPane.showConfirmDialog (this, "Would you like to delete this referee?","Warning", JOptionPane.YES_NO_OPTION);
-
-			//if yes call a method from RefList to delete the referee if the deletion was unsuccessful, return an error
-			if (dialogResult == JOptionPane.YES_OPTION)
-			{
-
-				boolean deleted = false;
-				deleted = refList.deleteRef(referee.getFName(), referee.getLName());
-				if (deleted)
-				{
-					mainGUI.updateTable();
-					dispose();
-					JOptionPane.showMessageDialog(this, "The referee has been deleted from the database.",
-							"Success", JOptionPane.INFORMATION_MESSAGE);		
-				}
-				else
-					dispose();
-				JOptionPane.showMessageDialog(this, "There was a problem deleting the referee. Please check if the referee still exists in the database.",
-						"Error", JOptionPane.ERROR_MESSAGE);		
-			}
+			processDelete();
 		}
-
 		//Exit button is pressed
 		if (e.getSource() == exitButton)
 		{
 			dispose(); 
 		}
-		
 		//Clear button is pressed
 		if (e.getSource() == clearButton)
 		{
@@ -417,6 +355,75 @@ public class LittleGUI extends JFrame implements ActionListener
 		}
 	}
 
+
+	private void processSave() {
+		if (validateFields())
+		{
+			setFields();
+			mainGUI.updateTable();
+			dispose();
+			JOptionPane.showMessageDialog(this, "The referee details have been updated.",
+					"Success", JOptionPane.INFORMATION_MESSAGE);
+		}	
+	}
+
+	private void processAdd() {
+		if (validateFields())
+		{
+			//If the referee with the same names has already been added to the database return an error
+			if (refList.findRef(fNameField.getText(), lNameField.getText()) != null)
+			{
+				JOptionPane.showMessageDialog(this, "Adding referee failed. The referee already exists in the database.",
+						"Error", JOptionPane.ERROR_MESSAGE);	
+			}
+			/**
+			* If the {@link RefList} has already have 12 referees added return an error
+			*/
+			else if (!refList.checkForSpace())
+			{
+			JOptionPane.showMessageDialog(this, "Adding referee failed. There can't be more than 12 referees in the database.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			}
+			/**
+			* if all checks have been passed add a new referee to {@link RefList}, update the MainGUI and display a message to feedback sucess
+			*/
+			else
+			{
+				refList.addRefFromGui(fNameField.getText(), lNameField.getText(), (String)qualificationTypeCombo.getSelectedItem() + Integer.parseInt((String)(qualificationsCombo.getSelectedItem())),  
+				Integer.parseInt(matchField.getText()) , getHomeArea(), getTravelInfo()); 
+
+				mainGUI.updateTable();
+				clearFields();
+				JOptionPane.showMessageDialog(this, "The referee has been added to the database.",
+						"Success", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+	}
+
+	private void processDelete() {
+		//Display a prompt to the user to confirm that they want to delete the referee
+		int dialogResult = JOptionPane.showConfirmDialog (this, "Would you like to delete this referee?","Warning", JOptionPane.YES_NO_OPTION);
+
+		//if yes call a method from RefList to delete the referee if the deletion was unsuccessful, return an error
+		if (dialogResult == JOptionPane.YES_OPTION)
+		{
+			boolean deleted = false;
+			deleted = refList.deleteRef(referee.getFName(), referee.getLName());
+			if (deleted)
+			{
+				mainGUI.updateTable();
+				dispose();
+				JOptionPane.showMessageDialog(this, "The referee has been deleted from the database.",
+						"Success", JOptionPane.INFORMATION_MESSAGE);		
+			}
+			else 
+			{ 
+				dispose();
+				JOptionPane.showMessageDialog(this, "There was a problem deleting the referee. Please check if the referee still exists in the database.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			}		
+		}
+	}
 
 	/**
 	 * A method which sets all the instance variables in referee based on the current inputs in the JComponents of LittleGUI
@@ -429,6 +436,7 @@ public class LittleGUI extends JFrame implements ActionListener
 		referee.setHomeArea(getHomeArea());	
 		referee.setTravelInfo(getTravelInfo());		
 	}
+
 
 	
 	/**
@@ -461,7 +469,6 @@ public class LittleGUI extends JFrame implements ActionListener
 			Integer.parseInt(matchField.getText()); 		
 		}
 
-		
 		catch (NumberFormatException nfe)
 		{
 			JOptionPane.showMessageDialog(this, "Please enter an integer number for the number of matches.",
