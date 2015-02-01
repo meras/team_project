@@ -355,7 +355,10 @@ public class LittleGUI extends JFrame implements ActionListener
 		}
 	}
 
-
+/**
+ * A method which processes the editing of the details of a referee based on the input from LittleGUI.
+ */
+	
 	private void processSave() {
 		if (validateFields())
 		{
@@ -366,6 +369,10 @@ public class LittleGUI extends JFrame implements ActionListener
 					"Success", JOptionPane.INFORMATION_MESSAGE);
 		}	
 	}
+	
+	/**
+	 * A method which processes the addition of a new referee to RefList based on the input from LittleGUI. THe ID is calculated automatically in RefList.
+	 */
 
 	private void processAdd() {
 		if (validateFields())
@@ -400,6 +407,9 @@ public class LittleGUI extends JFrame implements ActionListener
 		}
 	}
 
+	/**
+	 * A method which processes the deletion of a referee from the reflist based on the input (first and last name) from the user from LittleGUI
+	 */
 	private void processDelete() {
 		//Display a prompt to the user to confirm that they want to delete the referee
 		int dialogResult = JOptionPane.showConfirmDialog (this, "Would you like to delete this referee?","Warning", JOptionPane.YES_NO_OPTION);
