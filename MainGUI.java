@@ -14,7 +14,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	//used in getWeekInfo() below
 	private final int BAD_INFO = -1;
 	private final Object[] columnNames = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"};
-	private JPanel grid, top, allocRefsPanel, searchPanel, center, bottom, weekPanel, locationPanel, levelPanel,
+	private JPanel grid, top, allocRefsPanel, searchPanel, bottom, weekPanel, locationPanel, levelPanel,
 			allocatePanel, firstPanel, lastPanel, searchButtonPanel; // panels which are used to house the components, internal panels aid in layout
 	private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
 	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
@@ -158,16 +158,9 @@ public class MainGUI extends JFrame implements ActionListener {
 		centerText.setEditable(false);
 		textScroll = new JScrollPane(centerText);
 
-		// The center panel which contains the table or text field
-		center = new JPanel();
-		//center.add(tableScroll);
-		//center.add(textScroll);
-
-		/** tab experiment*/
-
+		// add the table and text area to the CardLayout handler
 		tabbedPane.addTab("Table", tableScroll);
 		tabbedPane.addTab("TextArea", textScroll);
-		/** end of tab experiment*/
 
 		// Create the grid GUI which will contain the main sections and the table
 		grid = new JPanel(new GridLayout(2,1));
