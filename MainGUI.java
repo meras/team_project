@@ -19,7 +19,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
 	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
 	private JTextArea centerText;
-	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton, viewRefsButton;   // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
+	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton;   // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
 	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
 	private JTable centerTable;     // the JTable which displays the information about the referees
