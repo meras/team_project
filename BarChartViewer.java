@@ -22,7 +22,7 @@ public class BarChartViewer extends JFrame {
         add(chart);
 
         int width = refereeList.getRefereeCount() * (chart.barWidth + chart.barGap) + (chart.barMargin * 2) - chart.barGap;
-        setSize(width, 300);
+        setSize(width, 310);
         setLocationRelativeTo(null);
         setVisible(true);
     }

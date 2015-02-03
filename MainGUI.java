@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Vector;
 //TODO import .list specifically because otherwise compiler doesn't know if we're using util.List or awt.List
 
 /**
