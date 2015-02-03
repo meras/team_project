@@ -26,6 +26,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	private JScrollPane tableScroll, textScroll;   // the scrollpane object which houses the JTable component
 	private final RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
 	private final MatchList matchList;    // a MatchList object which contains all the matches that have been entered
+	private final JTabbedPane tabbedPane = new JTabbedPane();
 
 	/**
 	 * Constructs the main GUI window and creates the MatchList and RefList objects
@@ -151,34 +152,33 @@ public class MainGUI extends JFrame implements ActionListener {
 		setCenterTable();
 		tableScroll = new JScrollPane(centerTable);
 		centerTable.setFillsViewportHeight(true);
-		tableScroll.setVisible(true);
 
 		// Create the text field which can be used to display information about the allocated referees
 		centerText = new JTextArea(30, 41);
 		centerText.setEditable(false);
 		textScroll = new JScrollPane(centerText);
-		textScroll.setVisible(false);
 
 		// The center panel which contains the table or text field
 		center = new JPanel();
-		center.add(tableScroll);
-		center.add(textScroll);
+		//center.add(tableScroll);
+		//center.add(textScroll);
+
+		/** tab experiment*/
+
+		tabbedPane.addTab("Table", tableScroll);
+		tabbedPane.addTab("TextArea", textScroll);
+		/** end of tab experiment*/
 
 		// Create the grid GUI which will contain the main sections and the table
 		grid = new JPanel(new GridLayout(2,1));
 		grid.add(top);
-		grid.add(center);
+		//grid.add(center);
+		grid.add(tabbedPane);
 		this.add(grid, BorderLayout.CENTER);
 
 		// Create bottom JPanel
 		bottom = new JPanel();
 		this.add(bottom, BorderLayout.SOUTH);
-
-		// Create button to return to table view of referees after a ref has been allocated
-		viewRefsButton = new JButton("View all referees");
-		viewRefsButton.addActionListener(this);
-		viewRefsButton.setVisible(false);
-		bottom.add(viewRefsButton);
 
 		//Create button for bar chart and add to internal JPanel
 		barChartButton = new JButton("View allocations");
@@ -247,11 +247,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == searchRefButton) {
 			processSearch();
-		}
-		if (e.getSource() == viewRefsButton) {
-			tableScroll.setVisible(true);
-			textScroll.setVisible(false);
-			viewRefsButton.setVisible(false);
 		}
 	}
 
@@ -330,9 +325,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	 */
 	private void displayNoSuitableRefs()
 	{
-		tableScroll.setVisible(false);
-		viewRefsButton.setVisible(true);
-		textScroll.setVisible(true);
+		tabbedPane.setSelectedIndex(1);
 		centerText.setText("Not enough suitable refs found");
 	}
 
@@ -343,9 +336,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	 */
 	private void displayAllocatedRefs(List<Referee> suitable)
 	{
-		tableScroll.setVisible(false);
-		viewRefsButton.setVisible(true);
-		textScroll.setVisible(true);
+		tabbedPane.setSelectedIndex(1);
 
 		String allocated = "The referees allocated to the match are \n"+suitable.get(0).getFName()+" "+suitable.get(0).getLName()+" and "+suitable.get(1).getFName()+" "+suitable.get(1).getLName()
 				+"\n\nThe referees which are suitable for the match are: \n";
