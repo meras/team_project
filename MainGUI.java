@@ -38,7 +38,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	private JPanel centerLayout, topSections, allocRefsPanel, searchPanel, bottomButtons, weekPanel, locationPanel, levelPanel,
 			allocateButtonPanel, firstNamePanel, lastNamePanel, searchButtonPanel; // panels which are used to house the components, internal panels are used to aid in layout
 	private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
-	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton;   // the buttons which allow the user to allocate a ref, see the bar chart and add/view a ref
+	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton, saveExitButton;  // the buttons which allow the user to allocate a ref, see the bar chart, add/view a ref and save and exit
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
 	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
 	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
@@ -204,6 +204,11 @@ public class MainGUI extends JFrame implements ActionListener {
 		addRefButton = new JButton("Add referee");
 		addRefButton.addActionListener(this);
 		bottomButtons.add(addRefButton);
+		
+		//Create button for saving and exiting
+		saveExitButton = new JButton("Save and Exit");
+		saveExitButton.addActionListener(this);
+		bottomButtons.add(saveExitButton);
 	}
 
 	/**

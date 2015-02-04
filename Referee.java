@@ -115,6 +115,17 @@ public class Referee implements Comparable<Referee> {
 		return travelInfo[area];
 	}
 	
+	private String getTravelString() {
+		String travelString = "";
+		for(int i=0; i<travelInfo.length; i++) {
+			if(travelInfo[i])
+				travelString += "Y";
+			else
+				travelString += "N";
+		}
+		return travelString;
+	}
+	
 	/**
 	 * accessor for refId
 	 * @return the refID
@@ -196,6 +207,17 @@ public class Referee implements Comparable<Referee> {
 	public boolean isAllocated() {
 		return allocated;
 	}
+	
+	public String getRefsOutLine() {
+		String home = getHomeString();
+		String travel = getTravelString();
+		
+		String refLine = String.format("%s %s %s %s%d %d %s %s", refID, fname, lname, qualificationType, qualificationLevel,
+				home, travel);
+		
+		return refLine;
+	}
+	
 	/**
 	 * compareTo method to be used in getSuitableRefs() in RefList.
 	 * compares Referee objects based on number of allocations

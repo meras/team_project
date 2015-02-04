@@ -66,7 +66,6 @@ public class LittleGUI extends JFrame implements ActionListener
 	 * @param refereeList
 	 * @param refGUI
 	 */
-
 	public LittleGUI(int mode, Referee ref, RefList refereeList, MainGUI refGUI) 
 	{
 		//assign the instance variables the values passed from MainGUI
@@ -206,13 +205,11 @@ public class LittleGUI extends JFrame implements ActionListener
 		center.add(home);
 		center.add(preferrence);
 		add(center, BorderLayout.CENTER);
-
 	}
 
 	/**
 	 * A method which lays down all the components from the bottom JPanel.
 	 */
-
 	private void layoutBottom() 
 	{
 		bottom = new JPanel();
@@ -248,7 +245,6 @@ public class LittleGUI extends JFrame implements ActionListener
 		for (Component c : bottom.getComponents()) {
 			c.setVisible(false);
 		}
-		
 	}
 
 	/**
@@ -287,9 +283,7 @@ public class LittleGUI extends JFrame implements ActionListener
 		}
 		northCheck.setEnabled(false);
 		centralCheck.setEnabled(false);
-		southCheck.setEnabled(false);
-
-		
+		southCheck.setEnabled(false);	
 	}
 
 	/**
@@ -311,8 +305,6 @@ public class LittleGUI extends JFrame implements ActionListener
 		northCheck.setEnabled(true);
 		centralCheck.setEnabled(true);
 		southCheck.setEnabled(true);
-
-
 	}
 
 	/**
@@ -355,10 +347,9 @@ public class LittleGUI extends JFrame implements ActionListener
 		}
 	}
 
-/**
- * A method which processes the editing of the details of a referee based on the input from LittleGUI.
- */
-	
+	/**
+	 * A method which processes the editing of the details of a referee based on the input from LittleGUI.
+	 */
 	private void processSave() {
 		if (validateFields())
 		{
@@ -373,7 +364,6 @@ public class LittleGUI extends JFrame implements ActionListener
 	/**
 	 * A method which processes the addition of a new referee to RefList based on the input from LittleGUI. THe ID is calculated automatically in RefList.
 	 */
-
 	private void processAdd() {
 		if (validateFields())
 		{
@@ -446,8 +436,6 @@ public class LittleGUI extends JFrame implements ActionListener
 		referee.setHomeArea(getHomeArea());	
 		referee.setTravelInfo(getTravelInfo());		
 	}
-
-
 	
 	/**
 	 * A method which validates the input from the JComponents of LittleGUI and returns an error if there is any discrepancy
@@ -456,7 +444,6 @@ public class LittleGUI extends JFrame implements ActionListener
 	 */
 	private boolean validateFields()
 	{	
-
 		//Checks if either of the name fields are empty strings 
 		if (fNameField.getText().equals("") || lNameField.getText().equals(""))
 		{
@@ -468,7 +455,7 @@ public class LittleGUI extends JFrame implements ActionListener
 		//Checks that the name of referee contains only letters 
 		if (!(containsLetters(fNameField.getText()) || !(containsLetters(lNameField.getText()))))
 		{		
-			JOptionPane.showMessageDialog(this, "The referee names could only contain letters.",
+			JOptionPane.showMessageDialog(this, "The referee names should only contain letters.",
 					"Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
@@ -545,10 +532,11 @@ public class LittleGUI extends JFrame implements ActionListener
 		}
 		return true;
 	}
-/**
- * A method which checks the current states of the Home Area Radio buttons in LittleGUI and returns a string suitable to be passed to {@link RefList}
- * @return
- */
+	
+	/**
+	 * A method which checks the current states of the Home Area Radio buttons in LittleGUI and returns a string suitable to be passed to {@link RefList}
+	 * @return
+	 */
 	private String getHomeArea()
 	{
 		if (northRadio.isSelected())
@@ -560,7 +548,6 @@ public class LittleGUI extends JFrame implements ActionListener
 		else
 			return "";
 	}
-
 	
 	/**
 	 * A method which checks the current states of the Preference check buttons in LittleGUI and returns a string suitable to be passed to {@link RefList}
@@ -592,11 +579,11 @@ public class LittleGUI extends JFrame implements ActionListener
 	 */
 	private boolean checkHomePreference()
 	{
-		if (northRadio.isSelected()&&northCheck.getState())
+		if (northRadio.isSelected() && northCheck.getState())
 			return true;
-		if (centralRadio.isSelected()&&centralCheck.getState())
+		if (centralRadio.isSelected() && centralCheck.getState())
 			return true;
-		if (southRadio.isSelected()&&southCheck.getState())
+		if (southRadio.isSelected() && southCheck.getState())
 			return true;
 
 		return false;

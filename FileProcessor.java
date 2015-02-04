@@ -32,7 +32,7 @@ public class FileProcessor {
     /**
      *
      */
-    public static void saveAndClose(String matchAllocsFile) {
+    public static void saveAndClose(String matchAllocsFile, MatchList mL, String refsOutFile, RefList refs) {
 
         MatchList matchList = new MatchList();
 
