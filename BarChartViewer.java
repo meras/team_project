@@ -21,7 +21,7 @@ public class BarChartViewer extends JFrame {
         BarChart chart = new BarChart(refereeList);
         add(chart);
 
-        int width = refereeList.getRefereeCount() * (chart.barWidth + chart.barGap) + (chart.barMargin * 2) - chart.barGap;
+        int width = refereeList.getRefereeCount() * (chart.BAR_WIDTH + chart.BAR_GAP) + (chart.BAR_MARGIN * 2) - chart.BAR_GAP;
         setSize(width, 310);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -31,12 +31,12 @@ public class BarChartViewer extends JFrame {
      * The component that draws the bar chart
      */
     public class BarChart extends JComponent {
-        private final int CHART_HEIGHT = 220;
-        private final int barWidth = 30;
-        private final int barGap = 5;
-        private final int barMargin = 20;
-        private final RefList refereeList;
-        private int maxValue;
+        private final int CHART_HEIGHT = 220;   // The height of the chart area
+        private final int BAR_WIDTH = 30;   // The width of each bar
+        private final int BAR_GAP = 5;  // The width of the gap between the bars
+        private final int BAR_MARGIN = 20;  // TODO What is this number? What is its purpose?
+        private static RefList refereeList; // The list of the referee whose informatoin will be displayed
+        private int maxValue;   // The highest number of referee allocations
 
         /**
          * Draws a bar chart using allocation numbers
@@ -53,17 +53,20 @@ public class BarChartViewer extends JFrame {
             }
         }
 
+        /**
+        * TODO not sure what this does or what to say about it
+        */
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
 
-            //scale the chart
+            //scale the chart depending on the highest number of match allocations
             int unit = Math.round((float) CHART_HEIGHT / maxValue);
 
             //draw the grey unit lines
             drawAxis(g2, unit);
 
             //initial x coordinate to start drawing bars
-            int barX = barMargin;
+            int barX = BAR_MARGIN;
             for (Referee ref : refereeList) {
                 String id = ref.getRefID();
                 int allocNum = ref.getNumAllocs();
@@ -71,8 +74,8 @@ public class BarChartViewer extends JFrame {
                 //calculate bar height relative to the chart area
                 int barHeight = unit * allocNum;
 
-                drawBar(g2, allocNum, barX, CHART_HEIGHT + 30 - barHeight, barWidth, barHeight, id);
-                barX += barWidth + barGap;
+                drawBar(g2, allocNum, barX, CHART_HEIGHT + 30 - barHeight, BAR_WIDTH, barHeight, id);
+                barX += BAR_WIDTH + BAR_GAP;
             }
         }
 
@@ -82,15 +85,15 @@ public class BarChartViewer extends JFrame {
          * @param heading   displays number of allocations above the bar
          * @param x         the x coordinate
          * @param y         the y coordinate
-         * @param barWidth
-         * @param barHeight
+         * @param BAR_WIDTH the width of the bar which is fixed
+         * @param barHeight the height of the bar which depends on the number of allocations
          * @param id        Referee ID to displayed below the bar
          */
-        private void drawBar(Graphics2D g, int heading, int x, int y, int barWidth, int barHeight, String id) {
+        private void drawBar(Graphics2D g, int heading, int x, int y, int BAR_WIDTH, int barHeight, String id) {
             g.setColor(Color.MAGENTA);
-            g.fillRect(x, y, barWidth, barHeight);
+            g.fillRect(x, y, BAR_WIDTH, barHeight);
             g.setColor(Color.BLACK);
-            g.draw(new Rectangle(x, y, barWidth, barHeight));
+            g.draw(new Rectangle(x, y, BAR_WIDTH, barHeight));
             g.drawString("" + heading, x + 5, y - 5);
             g.drawString(id, x, y + barHeight + 15);
         }
@@ -106,8 +109,8 @@ public class BarChartViewer extends JFrame {
 
             g.setColor(Color.LIGHT_GRAY);
             for (int i = 0; i <= maxValue; i++) {
-                int x1 = barMargin / 2;
-                int x2 = refereeList.getRefereeCount() * (barWidth + barGap) + barGap + barMargin;
+                int x1 = BAR_MARGIN / 2;
+                int x2 = refereeList.getRefereeCount() * (BAR_WIDTH + BAR_GAP) + BAR_GAP + BAR_MARGIN;
                 g.drawLine(x1, y, x2, y);
                 y -= unit;
             }
