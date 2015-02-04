@@ -153,7 +153,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		centerTable.setFillsViewportHeight(true);
 
 		// Create the text field which can be used to display information about the allocated referees
-		centerText = new JTextArea(30, 41);
+		centerText = new JTextArea();
 		centerText.setEditable(false);
 		textScroll = new JScrollPane(centerText);
 
