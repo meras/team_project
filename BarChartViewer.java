@@ -30,7 +30,7 @@ public class BarChartViewer extends JFrame {
     /**
      * The component that draws the bar chart
      */
-    public class BarChart extends JComponent {
+    private class BarChart extends JComponent {
         private final int CHART_HEIGHT = 220;   // The height of the chart area
         private final int BAR_WIDTH = 30;   // The width of each bar
         private final int BAR_GAP = 5;  // The width of the gap between the bars
