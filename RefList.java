@@ -122,11 +122,15 @@ public class RefList implements Iterable<Referee> {
 		Referee ref = null;
 		boolean found = false;
 		int refIndex = 0;
+		String firstToSearch = first.toLowerCase();
+		String lastToSearch = last.toLowerCase();		
 
 		while(!found && refIndex < refList.size()) { //loop through refList
 			ref = refList.get(refIndex);
+			String otherFirst = ref.getFName().toLowerCase();
+			String otherLast = ref.getLName().toLowerCase();
 			//compare name to name of ref at position i
-			if(ref.getFName().equals(first) && ref.getLName().equals(last))
+			if(otherFirst.equals(firstToSearch) && otherLast.equals(lastToSearch))
 				found = true; //if found, exit loop
 			else
 				refIndex++; //if not found check against next ref
