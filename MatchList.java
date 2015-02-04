@@ -51,6 +51,18 @@ public class MatchList implements Iterable<Match> {
         }
         return null;
     }
+	
+	public String getMatchesOutText() {
+		StringBuilder matchesOutBuilder = new StringBuilder();
+		
+		for(Match match : matchList) {
+			String matchLine = match.getMatchLine();
+			matchesOutBuilder.append(matchLine);
+		}
+		
+		String matchesOutText = matchesOutBuilder.toString();
+		return matchesOutText;
+	}
 
     /**
      * Returns an iterator over elements of type Match.

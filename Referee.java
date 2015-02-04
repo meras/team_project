@@ -208,11 +208,11 @@ public class Referee implements Comparable<Referee> {
 		return allocated;
 	}
 	
-	public String getRefsOutLine() {
+	public String getRefLine() {
 		String home = getHomeString();
 		String travel = getTravelString();
 		
-		String refLine = String.format("%s %s %s %s%d %d %s %s", refID, fname, lname, qualificationType, qualificationLevel,
+		String refLine = String.format("%s %s %s %s%d %s %s %n", refID, fName, lName, qualificationType, qualificationLevel,
 				home, travel);
 		
 		return refLine;

@@ -27,7 +27,7 @@ public class FileProcessor {
                 referees.addRefFromFile(in.nextLine());
             }
         } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog("Could not find the " + refereesInFile + " file.", errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+        //    JOptionPane.showMessageDialog("Could not find the " + refereesInFile + " file.", "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             if (in != null) {
                 in.close();
@@ -39,33 +39,42 @@ public class FileProcessor {
      * Prints the information about the referees and the matchs
      * @param matchAllocsFile   the name of the file which is to be created
      */
-    public static void saveAndClose(String matchAllocsFile, MatchList mL, String refsOutFile, RefList refs) {
+    public static void saveAndClose(String matchAllocsFile, MatchList matches, String refsOutFile, RefList refs) {
 
         MatchList matchList = new MatchList();
 
-        PrintWriter out = null;
+        PrintWriter matchesOut = null;
+		PrintWriter refsOut = null;
 
         try {
-            out = new PrintWriter(matchAllocsFile);
+            matchesOut = new PrintWriter(matchAllocsFile);
+			refsOut = new PrintWriter(refsOutFile);
 
-            StringBuilder matchAllocsOut = new StringBuilder();
+            //StringBuilder matchAllocsOut = new StringBuilder();
 
-            for (int i = 0; i < matchList.getNoMatches(); i++) {
+          /*  for (int i = 0; i < matchList.getNoMatches(); i++) {
                 //TODO get match and referee info to append
                 matchAllocsOut.append("");
                 matchAllocsOut.append(System.lineSeparator());
             }
-
-            out.print(matchAllocsOut.toString());
+			*/
+			String matchesText = matches.getMatchesOutText();
+			matchesOut.write(matchesText);
+			
+			String refsText = refs.getRefsOutText();
+			refsOut.write(refsText);
+			
+            //out.print(matchAllocsOut.toString());
 
         } catch (IOException e) {
             //showError("I/O exception: " + e.getMessage());
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            if (matchesOut != null)
+                matchesOut.close();
+			if(refsOut != null)
+				refsOut.close();
         }
         //might move system exit to main gui to reduce <<coupling>> between classes
-        System.exit(0);
+       // System.exit(0);
     }
 }

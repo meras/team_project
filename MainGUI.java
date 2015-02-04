@@ -230,6 +230,9 @@ public class MainGUI extends JFrame implements ActionListener {
 		if (e.getSource() == searchRefButton) {
 			processSearch();
 		}
+		if(e.getSource() == saveExitButton) {
+			processSaveExit();
+		}
 	}
 
 	/**
@@ -464,6 +467,11 @@ public class MainGUI extends JFrame implements ActionListener {
 	private void clearNameFields() {
 		firstNameField.setText("");
 		lastNameField.setText("");
+	}
+	
+	private void processSaveExit() {
+		FileProcessor.saveAndClose("matchesOut.txt", matchList, "refsOut.txt", refereeList);
+		System.exit(0);
 	}
 
 	/**

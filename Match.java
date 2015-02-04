@@ -92,13 +92,11 @@ public class Match {
      *
      * @return
      */
-    public String getMatchInfo() {
+    public String getMatchLine() {
 
-        String matchInfo;
+        String matchLine = String.format("%d %s %s %s %s%n", weekNumber, matchLevel, matchArea, refOne, refTwo);
 
-        matchInfo = String.format("%d %s %s %s %s", weekNumber, matchLevel, matchArea, refOne, refTwo);
-
-        return matchInfo;
+        return matchLine;
     }
 }
 

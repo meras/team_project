@@ -35,7 +35,7 @@ public class BarChartViewer extends JFrame {
         private final int BAR_WIDTH = 30;   // The width of each bar
         private final int BAR_GAP = 5;  // The width of the gap between the bars
         private final int BAR_MARGIN = 20;  // TODO What is this number? What is its purpose?
-        private static RefList refereeList; // The list of the referee whose informatoin will be displayed
+        private RefList refereeList; // The list of the referee whose informatoin will be displayed
         private int maxValue;   // The highest number of referee allocations
 
         /**

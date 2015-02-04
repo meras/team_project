@@ -196,6 +196,19 @@ public class RefList implements Iterable<Referee> {
 		}
 		return suitableRefs;
 	}
+	
+	public String getRefsOutText() {
+		StringBuilder refsOutBuilder = new StringBuilder();
+		
+		for(Referee ref : refList) {
+			String refLine = ref.getRefLine();
+			refsOutBuilder.append(refLine);
+		}
+		
+		String refsOutText = refsOutBuilder.toString();
+		return refsOutText;
+	}
+	
 	/**
 	 * Returns an iterator over elements of type Referee.
 	 * @return an Iterator.
