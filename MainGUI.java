@@ -50,6 +50,8 @@ public class MainGUI extends JFrame implements ActionListener {
 	private final JTabbedPane tabbedPane = new JTabbedPane();
 	private final RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
 	private final MatchList matchList;    // a MatchList object which contains all the matches that have been entered
+	private final String matchAllocsFile = "MatchAllocs.txt";
+	private final String refsOutFile = "RefereesOut.txt";
 
 	/**
 	 * Constructs the main GUI window and creates the MatchList and RefList objects
@@ -470,8 +472,10 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 	
 	private void processSaveExit() {
-		boolean matchFileMade = FileProcessor.writeFileOut("matchesOut.txt", matchList);
-		boolean refFileMade = FileProcessor.writeFileOut( "refsOut.txt", refereeList);
+		String matchAllocsText = matchList.getMatchAllocsText();
+		String refReport = refereeList.getRefsOutText();
+		boolean matchFileMade = FileProcessor.writeFileOut(matchAllocsFile, matchAllocsText);
+		boolean refFileMade = FileProcessor.writeFileOut(refsOutFile, refReport);
 		//if IO operations were successful, exit program
 		if(matchFileMade && refFileMade)
 			System.exit(0);

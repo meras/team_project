@@ -39,15 +39,14 @@ public class FileProcessor {
      * Prints the information about the referees and the matchs
      * @param matchAllocsFile   the name of the file which is to be created
      */
-    public static boolean writeFileOut(String fileOutName, FileOutable fOutable) {
+    public static boolean writeFileOut(String fileOutName, String textToWrite) {
 
         PrintWriter writer = null;
 
         try {
             writer = new PrintWriter(fileOutName);
 
-            String textOut = fOutable.getFileOutText();
-            writer.write(textOut);
+            writer.write(textToWrite);
             return true; //IO operations were successful
         }
         catch (IOException e) {
