@@ -470,8 +470,11 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 	
 	private void processSaveExit() {
-		FileProcessor.saveAndClose("matchesOut.txt", matchList, "refsOut.txt", refereeList);
-		System.exit(0);
+		boolean matchFileMade = FileProcessor.writeFileOut("matchesOut.txt", matchList);
+		boolean refFileMade = FileProcessor.writeFileOut( "refsOut.txt", refereeList);
+		//if IO operations were successful, exit program
+		if(matchFileMade && refFileMade)
+			System.exit(0);
 	}
 
 	/**

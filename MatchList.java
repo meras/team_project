@@ -6,7 +6,7 @@ import java.util.List;
  * Maintains a list of Match objects
  * The methods allow Matches to be added to the list
  */
-public class MatchList implements Iterable<Match> {
+public class MatchList implements Iterable<Match>, FileOutable {
     public static final int MAX_MATCHES = 52;
     private List<Match> matchList;
 
@@ -52,7 +52,7 @@ public class MatchList implements Iterable<Match> {
         return null;
     }
 	
-	public String getMatchesOutText() {
+	public String getFileOutText() {
 		StringBuilder matchesOutBuilder = new StringBuilder();
 		
 		for(Match match : matchList) {

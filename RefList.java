@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class RefList implements Iterable<Referee> {
+public class RefList implements Iterable<Referee>, FileOutable {
 	private static final int MAX_REFS = 12;
 	private List<Referee> refList;
 	public final int REF_NOT_FOUND = -1;
@@ -197,7 +197,7 @@ public class RefList implements Iterable<Referee> {
 		return suitableRefs;
 	}
 	
-	public String getRefsOutText() {
+	public String getFileOutText() {
 		StringBuilder refsOutBuilder = new StringBuilder();
 		
 		for(Referee ref : refList) {

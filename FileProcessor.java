@@ -39,42 +39,28 @@ public class FileProcessor {
      * Prints the information about the referees and the matchs
      * @param matchAllocsFile   the name of the file which is to be created
      */
-    public static void saveAndClose(String matchAllocsFile, MatchList matches, String refsOutFile, RefList refs) {
+    public static boolean writeFileOut(String fileOutName, FileOutable fOutable) {
 
-        MatchList matchList = new MatchList();
-
-        PrintWriter matchesOut = null;
-		PrintWriter refsOut = null;
+        PrintWriter writer = null;
 
         try {
-            matchesOut = new PrintWriter(matchAllocsFile);
-			refsOut = new PrintWriter(refsOutFile);
+            writer = new PrintWriter(fileOutName);
 
-            //StringBuilder matchAllocsOut = new StringBuilder();
-
-          /*  for (int i = 0; i < matchList.getNoMatches(); i++) {
-                //TODO get match and referee info to append
-                matchAllocsOut.append("");
-                matchAllocsOut.append(System.lineSeparator());
-            }
-			*/
-			String matchesText = matches.getMatchesOutText();
-			matchesOut.write(matchesText);
-			
-			String refsText = refs.getRefsOutText();
-			refsOut.write(refsText);
-			
-            //out.print(matchAllocsOut.toString());
-
-        } catch (IOException e) {
-            //showError("I/O exception: " + e.getMessage());
-        } finally {
-            if (matchesOut != null)
-                matchesOut.close();
-			if(refsOut != null)
-				refsOut.close();
+            String textOut = fOutable.getFileOutText();
+            writer.write(textOut);
+            return true; //IO operations were successful
         }
-        //might move system exit to main gui to reduce <<coupling>> between classes
-       // System.exit(0);
+        catch (IOException e) {
+            //showError("I/O exception: " + e.getMessage());
+            return false; //IO operations were not successful
+        } 
+        finally {
+            if (writer != null)
+                writer.close();
+        }
+        
+     
+       
     }
+
 }
