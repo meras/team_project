@@ -37,9 +37,6 @@ public class Match {
         }
         refOne = firstRef;
         refTwo = secondRef;
-
-        //print match details
-        System.out.println("Match details  -  Week No:" + weekNumber + "   Area:" + matchArea + "   Level:" + matchLevel);
     }
 
     /**

@@ -212,7 +212,7 @@ public class Referee implements Comparable<Referee> {
 		String home = getHomeString();
 		String travel = getTravelString();
 		
-		String refLine = String.format("%s %s %s %s%d %s %s %n", refID, fName, lName, qualificationType, qualificationLevel,
+		String refLine = String.format("%s %s %s %s%d %d %s %s %n", refID, fName, lName, qualificationType, qualificationLevel, numAllocations,
 				home, travel);
 		
 		return refLine;
