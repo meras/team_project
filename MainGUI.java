@@ -1,33 +1,13 @@
 //import javax.swing.*;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-import javax.swing.BoxLayout;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
 
-//import java.awt.*;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+
+//import java.awt.*;
 
 /**
  * Main GUI which allows the user to enter match details, view information about the referees and search for a referee.
