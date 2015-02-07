@@ -21,6 +21,7 @@ public class BarChartViewer extends JFrame {
         BarChart chart = new BarChart(refereeList);
         add(chart);
 
+        // calculate a window width based on bar chart width.
         int width = refereeList.getRefereeCount() * (chart.BAR_WIDTH + chart.BAR_GAP) + (chart.BAR_MARGIN * 2) - chart.BAR_GAP;
         setSize(width, 310);
         setLocationRelativeTo(null);
@@ -34,18 +35,19 @@ public class BarChartViewer extends JFrame {
         private final int CHART_HEIGHT = 220;   // The height of the chart area
         private final int BAR_WIDTH = 30;   // The width of each bar
         private final int BAR_GAP = 5;  // The width of the gap between the bars
-        private final int BAR_MARGIN = 20;  // TODO What is this number? What is its purpose?
-        private RefList refereeList; // The list of the referee whose informatoin will be displayed
-        private int maxValue;   // The highest number of referee allocations
+        private final int BAR_MARGIN = 20;  // Margin around the bar chart area
+        private RefList refereeList; // The list of the referee whose information will be displayed
+        private int maxValue = 0;   // The highest number of referee allocations
 
         /**
-         * Draws a bar chart using allocation numbers
+         * Constructor for the BarChart class
          *
          * @param refereeList list of referees which contains allocation numbers
          */
         public BarChart(RefList refereeList) {
             this.refereeList = refereeList;
 
+            // set the max allocation value, used to scale the bar chart
             for (Referee ref : this.refereeList) {
                 if (ref.getNumAllocs() > maxValue) {
                     maxValue = ref.getNumAllocs();
@@ -54,7 +56,7 @@ public class BarChartViewer extends JFrame {
         }
 
         /**
-        * TODO not sure what this does or what to say about it
+        * The paintComponent method draws a bar for each referee allocation
         */
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
