@@ -398,7 +398,6 @@ public class MainGUI extends JFrame implements ActionListener {
 	 */
 	private int getLocationInfo() {
 		if (northButton.isSelected()) {
-			System.out.println("match is in the north");
 			return Referee.NORTH;
 		} else if (centralButton.isSelected())
 			return Referee.CENTRAL;
