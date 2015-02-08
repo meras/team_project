@@ -401,6 +401,14 @@ public class LittleGUI extends JFrame implements ActionListener
 	 * A method which processes the deletion of a referee from the reflist based on the input (first and last name) from the user from LittleGUI
 	 */
 	private void processDelete() {
+		//first check if ref has been allocated
+		if(referee.isAllocated()) {
+			JOptionPane.showMessageDialog(this, "The referee cannot be deleted as he has been allocated to a match", 
+				"Error", JOptionPane.ERROR_MESSAGE);
+			//exit method
+			return;
+		}
+
 		//Display a prompt to the user to confirm that they want to delete the referee
 		int dialogResult = JOptionPane.showConfirmDialog (this, "Would you like to delete this referee?","Warning", JOptionPane.YES_NO_OPTION);
 
