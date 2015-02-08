@@ -317,10 +317,11 @@ public class MainGUI extends JFrame implements ActionListener {
 			boolean senMatch = seniorButton.isSelected(); // Check if match is senior or junior
 			// After all match info has been checked, get list of suitable refs
 			List<Referee> suitableRefs = refereeList.getSuitableRefs(loc, senMatch);
-			if (suitableRefs.size() < 2) // If not enough suitable refs found, display message
+			if (suitableRefs.size() < 2) { // If not enough suitable refs found, display message
 				displayNoSuitableRefs();
-			else // Else call method to allocate 2 most suitable refs to match
+			} else {// Else call method to allocate 2 most suitable refs to match
 				allocateTwoRefs(suitableRefs, week, loc, senMatch);
+			}
 			displayAllocatedRefs(suitableRefs);
 		}
 	}
