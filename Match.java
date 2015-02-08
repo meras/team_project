@@ -91,7 +91,7 @@ public class Match {
      */
     public String getMatchLine() {
 
-        String matchLine = String.format("%d %s %s %s %s%n", weekNumber, matchLevel, matchArea, refOne, refTwo);
+        String matchLine = String.format("%-8d%-12s%-12s%-20s%-20s%n", weekNumber, matchLevel, matchArea, refOne, refTwo);
 
         return matchLine;
     }

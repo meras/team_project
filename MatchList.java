@@ -53,14 +53,17 @@ public class MatchList implements Iterable<Match> {
     }
 	
 	public String getMatchAllocsText() {
-		StringBuilder matchesOutBuilder = new StringBuilder();
 		
+        String title = "Match details\r\n\r\n";
+        String tableHeader = String.format("%-8s%-12s%-12s%-20s%-20s%n%n", "Week", "Level", "Area", "Referee 1", "Referee 2");
+
+        StringBuilder matchesOutBuilder = new StringBuilder();
 		for(Match match : matchList) {
 			String matchLine = match.getMatchLine();
 			matchesOutBuilder.append(matchLine);
 		}
 		
-		String matchesOutText = matchesOutBuilder.toString();
+		String matchesOutText = title + tableHeader + matchesOutBuilder;
 		return matchesOutText;
 	}
 
