@@ -152,6 +152,7 @@ public class MainGUI extends JFrame implements ActionListener {
 
 		// Create the text field which can be used to display information about the allocated referees
 		centerText = new JTextArea();
+		centerText.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		centerText.setEditable(false);
 		textScroll = new JScrollPane(centerText);
 
@@ -417,15 +418,19 @@ public class MainGUI extends JFrame implements ActionListener {
 		tabbedPane.setSelectedIndex(1);
 
 		String allocated = "The referees allocated to the match are \n"+suitableRefs.get(0).getFName()+" "+suitableRefs.get(0).getLName()+" and "+suitableRefs.get(1).getFName()+" "+suitableRefs.get(1).getLName()
-				+"\n\nThe referees which are suitableRefs for the match are: \n";
+				+"\n\nThe referees which are suitable for the match are: \n";
 		StringBuilder display = new StringBuilder(allocated);
 
 		for (Referee aSuitableRef : suitableRefs) {
-			String suitableRef = String.format("%-35s%s%n", aSuitableRef.getFName() + " " + aSuitableRef.getLName(), "Number of Allocations: " + aSuitableRef.getNumAllocs());
+			String name = aSuitableRef.getFName() + " " + aSuitableRef.getLName();
+			String allocs = "Number of allocations: " + aSuitableRef.getNumAllocs();
+			String suitableRef = String.format("%-25s%s%n", name, allocs);
 			display.append(suitableRef);
 		}
 		String displayString = display.toString();
+
 		centerText.setText(displayString);
+		centerText.setCaretPosition(0);
 	}
 
 	/**
