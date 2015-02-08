@@ -462,7 +462,7 @@ public class LittleGUI extends JFrame implements ActionListener
 		}
 
 		//Checks that the name of referee contains only letters 
-		if (!(containsLetters(fNameField.getText()) || !(containsLetters(lNameField.getText()))))
+		if (!(containsLetters(fNameField.getText())) || !(containsLetters(lNameField.getText())))
 		{		
 			JOptionPane.showMessageDialog(this, "The referee names should only contain letters.",
 					"Error", JOptionPane.ERROR_MESSAGE);
