@@ -9,7 +9,6 @@ import java.util.List;
  * Main GUI which allows the user to enter match details, view information about the referees and search for a referee.
  */
 public class MainGUI extends JFrame implements ActionListener {
-	//used in getWeekInfo() below
 	private final int INVALID_INFO = -1;
 	private JPanel centerLayout, topSections, allocRefsPanel, searchPanel, bottomButtons, weekPanel, locationPanel, levelPanel,
 			allocateButtonPanel, firstNamePanel, lastNamePanel, searchButtonPanel; // panels which are used to house the components, internal panels are used to aid in layout
@@ -93,7 +92,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		levelGroup.add(seniorButton);
 		levelPanel.add(juniorButton);
 		levelPanel.add(seniorButton);
-
 
 		//Create label and button for finding suitable referee
 		allocateRefButton = new JButton("Allocate");
@@ -307,7 +305,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 
 		// If there is room for another match, get match info input by user
-		int week = getWeekInfo();
+		int week = getValidWeekNum(weekField.getText());
 		int loc = getLocationInfo();
 		//check that all info has been input and is OK
 		if (isLevelSelected() && week != INVALID_INFO && loc != INVALID_INFO) {
@@ -353,17 +351,19 @@ public class MainGUI extends JFrame implements ActionListener {
 	 * Retrieves the week number from its respective textfield and ensures it is valid
 	 * @return INVALID_INFO constant if the week is invalid, week number otherwise
 	 */
-	private int getWeekInfo() {
+	private int getValidWeekNum(String weekNum) {
+		int week = INVALID_INFO;
+
 		try {
-			int week = Integer.parseInt(weekField.getText());
+			week = Integer.parseInt(weekNum);
 			if (week < 1 || week > MatchList.MAX_MATCHES) {
-				errorPane("Please enter a week between 1 and " + MatchList.MAX_MATCHES + ".");
-				return INVALID_INFO;
-			} else return week;
+				week = INVALID_INFO;
+				throw new NumberFormatException();
+			}
 		} catch (NumberFormatException nfx) {
-			errorPane("Please enter a valid week.");
-			return INVALID_INFO;
+			errorPane("Please enter a week number between 1 and " + MatchList.MAX_MATCHES);
 		}
+		return week;
 	}
 
 	/**
