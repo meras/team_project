@@ -42,7 +42,7 @@ public class LittleGUI extends JFrame implements ActionListener
 	private JLabel idLabel;
 	//Reference variables for the radio and check buttons.
 	private JRadioButton northRadio, centralRadio, southRadio;
-	private Checkbox northCheck, centralCheck, southCheck;
+	private JCheckbox northCheck, centralCheck, southCheck;
 	//Reference variables for the radio button group. Check buttons don't have a group so an enumeration is used instead.
 	private ButtonGroup homeGroup;
 	private Enumeration<AbstractButton> homeRadios;
@@ -141,8 +141,6 @@ public class LittleGUI extends JFrame implements ActionListener
 		matchField.setEditable(false);
 		qualificationTypeCombo = new JComboBox(qualificationTypeList);
 		qualificationsCombo = new JComboBox(qualificationList);
-		//qualificationsCombo.setVisible(true);
-		qualificationsCombo.setLightWeightPopupEnabled(false);
 
 		JPanel fname = new JPanel();
 		fname.add(new JLabel("First name:"));
