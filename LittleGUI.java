@@ -139,8 +139,8 @@ public class LittleGUI extends JFrame implements ActionListener
 		idField.setEditable(false);
 		matchField = new JTextField(7);
 		matchField.setEditable(false);
-		qualificationTypeCombo = new JComboBox(qualificationTypeList);
-		qualificationsCombo = new JComboBox(qualificationList);
+		qualificationTypeCombo = new JComboBox<String>(qualificationTypeList);
+		qualificationsCombo = new JComboBox<String>(qualificationList);
 		qualificationsCombo.setLightWeightPopupEnabled(false);
 
 		JPanel fname = new JPanel();
