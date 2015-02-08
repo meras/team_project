@@ -1,13 +1,9 @@
-//import javax.swing.*;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
-//import java.awt.*;
 
 /**
  * Main GUI which allows the user to enter match details, view information about the referees and search for a referee.
@@ -23,7 +19,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
 	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
 	private JTextArea centerText; // text area to display the referees which have been allocated to a match or displays an error message
-	private DefaultTableModel model;	// the model to set the features of the JTable
+	private DefaultTableModel model;    // the model to set the features of the JTable
 	private JTable centerTable;     // the JTable which displays the information about the referees
 	private final Object[] columnNames = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"}; // the names for each of the columns in the JTable
 	private JScrollPane tableScroll, textScroll;   // the scrollpane object which houses the JTable component
@@ -83,8 +79,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		locationPanel.add(northButton);
 		locationPanel.add(centralButton);
 		locationPanel.add(southButton);
-		//set northButton to selected by default
-		northButton.setSelected(true);
+
 
 		// Create label and radio buttons for level
 		levelLabel = new JLabel("Level:");
@@ -98,8 +93,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		levelGroup.add(seniorButton);
 		levelPanel.add(juniorButton);
 		levelPanel.add(seniorButton);
-		//set juniorButton to selected by default
-		juniorButton.setSelected(true);
+
 
 		//Create label and button for finding suitable referee
 		allocateRefButton = new JButton("Allocate");
