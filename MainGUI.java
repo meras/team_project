@@ -417,19 +417,21 @@ public class MainGUI extends JFrame implements ActionListener {
 		// switch to the text area in the second tab
 		tabbedPane.setSelectedIndex(1);
 
-		StringBuilder display
-				= new StringBuilder("The referees allocated to the match are: \n"
-				+ suitableRefs.get(0).getFName() + " "
-				+ suitableRefs.get(0).getLName() + " and "
-				+ suitableRefs.get(1).getFName() + " "
-				+ suitableRefs.get(1).getLName()
-				+ "\n\nThe referees which are suitable for the match are: \n");
+		StringBuilder display = new StringBuilder();
+		display.append("The referees allocated to the match are: \n")
+				.append(suitableRefs.get(0).getFName())
+				.append(suitableRefs.get(0).getLName())
+				.append(" and ")
+				.append(suitableRefs.get(1).getFName())
+				.append(suitableRefs.get(1).getLName())
+				.append("\n\nThe referees which are suitable for the match are: \n");
 
 		for (Referee aSuitableRef : suitableRefs) {
-			String name = aSuitableRef.getFName() + " " + aSuitableRef.getLName();
-			String allocs = "Number of allocations: " + aSuitableRef.getNumAllocs();
-			String suitableRef = String.format("%-25s%s%n", name, allocs);
-			display.append(suitableRef);
+			display.append(String.format("%-15s%-15s%s %-4s%n",
+										aSuitableRef.getFName(),
+										aSuitableRef.getLName(),
+										"Allocations:",
+										aSuitableRef.getNumAllocs()));
 		}
 		String displayString = display.toString();
 
