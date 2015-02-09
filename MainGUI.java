@@ -433,9 +433,8 @@ public class MainGUI extends JFrame implements ActionListener {
 										"Allocations:",
 										aSuitableRef.getNumAllocs()));
 		}
-		String displayString = display.toString();
 
-		centerText.setText(displayString);
+		centerText.setText(display.toString());
 		centerText.setCaretPosition(0);
 	}
 
