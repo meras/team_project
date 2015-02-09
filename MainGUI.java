@@ -413,13 +413,17 @@ public class MainGUI extends JFrame implements ActionListener {
 	 * Hides the JTable but makes the button to view the table visible
 	 * @param suitable
 	 */
-	private void displayAllocatedRefs(List<Referee> suitableRefs)
-	{
+	private void displayAllocatedRefs(List<Referee> suitableRefs) {
+		// switch to the text area in the second tab
 		tabbedPane.setSelectedIndex(1);
 
-		String allocated = "The referees allocated to the match are: \n"+suitableRefs.get(0).getFName()+" "+suitableRefs.get(0).getLName()+" and "+suitableRefs.get(1).getFName()+" "+suitableRefs.get(1).getLName()
-				+"\n\nThe referees which are suitable for the match are: \n";
-		StringBuilder display = new StringBuilder(allocated);
+		StringBuilder display
+				= new StringBuilder("The referees allocated to the match are: \n"
+				+ suitableRefs.get(0).getFName() + " "
+				+ suitableRefs.get(0).getLName() + " and "
+				+ suitableRefs.get(1).getFName() + " "
+				+ suitableRefs.get(1).getLName()
+				+ "\n\nThe referees which are suitable for the match are: \n");
 
 		for (Referee aSuitableRef : suitableRefs) {
 			String name = aSuitableRef.getFName() + " " + aSuitableRef.getLName();
