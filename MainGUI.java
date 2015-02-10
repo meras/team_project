@@ -22,7 +22,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	private JTable centerTable;     // the JTable which displays the information about the referees
 	private final Object[] columnNames = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"}; // the names for each of the columns in the JTable
 	private JScrollPane tableScroll, textScroll;   // the scrollpane object which houses the JTable component
-	private final JTabbedPane tabbedPane = new JTabbedPane();
+	private final JTabbedPane tabbedPane = new JTabbedPane();   // the tabbed pane which holds the table and the text area to display the allocated referees
 	private final RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
 	private final MatchList matchList;    // a MatchList object which contains all the matches that have been entered
 	private final String matchAllocsFile = "MatchAllocs.txt";
@@ -317,10 +317,12 @@ public class MainGUI extends JFrame implements ActionListener {
 			List<Referee> suitableRefs = refereeList.getSuitableRefs(loc, senMatch);
 			if (suitableRefs.size() < 2) { // If not enough suitable refs found, display message
 				displayNoSuitableRefs();
-			} else {// Else call method to allocate 2 most suitable refs to match
+			} 
+            // calls method to allocate 2 most suitable refs to match
+            else {
 				allocateTwoRefs(suitableRefs, week, loc, senMatch);
+            	displayAllocatedRefs(suitableRefs);
 			}
-			displayAllocatedRefs(suitableRefs);
 		}
 	}
 
@@ -336,7 +338,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		Referee ref1 = suitRefs.get(0); // Most suitable ref
 		Referee ref2 = suitRefs.get(1); // Second most suitable ref
 
-		//TODO now passing Ref's full name to Match constructor - but I still think we should be passing the whole object. maybe.
 		String ref1Name = ref1.getFName() + " " + ref1.getLName();
 		String ref2Name = ref2.getFName() + " " + ref2.getLName();
 		// Create new match
