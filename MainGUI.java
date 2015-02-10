@@ -416,10 +416,10 @@ public class MainGUI extends JFrame implements ActionListener {
 
 		StringBuilder display = new StringBuilder();
 		display.append("The referees allocated to the match are: \n")
-				.append(suitableRefs.get(0).getFName())
+				.append(suitableRefs.get(0).getFName() + " ")
 				.append(suitableRefs.get(0).getLName())
 				.append(" and ")
-				.append(suitableRefs.get(1).getFName())
+				.append(suitableRefs.get(1).getFName() + " ")
 				.append(suitableRefs.get(1).getLName())
 				.append("\n\nThe referees which are suitable for the match are: \n");
 
