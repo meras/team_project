@@ -214,13 +214,10 @@ public class MainGUI extends JFrame implements ActionListener {
 	* Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
 	*/
 	private void setCenterTable() {
-		model = new DefaultTableModel(columnNames, 0)
-		{
-
+		model = new DefaultTableModel(columnNames, 0) {
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
-
 			public Class<?> getColumnClass(int colIndex) {
 				return getValueAt(0, colIndex).getClass();
 			}
@@ -245,7 +242,7 @@ public class MainGUI extends JFrame implements ActionListener {
 					ref.getTravelInfo(Referee.SOUTH),
 			});
 		}
-		// Create JTable and add it to the scrollpane
+		// Create JTable and add it to the scroll pane
 		centerTable = new JTable(model);
 		centerTable.setGridColor(Color.LIGHT_GRAY);
 	}
@@ -279,11 +276,11 @@ public class MainGUI extends JFrame implements ActionListener {
 		String firstName = firstNameField.getText().trim();
 		String lastName = lastNameField.getText().trim();
 
-		if(!firstName.equals("") && !lastName.equals("")) { //check if textfields are empty
-			Referee ref = refereeList.findRef(firstName, lastName); //search for ref
-			if (ref != null) //ref exists, show Little GUI
+		if(!firstName.isEmpty() && !lastName.isEmpty()) {
+			Referee ref = refereeList.findRef(firstName, lastName);
+			if (ref != null)
 				showLittleGui(LittleGUI.SEARCH, ref);
-			else { //ref doesn't exist, show error messge
+			else {
 				errorPane("The referee " + firstName + " " + lastName + " " + "was not found in the database.");
 				clearNameFields();
 			}
@@ -375,11 +372,11 @@ public class MainGUI extends JFrame implements ActionListener {
 	private int getLocationInfo() {
 		if (northButton.isSelected()) {
 			return Referee.NORTH;
-		} else if (centralButton.isSelected())
+		} else if (centralButton.isSelected()) {
 			return Referee.CENTRAL;
-		else if (southButton.isSelected())
+		} else if (southButton.isSelected()) {
 			return Referee.SOUTH;
-		else {
+		} else {
 			errorPane("Please select the match location.");
 			return INVALID_INFO;
 		}
