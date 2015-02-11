@@ -12,7 +12,6 @@ public class MainGUI extends JFrame implements ActionListener {
 	private final int INVALID_INFO = -1;
 	private JPanel centerLayout, topSections, allocRefsPanel, searchPanel, bottomButtons, weekPanel, locationPanel, levelPanel,
 			allocateButtonPanel, firstNamePanel, lastNamePanel, searchButtonPanel; // panels which are used to house the components, internal panels are used to aid in layout
-	private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
 	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton, saveExitButton;  // the buttons which allow the user to allocate a ref, see the bar chart, add/view a ref and save and exit
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
 	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
@@ -58,14 +57,12 @@ public class MainGUI extends JFrame implements ActionListener {
 		allocateButtonPanel = new JPanel();
 
 		// Create label and textField for match week number
-		weekLabel = new JLabel("Week Number (1-52):");
-		weekPanel.add(weekLabel);
+		weekPanel.add(new JLabel("Week Number (1-52):"));
 		weekField = new JTextField(2);
 		weekPanel.add(weekField);
 
 		//Create label and radio buttons for match location
-		locationLabel = new JLabel("Match Location:");
-		locationPanel.add(locationLabel);
+		locationPanel.add(new JLabel("Match Location:"));
 		northButton = new JRadioButton("North");
 		centralButton = new JRadioButton("Central");
 		southButton = new JRadioButton("South");
@@ -81,8 +78,7 @@ public class MainGUI extends JFrame implements ActionListener {
 
 
 		// Create label and radio buttons for level
-		levelLabel = new JLabel("Level:");
-		levelPanel.add(levelLabel);
+		levelPanel.add(new JLabel("Level:"));
 		juniorButton = new JRadioButton("Junior");
 		seniorButton = new JRadioButton("Senior");
 
@@ -114,14 +110,12 @@ public class MainGUI extends JFrame implements ActionListener {
 		searchButtonPanel = new JPanel();
 
 		//Create label and button for first name
-		firstNameLabel = new JLabel("First Name:");
-		firstNamePanel.add(firstNameLabel);
+		firstNamePanel.add(new JLabel("First Name:"));
 		firstNameField = new JTextField(10);
 		firstNamePanel.add(firstNameField);
 
 		// Create label and button for last name
-		lastNameLabel = new JLabel("Last Name:");
-		lastNamePanel.add(lastNameLabel);
+		lastNamePanel.add(new JLabel("Last Name:"));
 		lastNameField = new JTextField(10);
 		lastNamePanel.add(lastNameField);
 
