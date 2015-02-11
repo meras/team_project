@@ -13,7 +13,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton, saveExitButton;  // the buttons which allow the user to allocate a ref, see the bar chart, add/view a ref and save and exit
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
 	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
-	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
+	private JTextField weekField, firstNameField, lastNameField;    // the text fields to enter the week in which a match takes place and the name of the ref to be searched for
 	private JTextArea centerText; // text area to display the referees which have been allocated to a match or displays an error message
 	private DefaultTableModel model;    // the model to set the features of the JTable
 	private JTable centerTable;     // the JTable which displays the information about the referees
@@ -28,7 +28,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	 */
 	public MainGUI() {
 		this.setTitle("Javaball Referee Selection");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		refereeList = new RefList();
@@ -339,7 +339,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Retrieves the week number from its respective textfield and ensures it is valid
+	 * Retrieves the week number from its respective text field and ensures it is valid
 	 * @return INVALID_INFO constant if the week is invalid, week number otherwise
 	 */
 	private int getValidWeekNum(String weekNum) {
@@ -400,7 +400,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	/**
 	 * Inputs the suitable referee list and selected referees into the text area.
 	 * Hides the JTable but makes the button to view the table visible
-	 * @param suitable
+	 * @param suitableRefs
 	 */
 	private void displayAllocatedRefs(List<Referee> suitableRefs) {
 		// switch to the text area in the second tab
@@ -459,7 +459,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	 *
 	 * @param errorMessage Message to display on the JOptionPane
 	 */
-	public void errorPane(String errorMessage) {
+	private void errorPane(String errorMessage) {
 		JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
