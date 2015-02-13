@@ -1,7 +1,6 @@
 DG1 Dave Gray NJB2 4 Central NYY 
-DM1 Denis Montague IJB1 4 North YYY 
+DM1 Denis Montague IJB1 3 North YYY 
 JL1 Jack Low IJB2 2 South NYY 
-KL1 Kenneth Lorrimer IJB2 6 South YYY 
-KL2 Kenneth Lindsay NJB3 14 Central YYY 
-KS1 Kalin Stoev NJB1 45 Central YYN 
-TT1 Tim Toms IJB1 2 Central NYN 
+KL2 Kenneth Lindsay NJB3 13 Central YYY 
+PS1 Peter Smith IJB2 16 Central YYN 
+TT1 Tim Toms IJB1 3 Central NYN 
