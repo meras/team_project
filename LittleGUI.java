@@ -503,6 +503,7 @@ public class LittleGUI extends JFrame implements ActionListener
 	 * @return
 	 */
 	private boolean containsLetters(String name) {
+		//Allow one or no hyphen to appear only if it is not the first or last character
 		return name.matches("^(?!-)[a-zA-Z]*-?[a-zA-Z]*$(?<!-)");
 	}
 	
