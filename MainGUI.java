@@ -417,9 +417,8 @@ public class MainGUI extends JFrame implements ActionListener {
 				.append("\n\nThe referees which are suitable for the match are: \n");
 
 		for (Referee aSuitableRef : suitableRefs) {
-			display.append(String.format("%-15s%-15s%s %-4s%n",
-										aSuitableRef.getFName(),
-										aSuitableRef.getLName(),
+			display.append(String.format("%-35s%s %-4s%n",
+										aSuitableRef.getFName() + " " + aSuitableRef.getLName(),
 										"Allocations:",
 										aSuitableRef.getNumAllocs()));
 		}
