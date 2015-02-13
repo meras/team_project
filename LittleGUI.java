@@ -1,16 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Checkbox;
-import java.awt.CheckboxGroup;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
 
-import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +27,7 @@ public class LittleGUI extends JFrame implements ActionListener
 {
 	
 	//Reference variables for all the buttons
-	private JButton editButton, saveAddButton, deleteButton, clearButton, exitButton;
+	private JButton editButton, saveButton, addButton, deleteButton, clearButton, exitButton;
 	//Reference variables for the two comboboxes
 	private final String[] qualificationTypeList = {"Type", "NJB","IJB"};
 	private final String[] qualificationList = {"Level","1","2","3","4"}; 
@@ -207,18 +203,21 @@ public class LittleGUI extends JFrame implements ActionListener
 
 		clearButton = new JButton("Clear");
 		editButton = new JButton("Edit");
-		saveAddButton = new JButton("Save");
+		saveButton = new JButton("Save");
+		addButton = new JButton("Add");
 		deleteButton = new JButton("Delete");
 		exitButton = new JButton("Exit");
 
 
 		clearButton.addActionListener(this);
 		editButton.addActionListener(this);
-		saveAddButton.addActionListener(this);
+		saveButton.addActionListener(this);
+		addButton.addActionListener(this);
 		deleteButton.addActionListener(this);
 		exitButton.addActionListener(this);
 
-		bottom.add(saveAddButton);
+		bottom.add(saveButton);
+		bottom.add(addButton);
 		bottom.add(clearButton);
 		bottom.add(editButton);
 		bottom.add(deleteButton);
@@ -244,8 +243,7 @@ public class LittleGUI extends JFrame implements ActionListener
 	private void showAdd() 
 	{
 		hideBottomComponents();
-		saveAddButton.setVisible(true);
-		saveAddButton.setText("Add");
+		addButton.setVisible(true);
 		exitButton.setVisible(true);
 		matchField.setEditable(true);
 		clearButton.setVisible(true);
@@ -283,8 +281,8 @@ public class LittleGUI extends JFrame implements ActionListener
 	private void showEdit() {
 		hideBottomComponents();
 
-		saveAddButton.setVisible(true);
-		saveAddButton.setText("Save");
+		saveButton.setVisible(true);
+		saveButton.setText("Save");
 		exitButton.setVisible(true);
 		matchField.setEditable(true);
 		qualificationTypeCombo.setEnabled(true);
@@ -302,39 +300,23 @@ public class LittleGUI extends JFrame implements ActionListener
 	/**
 	 * A method which handles any events submitted from the action listeners
 	 */
-	public void actionPerformed(ActionEvent e) 
-	{
-		//Edit button is pressed
-		if (e.getSource() == editButton) 
-		{
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == editButton) {
 			showEdit();
 		}
-		//Save Button is pressed
-		if (e.getSource() == saveAddButton)
-		{
-			if (saveAddButton.getText().equals("Save"))
-			{
-				processSave();
-			}
-			//Add button is pressed
-			else
-			{
-				processAdd();
-			}	
+		if (e.getSource() == saveButton) {
+			processSave();
 		}
-		//Delete button is pressed
-		if (e.getSource() == deleteButton)
-		{
+		if (e.getSource() == addButton) {
+			processAdd();
+		}
+		if (e.getSource() == deleteButton) {
 			processDelete();
 		}
-		//Exit button is pressed
-		if (e.getSource() == exitButton)
-		{
-			dispose(); 
+		if (e.getSource() == exitButton) {
+			dispose();
 		}
-		//Clear button is pressed
-		if (e.getSource() == clearButton)
-		{
+		if (e.getSource() == clearButton) {
 			clearFields();
 		}
 	}
