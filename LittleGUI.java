@@ -282,7 +282,6 @@ public class LittleGUI extends JFrame implements ActionListener
 		hideBottomComponents();
 
 		saveButton.setVisible(true);
-		saveButton.setText("Save");
 		exitButton.setVisible(true);
 		matchField.setEditable(true);
 		qualificationTypeCombo.setEnabled(true);
