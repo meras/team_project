@@ -503,7 +503,7 @@ public class LittleGUI extends JFrame implements ActionListener
 	 * @return
 	 */
 	private boolean containsLetters(String name) {
-		return name.matches("^[a-zA-Z-?]*$");
+		return name.matches("^[a-zA-Z]*-?[a-zA-Z]*$");
 	}
 	
 	/**
