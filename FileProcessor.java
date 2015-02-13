@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 
 /**
  * The file processor contains static methods to read and write files
- * TODO this can be incorporated into main gui
  */
 public class FileProcessor {
 
@@ -57,9 +56,5 @@ public class FileProcessor {
             if (writer != null)
                 writer.close();
         }
-        
-     
-       
     }
-
 }

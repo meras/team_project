@@ -30,7 +30,6 @@ import javax.swing.JTextField;
 public class LittleGUI extends JFrame implements ActionListener 
 {
 	
-	//TODO check and add if needed functionality to the clear button
 	//Reference variables for all the buttons
 	private JButton editButton, saveAddButton, deleteButton, clearButton, exitButton;
 	//Reference variables for the two comboboxes
@@ -178,10 +177,6 @@ public class LittleGUI extends JFrame implements ActionListener
 		home.add(southRadio);
 
 		JPanel preferrence = new JPanel();
-
-		//TODO Needs to automatically spot when a referee radiobutton is clicked to highlight which is the default preference, 
-		//needs also to be modified for search to automatically show results.
-
 		northCheck = new Checkbox("North", false);
 		centralCheck = new Checkbox("Central", false);
 		southCheck = new Checkbox("South", false);

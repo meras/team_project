@@ -23,15 +23,16 @@ public class MatchList implements Iterable<Match> {
         return weekAllocated;
     }
 
-    /**
-     * add match to match list based on week number
-     */
-    public void addMatch(Match newMatch) {
-        matchList.add(newMatch);
-    }
-
     //TODO temporary name
-    public void alternativeAddMatch(int week, int loc, boolean senior, String ref1Nm, String ref2Nm) {
+	/**
+	 * Takes match details, makes new match object and adds it to matchList
+	 * @param week the week the match is in
+	 * @param loc the match location
+	 * @param senior a boolean indicating whether match is senior or not
+	 * @param ref1Nm the full name of the first ref allocated to the match
+	 * @param ref2Nm the full name of the second ref allocated to the match
+	 */
+    public void addMatch(int week, int loc, boolean senior, String ref1Nm, String ref2Nm) {
         Match newMatch = new Match(week, loc, senior, ref1Nm, ref2Nm);
         matchList.add(newMatch);
     }
