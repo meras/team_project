@@ -534,23 +534,21 @@ public class LittleGUI extends JFrame implements ActionListener
 	 * A method which checks the current states of the Preference check buttons in LittleGUI and returns a string suitable to be passed to {@link RefList}
 	 * @return
 	 */
-	private String getPreferences()
-	{
-		String travelInfo = "";
 
-		if (northCheck.getState())
-			travelInfo += "Y";
-		else
-			travelInfo += "N";
-		if (centralCheck.getState())
-			travelInfo += "Y";
-		else
-			travelInfo += "N";
-		if (southCheck.getState())
-			travelInfo += "Y";
-		else
-			travelInfo += "N";
-		return travelInfo;
+	private String getPreferences() {
+		char[] travelInfo = {'N','N','N'};
+
+		if (northCheck.getState()) {
+			travelInfo[0] = 'Y';
+		}
+		if (centralCheck.getState()) {
+			travelInfo[1] = 'Y';
+		}
+		if (southCheck.getState()) {
+			travelInfo[2] = 'Y';
+		}
+
+		return travelInfo.toString();
 	}
 
 	/**
