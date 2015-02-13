@@ -360,7 +360,7 @@ public class LittleGUI extends JFrame implements ActionListener
 			else
 			{
 				refList.addRefFromGui(fNameField.getText(), lNameField.getText(), (String)qualificationTypeCombo.getSelectedItem() + Integer.parseInt((String)(qualificationsCombo.getSelectedItem())),  
-				Integer.parseInt(matchField.getText()) , getHomeArea(), getTravelInfo()); 
+				Integer.parseInt(matchField.getText()) , getHomeArea(), getPreferences());
 
 				mainGUI.updateTable();
 				clearFields();
@@ -415,7 +415,7 @@ public class LittleGUI extends JFrame implements ActionListener
 		referee.setQualificationType((String)qualificationTypeCombo.getSelectedItem());
 		referee.setQualificationLevel(Integer.parseInt((String)(qualificationsCombo.getSelectedItem())));
 		referee.setHomeArea(getHomeArea());	
-		referee.setTravelInfo(getTravelInfo());		
+		referee.setTravelInfo(getPreferences());
 	}
 	
 	/**
@@ -479,7 +479,7 @@ public class LittleGUI extends JFrame implements ActionListener
 		}
 
 		//Checks if at least one preference has been selected
-		if (getTravelInfo().equals("NNN"))
+		if (getPreferences().equals("NNN"))
 		{	
 			JOptionPane.showMessageDialog(this, "Please select at least one preference.",
 					"Error", JOptionPane.ERROR_MESSAGE);
@@ -534,7 +534,7 @@ public class LittleGUI extends JFrame implements ActionListener
 	 * A method which checks the current states of the Preference check buttons in LittleGUI and returns a string suitable to be passed to {@link RefList}
 	 * @return
 	 */
-	private String getTravelInfo()
+	private String getPreferences()
 	{
 		String travelInfo = "";
 
