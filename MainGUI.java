@@ -333,7 +333,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		String ref1Name = ref1.getFName() + " " + ref1.getLName();
 		String ref2Name = ref2.getFName() + " " + ref2.getLName();
 		// Create new match
-		matchList.alternativeAddMatch(weekNumber, place, senior, ref1Name, ref2Name);
+		matchList.addMatch(weekNumber, place, senior, ref1Name, ref2Name);
 		// Increment the number of allocations of the 2 allocated refs
 		ref1.incrementAllocs();
 		ref2.incrementAllocs();
