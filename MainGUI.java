@@ -236,6 +236,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		// Create JTable and add it to the scroll pane
 		centerTable = new JTable(model);
 		centerTable.setGridColor(Color.LIGHT_GRAY);
+		centerTable.getColumnModel().getColumn(1).setPreferredWidth(150);
 	}
 
 	/**
