@@ -503,15 +503,7 @@ public class LittleGUI extends JFrame implements ActionListener
 	 * @return
 	 */
 	private boolean containsLetters(String name) {
-		//make the string a char array
-		char[] chars = name.toCharArray();
-		//check each individual character
-		for (char c : chars) {
-			if(!Character.isLetter(c)) {
-				return false;
-			}
-		}
-		return true;
+		return name.matches("^[a-zA-Z-?]*$");
 	}
 	
 	/**
