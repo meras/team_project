@@ -45,7 +45,6 @@ public class LittleGUI extends JFrame implements ActionListener
 	private Checkbox northCheck, centralCheck, southCheck;
 	//Reference variables for the radio button group. Check buttons don't have a group so an enumeration is used instead.
 	private ButtonGroup homeGroup;
-	private Enumeration<AbstractButton> homeRadios;
 	/**Reference variables for the {@link Referee}, {@link RefList}, {@link MainGUI} classes*/
 	private Referee referee;
 	private RefList refList;
@@ -173,14 +172,14 @@ public class LittleGUI extends JFrame implements ActionListener
 		homeGroup.add(northRadio);
 		homeGroup.add(centralRadio);
 		homeGroup.add(southRadio);
-		homeRadios = homeGroup.getElements();
-		home.add(new JLabel("Home:"));  
-		
-		//add all the radio buttons
-		while (homeRadios.hasMoreElements())
-		{
-			home.add(homeRadios.nextElement());
-		}
+		home.add(new JLabel("Home:"));
+		home.add(northRadio);
+		home.add(centralRadio);
+		home.add(southRadio);
+
+		northRadio.setEnabled(false);
+		centralRadio.setEnabled(false);
+		southRadio.setEnabled(false);
 
 		JPanel preferrence = new JPanel();
 
@@ -278,10 +277,10 @@ public class LittleGUI extends JFrame implements ActionListener
 		deleteButton.setVisible(true);
 		exitButton.setVisible(true);
 
-		while (homeRadios.hasMoreElements())
-		{
-			homeRadios.nextElement().setEnabled(false);
-		}
+		northRadio.setEnabled(false);
+		centralRadio.setEnabled(false);
+		southRadio.setEnabled(false);
+
 		northCheck.setEnabled(false);
 		centralCheck.setEnabled(false);
 		southCheck.setEnabled(false);	
@@ -299,10 +298,7 @@ public class LittleGUI extends JFrame implements ActionListener
 		matchField.setEditable(true);
 		qualificationTypeCombo.setEnabled(true);
 		qualificationsCombo.setEnabled(true);
-		while (homeRadios.hasMoreElements())
-		{
-			homeRadios.nextElement().setEnabled(true);
-		}
+
 		northCheck.setEnabled(true);
 		centralCheck.setEnabled(true);
 		southCheck.setEnabled(true);
@@ -610,10 +606,9 @@ public class LittleGUI extends JFrame implements ActionListener
 		qualificationTypeCombo.setSelectedItem("Type");
 		qualificationsCombo.setSelectedItem("Level");   
 
-		while (homeRadios.hasMoreElements())
-		{
-			homeRadios.nextElement().setSelected(false);;
-		}     
+		northRadio.setEnabled(false);
+		centralRadio.setEnabled(false);
+		southRadio.setEnabled(false);
 
 		//find preferences
 		northCheck.setState(false);

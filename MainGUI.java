@@ -194,6 +194,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == searchRefButton) {
 			processSearch();
+			clearNameFields();
 		}
 		if(e.getSource() == saveExitButton) {
 			processSaveExit();
