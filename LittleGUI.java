@@ -1,13 +1,8 @@
-import java.awt.BorderLayout;
-import java.awt.Checkbox;
-import java.awt.Component;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.Collections;
-
-import javax.swing.*;
 
 /**
  * LittleGUI is a view class which is responsible for displaying and informing the {@link RefList} controller class
@@ -391,6 +386,7 @@ public class LittleGUI extends JFrame implements ActionListener {
         referee.setQualificationType((String) qualificationTypeCombo.getSelectedItem());
         referee.setQualificationLevel(Integer.parseInt((String) (qualificationsCombo.getSelectedItem())));
         referee.setHomeArea(getHomeArea());
+        System.out.println(getHomeArea());
         referee.setTravelInfo(getPreferences());
     }
 
@@ -506,8 +502,7 @@ public class LittleGUI extends JFrame implements ActionListener {
         if (southCheck.isSelected()) {
             travelInfo[2] = 'Y';
         }
-
-        return Arrays.toString(travelInfo);
+        return new String(travelInfo);
     }
 
     /**
@@ -517,12 +512,15 @@ public class LittleGUI extends JFrame implements ActionListener {
      * @return
      */
     private boolean checkHomePreference() {
-        if (northRadio.isSelected() && northCheck.isSelected())
+        if (northRadio.isSelected() && northCheck.isSelected()) {
             return true;
-        if (centralRadio.isSelected() && centralCheck.isSelected())
+        }
+        if (centralRadio.isSelected() && centralCheck.isSelected()) {
             return true;
-        if (southRadio.isSelected() && southCheck.isSelected())
+        }
+        if (southRadio.isSelected() && southCheck.isSelected()) {
             return true;
+        }
 
         return false;
 
