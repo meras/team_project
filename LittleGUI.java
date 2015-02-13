@@ -177,10 +177,6 @@ public class LittleGUI extends JFrame implements ActionListener
 		home.add(centralRadio);
 		home.add(southRadio);
 
-		northRadio.setEnabled(false);
-		centralRadio.setEnabled(false);
-		southRadio.setEnabled(false);
-
 		JPanel preferrence = new JPanel();
 
 		//TODO Needs to automatically spot when a referee radiobutton is clicked to highlight which is the default preference, 
@@ -298,6 +294,10 @@ public class LittleGUI extends JFrame implements ActionListener
 		matchField.setEditable(true);
 		qualificationTypeCombo.setEnabled(true);
 		qualificationsCombo.setEnabled(true);
+
+		northRadio.setEnabled(true);
+		centralRadio.setEnabled(true);
+		southRadio.setEnabled(true);
 
 		northCheck.setEnabled(true);
 		centralCheck.setEnabled(true);
@@ -604,11 +604,11 @@ public class LittleGUI extends JFrame implements ActionListener
 		lNameField.setText("");
 		matchField.setText("");     
 		qualificationTypeCombo.setSelectedItem("Type");
-		qualificationsCombo.setSelectedItem("Level");   
+		qualificationsCombo.setSelectedItem("Level");
 
-		northRadio.setEnabled(false);
-		centralRadio.setEnabled(false);
-		southRadio.setEnabled(false);
+		northRadio.setSelected(false);
+		centralRadio.setSelected(false);
+		southRadio.setSelected(false);
 
 		//find preferences
 		northCheck.setState(false);
