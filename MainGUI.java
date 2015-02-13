@@ -135,7 +135,6 @@ public class MainGUI extends JFrame implements ActionListener {
 		topSections.add(searchPanel, c);
 
 		// Use the setCenterTable method to populate the table and add it to the scrollpane
-		//TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
 		setCenterTable();
 		JScrollPane tableScroll = new JScrollPane(centerTable);
 		centerTable.setFillsViewportHeight(true);
