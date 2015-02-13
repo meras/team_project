@@ -4,17 +4,10 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Collections;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  * LittleGUI is a view class which is responsible for displaying and informing the {@link RefList} controller class
@@ -37,7 +30,7 @@ public class LittleGUI extends JFrame implements ActionListener {
     private JLabel idLabel;
     //Reference variables for the radio and check buttons.
     private JRadioButton northRadio, centralRadio, southRadio;
-    private Checkbox northCheck, centralCheck, southCheck;
+    private JCheckBox northCheck, centralCheck, southCheck;
     //Reference variables for the radio button group. Check buttons don't have a group so an enumeration is used instead.
     private ButtonGroup homeGroup;
     /**
@@ -90,9 +83,9 @@ public class LittleGUI extends JFrame implements ActionListener {
             }
 
             //find preferences
-            northCheck.setState(referee.getTravelInfo(Referee.NORTH));
-            centralCheck.setState(referee.getTravelInfo(Referee.CENTRAL));
-            southCheck.setState(referee.getTravelInfo(Referee.SOUTH));
+            northCheck.setSelected(referee.getTravelInfo(Referee.NORTH));
+            centralCheck.setSelected(referee.getTravelInfo(Referee.CENTRAL));
+            southCheck.setSelected(referee.getTravelInfo(Referee.SOUTH));
         }
     }
 
@@ -172,9 +165,9 @@ public class LittleGUI extends JFrame implements ActionListener {
         home.add(southRadio);
 
         JPanel preferrence = new JPanel();
-        northCheck = new Checkbox("North", false);
-        centralCheck = new Checkbox("Central", false);
-        southCheck = new Checkbox("South", false);
+        northCheck = new JCheckBox("North", false);
+        centralCheck = new JCheckBox("Central", false);
+        southCheck = new JCheckBox("South", false);
 
         //add all the preference buttons
         preferrence.add(new JLabel("Preference:"));
@@ -504,17 +497,17 @@ public class LittleGUI extends JFrame implements ActionListener {
     private String getPreferences() {
         char[] travelInfo = {'N', 'N', 'N'};
 
-        if (northCheck.getState()) {
+        if (northCheck.isSelected()) {
             travelInfo[0] = 'Y';
         }
-        if (centralCheck.getState()) {
+        if (centralCheck.isSelected()) {
             travelInfo[1] = 'Y';
         }
-        if (southCheck.getState()) {
+        if (southCheck.isSelected()) {
             travelInfo[2] = 'Y';
         }
 
-        return travelInfo.toString();
+        return Arrays.toString(travelInfo);
     }
 
     /**
@@ -524,11 +517,11 @@ public class LittleGUI extends JFrame implements ActionListener {
      * @return
      */
     private boolean checkHomePreference() {
-        if (northRadio.isSelected() && northCheck.getState())
+        if (northRadio.isSelected() && northCheck.isSelected())
             return true;
-        if (centralRadio.isSelected() && centralCheck.getState())
+        if (centralRadio.isSelected() && centralCheck.isSelected())
             return true;
-        if (southRadio.isSelected() && southCheck.getState())
+        if (southRadio.isSelected() && southCheck.isSelected())
             return true;
 
         return false;
@@ -547,9 +540,9 @@ public class LittleGUI extends JFrame implements ActionListener {
 
         homeGroup.clearSelection();
         //find preferences
-        northCheck.setState(false);
-        centralCheck.setState(false);
-        southCheck.setState(false);
+        northCheck.setSelected(false);
+        centralCheck.setSelected(false);
+        southCheck.setSelected(false);
 
     }
 }
