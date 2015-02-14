@@ -6,11 +6,11 @@ public class Match {
     /**
      * instance variables
      */
-    private int weekNumber;
-    private String matchLevel;
+    private final int weekNumber;
+    private final String matchLevel;
     private String matchArea;
-    private String refOne;
-    private String refTwo;
+    private final String refOne;
+    private final String refTwo;
 
     /**
      * Constructor for Match class
@@ -20,7 +20,6 @@ public class Match {
      * @param isSenior
      */
     public Match(int week, int area, boolean isSenior, String firstRef, String secondRef) {
-
         weekNumber = week;
         // area is being passed as an int so have to check which it is and set matchArea String accordingly
         if (area == Referee.NORTH)
@@ -30,11 +29,8 @@ public class Match {
         else if (area == Referee.SOUTH)
             matchArea = "South";
 
-        if (isSenior == true) {
-            matchLevel = "Senior";
-        } else {
-            matchLevel = "Junior";
-        }
+        matchLevel = isSenior ? "Senior" : "Junior";
+
         refOne = firstRef;
         refTwo = secondRef;
     }
@@ -90,10 +86,7 @@ public class Match {
      * @return
      */
     public String getMatchLine() {
-
-        String matchLine = String.format("%-8d%-12s%-12s%-20s%-20s%n", weekNumber, matchLevel, matchArea, refOne, refTwo);
-
-        return matchLine;
+        return String.format("%-8d%-12s%-12s%-20s%-20s%n", weekNumber, matchLevel, matchArea, refOne, refTwo);
     }
 }
 
