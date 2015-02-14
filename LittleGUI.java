@@ -43,10 +43,10 @@ public class LittleGUI extends JFrame implements ActionListener {
     /**
      * The constructor for LittleGUI.
      *
-     * @param mode use ADD or SEARCH to set the window mode. Search mode displays referee details, Add produces an empty window
-     * @param ref Referee object passed from the MainGUI. Can be null, used for creating an add window
+     * @param mode        use ADD or SEARCH to set the window mode. Search mode displays referee details, Add produces an empty window
+     * @param ref         Referee object passed from the MainGUI. Can be null, used for creating an add window
      * @param refereeList The referee list
-     * @param refGUI the main GUI window
+     * @param refGUI      the main GUI window
      */
     public LittleGUI(int mode, Referee ref, RefList refereeList, MainGUI refGUI) {
         // assign the instance variables the values passed from MainGUI
@@ -306,15 +306,13 @@ public class LittleGUI extends JFrame implements ActionListener {
         if (validateFields()) {
             //If the referee with the same names has already been added to the database return an error
             if (refList.findRef(fNameField.getText(), lNameField.getText()) != null) {
-                JOptionPane.showMessageDialog(this, "Adding referee failed. The referee already exists in the database.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                errorPane("Adding referee failed. The referee already exists in the database.");
             }
             /**
              * If the {@link RefList} has already have 12 referees added return an error
              */
             else if (!refList.checkForSpace()) {
-                JOptionPane.showMessageDialog(this, "Adding referee failed. There can't be more than 12 referees in the database.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                errorPane("Adding referee failed. There can't be more than 12 referees in the database.");
             }
             /**
              * if all checks have been passed add a new referee to {@link RefList}, update the MainGUI and display a message to feedback sucess
@@ -337,9 +335,7 @@ public class LittleGUI extends JFrame implements ActionListener {
     private void processDelete() {
         //first check if ref has been allocated
         if (referee.isAllocated()) {
-            JOptionPane.showMessageDialog(this, "The referee cannot be deleted as he has been allocated to a match",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            //exit method
+            errorPane("The referee cannot be deleted as he has been allocated to a match");
             return;
         }
 
@@ -356,8 +352,7 @@ public class LittleGUI extends JFrame implements ActionListener {
                         "Success", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 dispose();
-                JOptionPane.showMessageDialog(this, "There was a problem deleting the referee. Please check if the referee still exists in the database.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                errorPane("There was a problem deleting the referee. Please check if the referee still exists in the database.");
             }
         }
     }
@@ -381,15 +376,13 @@ public class LittleGUI extends JFrame implements ActionListener {
     private boolean validateFields() {
         //Checks if either of the name fields are empty strings
         if (fNameField.getText().equals("") || lNameField.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "The referee names cannot be empty strings.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorPane("The referee names cannot be empty strings.");
             return false;
         }
 
         //Checks that the name of referee contains only letters
         if (!(validName(fNameField.getText())) || !(validName(lNameField.getText()))) {
-            JOptionPane.showMessageDialog(this, "The referee names should only contain letters.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorPane("The referee names should only contain letters.");
             return false;
         }
 
@@ -397,43 +390,37 @@ public class LittleGUI extends JFrame implements ActionListener {
         try {
             Integer.parseInt(matchField.getText());
         } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(this, "Please enter an integer number for the number of matches.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorPane("Please enter an integer number for the number of matches.");
             return false;
         }
 
         //Checks if a qualification type has been selected
         if (qualificationTypeCombo.getSelectedItem().equals("Type")) {
-            JOptionPane.showMessageDialog(this, "Please select a qualification type.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorPane("Please select a qualification type.");
             return false;
         }
 
         //Checks if a qualification level has been selected
         if (qualificationsCombo.getSelectedItem().equals("Level")) {
-            JOptionPane.showMessageDialog(this, "Please select a qualification level.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorPane("Please select a qualification level.");
             return false;
         }
 
         //Checks if a home area has been selected
         if (getHomeArea().equals("")) {
-            JOptionPane.showMessageDialog(this, "Please select a home area.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorPane("Please select a home area.");
             return false;
         }
 
         //Checks if at least one preference has been selected
         if (getPreferences().equals("NNN")) {
-            JOptionPane.showMessageDialog(this, "Please select at least one preference.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorPane("Please select at least one preference.");
             return false;
         }
 
         //Calls a method to check if the home are is reflected in the preferences
         if (!checkHomePreference()) {
-            JOptionPane.showMessageDialog(this, "The preferences should include the home area of the referee.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            errorPane("The preferences should include the home area of the referee.");
             return false;
         }
 
@@ -512,5 +499,13 @@ public class LittleGUI extends JFrame implements ActionListener {
         northCheck.setSelected(false);
         centralCheck.setSelected(false);
         southCheck.setSelected(false);
+    }
+    /**
+     * Creates a JOption pane with a custom error message
+     *
+     * @param errorMessage Message to display on the JOptionPane
+     */
+    private void errorPane(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }

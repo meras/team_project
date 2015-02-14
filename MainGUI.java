@@ -462,6 +462,4 @@ public class MainGUI extends JFrame implements ActionListener {
 	private void errorPane(String errorMessage) {
 		JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
-
-	
 }
