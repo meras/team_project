@@ -388,9 +388,10 @@ public class LittleGUI extends JFrame implements ActionListener {
 
         //Catches any exceptions if the user enters something else than an integer
         try {
-            Integer.parseInt(matchField.getText());
+            if (Integer.parseInt(matchField.getText())<0)
+                throw new NumberFormatException();
         } catch (NumberFormatException nfe) {
-            errorPane("Please enter an integer number for the number of matches.");
+            errorPane("Please enter a positive integer number for the number of matches.");
             return false;
         }
 
