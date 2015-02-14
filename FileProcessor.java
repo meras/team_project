@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 
 /**
  * The file processor contains static methods to read and write files
- * TODO this can be incorporated into main gui
  */
 public class FileProcessor {
 
@@ -20,18 +19,12 @@ public class FileProcessor {
     * @param referees       the list of all the referee objects that have been made
     */
     public static void readIn(String refereesInFile, RefList referees) {
-        Scanner in = null;
-        try {
-            in = new Scanner(new FileReader(refereesInFile));
+        try (Scanner in = new Scanner(new FileReader(refereesInFile))){
             while (in.hasNextLine()) {
                 referees.addRefFromFile(in.nextLine());
             }
         } catch (FileNotFoundException e) {
-        //    JOptionPane.showMessageDialog("Could not find the " + refereesInFile + " file.", "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            if (in != null) {
-                in.close();
-            }
+            JOptionPane.showMessageDialog(null, "Could not find the " + refereesInFile + " file.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -40,26 +33,13 @@ public class FileProcessor {
      * @param matchAllocsFile   the name of the file which is to be created
      */
     public static boolean writeFileOut(String fileOutName, String textToWrite) {
-
-        PrintWriter writer = null;
-
-        try {
-            writer = new PrintWriter(fileOutName);
-
+        try (PrintWriter writer = new PrintWriter(fileOutName)) {
             writer.write(textToWrite);
             return true; //IO operations were successful
         }
         catch (IOException e) {
             //showError("I/O exception: " + e.getMessage());
             return false; //IO operations were not successful
-        } 
-        finally {
-            if (writer != null)
-                writer.close();
         }
-        
-     
-       
     }
-
 }

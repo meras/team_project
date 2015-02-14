@@ -10,18 +10,13 @@ import java.util.List;
  */
 public class MainGUI extends JFrame implements ActionListener {
 	private final int INVALID_INFO = -1;
-	private JPanel centerLayout, topSections, allocRefsPanel, searchPanel, bottomButtons, weekPanel, locationPanel, levelPanel,
-			allocateButtonPanel, firstNamePanel, lastNamePanel, searchButtonPanel; // panels which are used to house the components, internal panels are used to aid in layout
-	private JLabel weekLabel, locationLabel, levelLabel, firstNameLabel, lastNameLabel; // labels to indicate to the user what they are to enter
 	private JButton allocateRefButton, barChartButton, addRefButton, searchRefButton, saveExitButton;  // the buttons which allow the user to allocate a ref, see the bar chart, add/view a ref and save and exit
 	private JRadioButton northButton, centralButton, southButton, juniorButton, seniorButton;   // the radio buttons to select the match location and level
 	private ButtonGroup locationGroup, levelGroup;  // the groups for the radio buttons to ensure that they are mutually exclusive
-	private JTextField weekField, firstNameField, lastNameField;    // the textfields to enter the week in which a match takes place and the name of the ref to be searched for
+	private JTextField weekField, firstNameField, lastNameField;    // the text fields to enter the week in which a match takes place and the name of the ref to be searched for
 	private JTextArea centerText; // text area to display the referees which have been allocated to a match or displays an error message
 	private DefaultTableModel model;    // the model to set the features of the JTable
 	private JTable centerTable;     // the JTable which displays the information about the referees
-	private final Object[] columnNames = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"}; // the names for each of the columns in the JTable
-	private JScrollPane tableScroll, textScroll;   // the scrollpane object which houses the JTable component
 	private final JTabbedPane tabbedPane = new JTabbedPane();   // the tabbed pane which holds the table and the text area to display the allocated referees
 	private final RefList refereeList;    // a RefList object which contains all the referees that have been entered so far
 	private final MatchList matchList;    // a MatchList object which contains all the matches that have been entered
@@ -33,7 +28,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	 */
 	public MainGUI() {
 		this.setTitle("Javaball Referee Selection");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		refereeList = new RefList();
@@ -47,25 +42,23 @@ public class MainGUI extends JFrame implements ActionListener {
 	 */
 	private void layoutComponents() {
 		// Create allocRefsPanel JPanel which will contain the match allocation components
-		allocRefsPanel = new JPanel();
+		JPanel allocRefsPanel = new JPanel();
 		allocRefsPanel.setLayout(new BoxLayout(allocRefsPanel, BoxLayout.Y_AXIS));
 		allocRefsPanel.setBorder(BorderFactory.createTitledBorder("Allocate Referees"));
 
 		// Create internal JPanels for each of the components
-		weekPanel = new JPanel();
-		locationPanel = new JPanel();
-		levelPanel = new JPanel();
-		allocateButtonPanel = new JPanel();
+		JPanel weekPanel = new JPanel();
+		JPanel locationPanel = new JPanel();
+		JPanel levelPanel = new JPanel();
+		JPanel allocateButtonPanel = new JPanel();
 
 		// Create label and textField for match week number
-		weekLabel = new JLabel("Week Number (1-52):");
-		weekPanel.add(weekLabel);
+		weekPanel.add(new JLabel("Week Number (1-52):"));
 		weekField = new JTextField(2);
 		weekPanel.add(weekField);
 
 		//Create label and radio buttons for match location
-		locationLabel = new JLabel("Match Location:");
-		locationPanel.add(locationLabel);
+		locationPanel.add(new JLabel("Match Location:"));
 		northButton = new JRadioButton("North");
 		centralButton = new JRadioButton("Central");
 		southButton = new JRadioButton("South");
@@ -81,8 +74,7 @@ public class MainGUI extends JFrame implements ActionListener {
 
 
 		// Create label and radio buttons for level
-		levelLabel = new JLabel("Level:");
-		levelPanel.add(levelLabel);
+		levelPanel.add(new JLabel("Level:"));
 		juniorButton = new JRadioButton("Junior");
 		seniorButton = new JRadioButton("Senior");
 
@@ -105,23 +97,21 @@ public class MainGUI extends JFrame implements ActionListener {
 		allocRefsPanel.add(allocateButtonPanel);
 
 		// Create searchPanel JPanel which will contain the search referee components
-		searchPanel = new JPanel(new GridLayout(3,1));
+		JPanel searchPanel = new JPanel(new GridLayout(3, 1));
 		searchPanel.setBorder(BorderFactory.createTitledBorder("Search for Referee"));
 
 		// Create the internal JPanels for each of the components
-		firstNamePanel = new JPanel();
-		lastNamePanel = new JPanel();
-		searchButtonPanel = new JPanel();
+		JPanel firstNamePanel = new JPanel();
+		JPanel lastNamePanel = new JPanel();
+		JPanel searchButtonPanel = new JPanel();
 
 		//Create label and button for first name
-		firstNameLabel = new JLabel("First Name:");
-		firstNamePanel.add(firstNameLabel);
+		firstNamePanel.add(new JLabel("First Name:"));
 		firstNameField = new JTextField(10);
 		firstNamePanel.add(firstNameField);
 
 		// Create label and button for last name
-		lastNameLabel = new JLabel("Last Name:");
-		lastNamePanel.add(lastNameLabel);
+		lastNamePanel.add(new JLabel("Last Name:"));
 		lastNameField = new JTextField(10);
 		lastNamePanel.add(lastNameField);
 
@@ -136,7 +126,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		searchPanel.add(searchButtonPanel);
 
 		//Create the topSections JPanel which will contain both the allocRefsPanel and searchPanel JPanel so that they sit side by side
-		topSections = new JPanel(new GridBagLayout());
+		JPanel topSections = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridwidth = 2;
 		c.gridheight = 1;
@@ -145,29 +135,28 @@ public class MainGUI extends JFrame implements ActionListener {
 		topSections.add(searchPanel, c);
 
 		// Use the setCenterTable method to populate the table and add it to the scrollpane
-		//TODO Exception in thread "main" java.lang.NumberFormatException: For input string: "North"
 		setCenterTable();
-		tableScroll = new JScrollPane(centerTable);
+		JScrollPane tableScroll = new JScrollPane(centerTable);
 		centerTable.setFillsViewportHeight(true);
 
 		// Create the text field which can be used to display information about the allocated referees
 		centerText = new JTextArea();
 		centerText.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		centerText.setEditable(false);
-		textScroll = new JScrollPane(centerText);
+		JScrollPane textScroll = new JScrollPane(centerText);
 
 		// add the table and text area to the CardLayout handler
 		tabbedPane.addTab("All Referees", tableScroll);
 		tabbedPane.addTab("Allocated Referees", textScroll);
 
 		// Create the centerLayout GUI which will contain the main sections and the table
-		centerLayout = new JPanel(new GridLayout(2,1));
+		JPanel centerLayout = new JPanel(new GridLayout(2, 1));
 		centerLayout.add(topSections);
 		centerLayout.add(tabbedPane);
 		this.add(centerLayout, BorderLayout.CENTER);
 
 		// Create bottomButtons JPanel
-		bottomButtons = new JPanel();
+		JPanel bottomButtons = new JPanel();
 		this.add(bottomButtons, BorderLayout.SOUTH);
 
 		//Create button for bar chart and add to internal JPanel
@@ -204,6 +193,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == searchRefButton) {
 			processSearch();
+			clearNameFields();
 		}
 		if(e.getSource() == saveExitButton) {
 			processSaveExit();
@@ -214,6 +204,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	* Create the model for the JTable, ensuring it is non editable and the data is displayed correctly
 	*/
 	private void setCenterTable() {
+		final Object[] columnNames = {"ID", "Name", "Qualification", "Allocations", "Home", "North", "Central", "South"}; // the names for each of the columns in the JTable
 		model = new DefaultTableModel(columnNames, 0) {
 			public boolean isCellEditable(int row, int col) {
 				return false;
@@ -245,6 +236,7 @@ public class MainGUI extends JFrame implements ActionListener {
 		// Create JTable and add it to the scroll pane
 		centerTable = new JTable(model);
 		centerTable.setGridColor(Color.LIGHT_GRAY);
+		centerTable.getColumnModel().getColumn(1).setPreferredWidth(150);
 	}
 
 	/**
@@ -341,14 +333,14 @@ public class MainGUI extends JFrame implements ActionListener {
 		String ref1Name = ref1.getFName() + " " + ref1.getLName();
 		String ref2Name = ref2.getFName() + " " + ref2.getLName();
 		// Create new match
-		matchList.alternativeAddMatch(weekNumber, place, senior, ref1Name, ref2Name);
+		matchList.addMatch(weekNumber, place, senior, ref1Name, ref2Name);
 		// Increment the number of allocations of the 2 allocated refs
 		ref1.incrementAllocs();
 		ref2.incrementAllocs();
 	}
 
 	/**
-	 * Retrieves the week number from its respective textfield and ensures it is valid
+	 * Retrieves the week number from its respective text field and ensures it is valid
 	 * @return INVALID_INFO constant if the week is invalid, week number otherwise
 	 */
 	private int getValidWeekNum(String weekNum) {
@@ -409,7 +401,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	/**
 	 * Inputs the suitable referee list and selected referees into the text area.
 	 * Hides the JTable but makes the button to view the table visible
-	 * @param suitable
+	 * @param suitableRefs
 	 */
 	private void displayAllocatedRefs(List<Referee> suitableRefs) {
 		// switch to the text area in the second tab
@@ -425,9 +417,8 @@ public class MainGUI extends JFrame implements ActionListener {
 				.append("\n\nThe referees which are suitable for the match are: \n");
 
 		for (Referee aSuitableRef : suitableRefs) {
-			display.append(String.format("%-15s%-15s%s %-4s%n",
-										aSuitableRef.getFName(),
-										aSuitableRef.getLName(),
+			display.append(String.format("%-35s%s %-4s%n",
+										aSuitableRef.getFName() + " " + aSuitableRef.getLName(),
 										"Allocations:",
 										aSuitableRef.getNumAllocs()));
 		}
@@ -468,9 +459,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	 *
 	 * @param errorMessage Message to display on the JOptionPane
 	 */
-	public void errorPane(String errorMessage) {
+	private void errorPane(String errorMessage) {
 		JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
 	}
-
-	
 }

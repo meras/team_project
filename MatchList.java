@@ -8,30 +8,29 @@ import java.util.List;
  */
 public class MatchList implements Iterable<Match> {
     public static final int MAX_MATCHES = 52;
-    private List<Match> matchList;
+    private final List<Match> matchList;
 
     /**
      * Constructor for MatchList class
      */
     public MatchList() {
-        matchList = new ArrayList<Match>();
+        matchList = new ArrayList<>();
     }
 
     public boolean checkWeekAllocation(int week) {
-        boolean weekAllocated = true;
-        if (getMatch(week) != null) weekAllocated = false;
-        return weekAllocated;
-    }
-
-    /**
-     * add match to match list based on week number
-     */
-    public void addMatch(Match newMatch) {
-        matchList.add(newMatch);
+        return (getMatch(week) != null);
     }
 
     //TODO temporary name
-    public void alternativeAddMatch(int week, int loc, boolean senior, String ref1Nm, String ref2Nm) {
+	/**
+	 * Takes match details, makes new match object and adds it to matchList
+	 * @param week the week the match is in
+	 * @param loc the match location
+	 * @param senior a boolean indicating whether match is senior or not
+	 * @param ref1Nm the full name of the first ref allocated to the match
+	 * @param ref2Nm the full name of the second ref allocated to the match
+	 */
+    public void addMatch(int week, int loc, boolean senior, String ref1Nm, String ref2Nm) {
         Match newMatch = new Match(week, loc, senior, ref1Nm, ref2Nm);
         matchList.add(newMatch);
     }
@@ -43,7 +42,7 @@ public class MatchList implements Iterable<Match> {
         return matchList.size();
     }
 
-    public Match getMatch(int matchWeekNo) {
+    private Match getMatch(int matchWeekNo) {
         for (Match match : matchList) {
             if (match.getWeekNo() == matchWeekNo) {
                 return match;
@@ -53,18 +52,15 @@ public class MatchList implements Iterable<Match> {
     }
 	
 	public String getMatchAllocsText() {
-		
         String title = "Match details\r\n\r\n";
         String tableHeader = String.format("%-8s%-12s%-12s%-20s%-20s%n%n", "Week", "Level", "Area", "Referee 1", "Referee 2");
 
         StringBuilder matchesOutBuilder = new StringBuilder();
 		for(Match match : matchList) {
-			String matchLine = match.getMatchLine();
-			matchesOutBuilder.append(matchLine);
+			matchesOutBuilder.append(match.getMatchLine());
 		}
 		
-		String matchesOutText = title + tableHeader + matchesOutBuilder;
-		return matchesOutText;
+		return title + tableHeader + matchesOutBuilder;
 	}
 
     /**

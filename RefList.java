@@ -1,12 +1,15 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class RefList implements Iterable<Referee> {
 	private static final int MAX_REFS = 12;
-	private List<Referee> refList;
+	private final List<Referee> refList;
 	public final int REF_NOT_FOUND = -1;
 
 	public RefList() {
-		refList = new ArrayList<Referee>();
+		refList = new ArrayList<>();
 	}
 
 	/**
@@ -35,7 +38,7 @@ public class RefList implements Iterable<Referee> {
 	}
 
 	/**
-	 * Used to add a Refere object fom information input to the GUI. First calls method to create the ref's ID then
+	 * Used to add a Referee object fom information input to the GUI. First calls method to create the ref's ID then
 	 * creates a new Referee, checks where it should be placed in refList based on order of IDs and adds it 
 	 * to refList in that position.
 	 * @param firstNm the first name input to the GUI
@@ -45,8 +48,7 @@ public class RefList implements Iterable<Referee> {
 	 * @param home the ref's home area
 	 * @param travelInfo information on where the ref will travel
 	 */
-	public void addRefFromGui(String firstNm, String lastNm, String qual, int allocs, String home, String travelInfo) 
-	{
+	public void addRefFromGui(String firstNm, String lastNm, String qual, int allocs, String home, String travelInfo) {
 		String newId = createId(firstNm, lastNm);
 		//create string to pass to Referee constructor
 		String refData = newId + " " + firstNm + " " + lastNm + " " + qual + " " + allocs + " " + home + " " + travelInfo;
@@ -55,18 +57,17 @@ public class RefList implements Iterable<Referee> {
 		//place new Referee in refList based on ID order
 		boolean added = false;
 		int i = 0;
-		while(!added && i < refList.size()) { //loop through refList
+		while (!added && i < refList.size()) { //loop through refList
 			String otherID = refList.get(i).getRefID(); //get ID to compare 
 			//if new ref's ID should be before compared ID, add new ref at compared ref's position
-			if(newId.compareTo(otherID) < 0) {
+			if (newId.compareTo(otherID) < 0) {
 				refList.add(i, newRef);
 				added = true; //new ref has been added, exit loop
-			}
-			else
+			} else
 				i++; //if new ref should be placed after compared ref, check next position
 		}
 		//If new ID does not come before any existing ID, place new Ref at end of refList
-		if(!added)
+		if (!added)
 			refList.add(newRef);
 	}
 
@@ -81,15 +82,13 @@ public class RefList implements Iterable<Referee> {
 		String letterPart = ("" + first.charAt(0) + last.charAt(0)).toUpperCase();
 		int numPart = 1; // set number part to 1 initially
 
-		for(int i = 0; i < refList.size(); i++) { //loop through refList
-			Referee ref = refList.get(i);
-			String otherInitials = ref.getRefID().substring(0,2); //get compared ref's initials
-			if(letterPart.equals(otherInitials))
+		for (Referee ref : refList) { //loop through refList
+			String otherInitials = ref.getRefID().substring(0, 2); //get compared ref's initials
+			if (letterPart.equals(otherInitials))
 				numPart++; //if matching initials found, increment the number part of ID
 		}
 		//concatenate the letter part and number part
-		String newRefId = letterPart + numPart;
-		return newRefId;
+		return letterPart + numPart;
 	}
 
 	/**
@@ -99,16 +98,13 @@ public class RefList implements Iterable<Referee> {
 	 * @return true if the ref of that name was found and deleted, false if not found
 	 */
 
-	public boolean deleteRef(String first, String last)
-	{
+	public boolean deleteRef(String first, String last) {
 		Referee findRefResult = findRef(first, last); //look for ref in refList
 
-		if (findRefResult != null) //if ref exists, remove from refList
-		{
+		if (findRefResult != null) { //if ref exists, remove from refList
 			refList.remove(findRefResult);
 			return true;
-		}
-		else //ref not found, return false
+		} else //ref not found, return false
 			return false;
 	}
 
@@ -142,15 +138,6 @@ public class RefList implements Iterable<Referee> {
 			return ref;
 	}
 
-		
-	public void printReferees ()
-	{
-		for (Referee r : refList)
-		{
-			System.out.println(r.getRefID() + " " + r.getFName() + " " + r.getLName() + " " + r.getQualificationType() + r.getQualificationLevel() + " " +  r.getNumAllocs() + " " + r.getHomeString() + " " + r.getTravelInfo(r.getHomeArea()));
-		}
-	}
-
 	/**
 	 * takes in information about a match and creates a list of suitable refs, in order of suitability.
 	 * makes an array of Referees from refList then sorts that array in order of number of allocations.
@@ -172,23 +159,22 @@ public class RefList implements Iterable<Referee> {
 		int numLocalRefs = 0;
 		int numAdjRefs = 0;
 		//arrayList to be populated with suitable referees
-		List<Referee> suitableRefs = new ArrayList<Referee>();
+		List<Referee> suitableRefs = new ArrayList<>();
 
-		for(int i=0; i < arrayToSort.length; i++) { //loop through array sorted on number of allocations
-			Referee ref = arrayToSort[i];
+		for (Referee ref : arrayToSort) { //loop through array sorted on number of allocations
 			int home = ref.getHomeArea(); //get ref's home area
 			boolean refWillTravel = ref.getTravelInfo(matchLoc); //get whether ref will travel to match location
 
-			if(!seniorMatch || ref.checkIfQualified()) { //first check if ref is qualified for the match
+			if (!seniorMatch || ref.checkIfQualified()) { //first check if ref is qualified for the match
 				//if ref lives in match location, add ref in position after last local ref
-				if (home == matchLoc) { 
+				if (home == matchLoc) {
 					suitableRefs.add(numLocalRefs, ref);
 					numLocalRefs++; //increment number of local refs in list
-				//if ref lives in an adjacent area, add ref in position after last adjacent ref
+					//if ref lives in an adjacent area, add ref in position after last adjacent ref
 				} else if ((home == Referee.CENTRAL || matchLoc == Referee.CENTRAL) && refWillTravel) {
 					suitableRefs.add(numLocalRefs + numAdjRefs, ref);
 					numAdjRefs++; //increment number of adjacent refs in list
-				//if ref lives in a non-adjacent area, add ref to end of list
+					//if ref lives in a non-adjacent area, add ref to end of list
 				} else if (refWillTravel) {
 					suitableRefs.add(ref);
 				}
@@ -199,14 +185,11 @@ public class RefList implements Iterable<Referee> {
 	
 	public String getRefsOutText() {
 		StringBuilder refsOutBuilder = new StringBuilder();
-		
+
 		for(Referee ref : refList) {
-			String refLine = ref.getRefLine();
-			refsOutBuilder.append(refLine);
+			refsOutBuilder.append(ref.getRefLine());
 		}
-		
-		String refsOutText = refsOutBuilder.toString();
-		return refsOutText;
+		return refsOutBuilder.toString();
 	}
 	
 	/**

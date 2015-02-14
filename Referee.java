@@ -1,9 +1,10 @@
 
 public class Referee implements Comparable<Referee> {
 	
-	private String refID, fName, lName, qualificationType;
+	private final String refID, fName, lName;
+	private String qualificationType;
 	private int homeArea, qualificationLevel;
-	private boolean[] travelInfo;
+	private final boolean[] travelInfo;
 	private int numAllocations;
 	//boolean to keep track if ref has been allocated to a match within the program (to prevent deletion of ref if so)
 	private boolean allocated = false;
@@ -117,8 +118,8 @@ public class Referee implements Comparable<Referee> {
 	
 	private String getTravelString() {
 		String travelString = "";
-		for(int i=0; i<travelInfo.length; i++) {
-			if(travelInfo[i])
+		for (boolean aTravelInfo : travelInfo) {
+			if (aTravelInfo)
 				travelString += "Y";
 			else
 				travelString += "N";
@@ -212,10 +213,7 @@ public class Referee implements Comparable<Referee> {
 		String home = getHomeString();
 		String travel = getTravelString();
 		
-		String refLine = String.format("%s %s %s %s%d %d %s %s %n", refID, fName, lName, qualificationType, qualificationLevel, numAllocations,
-				home, travel);
-		
-		return refLine;
+		return String.format("%s %s %s %s%d %d %s %s %n", refID, fName, lName, qualificationType, qualificationLevel, numAllocations, home, travel);
 	}
 	
 	/**
@@ -234,5 +232,4 @@ public class Referee implements Comparable<Referee> {
 		else
 			return 0;
 	}
-	
 }
