@@ -101,8 +101,7 @@ public class RefList implements Iterable<Referee> {
 	public boolean deleteRef(String first, String last) {
 		Referee findRefResult = findRef(first, last); //look for ref in refList
 
-		if (findRefResult != null) //if ref exists, remove from refList
-		{
+		if (findRefResult != null) { //if ref exists, remove from refList
 			refList.remove(findRefResult);
 			return true;
 		} else //ref not found, return false
@@ -137,13 +136,6 @@ public class RefList implements Iterable<Referee> {
 			return null;
 		else //if ref was found, return the object
 			return ref;
-	}
-
-
-	public void printReferees() {
-		for (Referee r : refList) {
-			System.out.println(r.getRefID() + " " + r.getFName() + " " + r.getLName() + " " + r.getQualificationType() + r.getQualificationLevel() + " " + r.getNumAllocs() + " " + r.getHomeString() + " " + r.getTravelInfo(r.getHomeArea()));
-		}
 	}
 
 	/**
@@ -193,14 +185,11 @@ public class RefList implements Iterable<Referee> {
 	
 	public String getRefsOutText() {
 		StringBuilder refsOutBuilder = new StringBuilder();
-		
+
 		for(Referee ref : refList) {
-			String refLine = ref.getRefLine();
-			refsOutBuilder.append(refLine);
+			refsOutBuilder.append(ref.getRefLine());
 		}
-		
-		String refsOutText = refsOutBuilder.toString();
-		return refsOutText;
+		return refsOutBuilder.toString();
 	}
 	
 	/**
