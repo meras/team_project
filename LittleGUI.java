@@ -13,7 +13,6 @@ import java.util.Collections;
  * @see RefList
  */
 public class LittleGUI extends JFrame implements ActionListener {
-
     //Reference variables for all the buttons
     private JButton editButton, saveButton, addButton, deleteButton, clearButton, exitButton;
     //Reference variables for the two comboboxes
@@ -31,9 +30,9 @@ public class LittleGUI extends JFrame implements ActionListener {
     /**
      * Reference variables for the {@link Referee}, {@link RefList}, {@link MainGUI} classes
      */
-    private Referee referee;
-    private RefList refList;
-    private MainGUI mainGUI;
+    private final Referee referee;
+    private final RefList refList;
+    private final MainGUI mainGUI;
     //Reference variable to the bottom JPanel which changes in different modes of LittleGUI
     private JPanel bottom;
 
@@ -42,55 +41,20 @@ public class LittleGUI extends JFrame implements ActionListener {
     public static final int SEARCH = 1;
 
     /**
-     * The constructor for LittleGUI. It takes an int mode to decide which type of LittleGUI to be displayed. Ref is the referee passed from the MainGUI
-     * refereeList is again passed from the MainGUI and refGUI is the MainGUI itself.
-     * If the value of ref is not null the constructor makes a LittleGUI with the details of the selected referee in the existing fields.
+     * The constructor for LittleGUI.
      *
-     * @param mode
-     * @param ref
-     * @param refereeList
-     * @param refGUI
+     * @param mode use ADD or SEARCH to set the window mode. Search mode displays referee details, Add produces an empty window
+     * @param ref Referee object passed from the MainGUI. Can be null, used for creating an add window
+     * @param refereeList The referee list
+     * @param refGUI the main GUI window
      */
     public LittleGUI(int mode, Referee ref, RefList refereeList, MainGUI refGUI) {
-        //assign the instance variables the values passed from MainGUI
-        constructGui(mode);
+        // assign the instance variables the values passed from MainGUI
         refList = refereeList;
         referee = ref;
         mainGUI = refGUI;
 
-        //if ref is not null
-        if (referee != null) {
-            //set Referee details
-            fNameField.setText(referee.getFName());
-            lNameField.setText(referee.getLName());
-            idField.setText(referee.getRefID());
-            matchField.setText("" + referee.getNumAllocs());
-            qualificationTypeCombo.setSelectedItem(referee.getQualificationType());
-            qualificationsCombo.setSelectedItem(String.valueOf(referee.getQualificationLevel()));
-
-            //find home area
-            if (referee.getHomeArea() == 0) {
-                northRadio.setSelected(true);
-            } else if (referee.getHomeArea() == 1) {
-                centralRadio.setSelected(true);
-            } else {
-                southRadio.setSelected(true);
-            }
-
-            //find preferences
-            northCheck.setSelected(referee.getTravelInfo(Referee.NORTH));
-            centralCheck.setSelected(referee.getTravelInfo(Referee.CENTRAL));
-            southCheck.setSelected(referee.getTravelInfo(Referee.SOUTH));
-        }
-    }
-
-    /**
-     * Based on what mode is passed from the MainGUI constructs a new JFrame of the LittleGUI class
-     *
-     * @param mode
-     */
-    private void constructGui(int mode) {
-        //sets the parameters of the JFrame
+        // create the window
         setTitle("Referee Details");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(350, 400);
@@ -120,8 +84,8 @@ public class LittleGUI extends JFrame implements ActionListener {
         idField.setEditable(false);
         matchField = new JTextField(7);
         matchField.setEditable(false);
-        qualificationTypeCombo = new JComboBox<String>(qualificationTypeList);
-        qualificationsCombo = new JComboBox<String>(qualificationList);
+        qualificationTypeCombo = new JComboBox<>(qualificationTypeList);
+        qualificationsCombo = new JComboBox<>(qualificationList);
         qualificationsCombo.setLightWeightPopupEnabled(false);
 
         JPanel fname = new JPanel();
@@ -159,17 +123,16 @@ public class LittleGUI extends JFrame implements ActionListener {
         home.add(centralRadio);
         home.add(southRadio);
 
-        JPanel preferrence = new JPanel();
+        JPanel preference = new JPanel();
         northCheck = new JCheckBox("North", false);
         centralCheck = new JCheckBox("Central", false);
         southCheck = new JCheckBox("South", false);
 
         //add all the preference buttons
-        preferrence.add(new JLabel("Preference:"));
-        preferrence.add(northCheck);
-        preferrence.add(centralCheck);
-        preferrence.add(southCheck);
-
+        preference.add(new JLabel("Preference:"));
+        preference.add(northCheck);
+        preference.add(centralCheck);
+        preference.add(southCheck);
 
         //add all the panels to the center JPanel
         center.add(fname);
@@ -177,7 +140,7 @@ public class LittleGUI extends JFrame implements ActionListener {
         center.add(info);
         center.add(qualification);
         center.add(home);
-        center.add(preferrence);
+        center.add(preference);
         add(center, BorderLayout.CENTER);
     }
 
@@ -238,6 +201,7 @@ public class LittleGUI extends JFrame implements ActionListener {
      */
     private void showSearch() {
         hideBottomComponents();
+        // set up the relevant GUI components
         fNameField.setEditable(false);
         lNameField.setEditable(false);
         matchField.setEditable(false);
@@ -250,10 +214,31 @@ public class LittleGUI extends JFrame implements ActionListener {
         for (Component homeRadio : Collections.list(homeGroup.getElements())) {
             homeRadio.setEnabled(false);
         }
-
         northCheck.setEnabled(false);
         centralCheck.setEnabled(false);
         southCheck.setEnabled(false);
+
+        //set Referee details
+        fNameField.setText(referee.getFName());
+        lNameField.setText(referee.getLName());
+        idField.setText(referee.getRefID());
+        matchField.setText("" + referee.getNumAllocs());
+        qualificationTypeCombo.setSelectedItem(referee.getQualificationType());
+        qualificationsCombo.setSelectedItem(String.valueOf(referee.getQualificationLevel()));
+
+        //find home area
+        if (referee.getHomeArea() == 0) {
+            northRadio.setSelected(true);
+        } else if (referee.getHomeArea() == 1) {
+            centralRadio.setSelected(true);
+        } else {
+            southRadio.setSelected(true);
+        }
+
+        //find preferences
+        northCheck.setSelected(referee.getTravelInfo(Referee.NORTH));
+        centralCheck.setSelected(referee.getTravelInfo(Referee.CENTRAL));
+        southCheck.setSelected(referee.getTravelInfo(Referee.SOUTH));
     }
 
     /**
@@ -363,8 +348,7 @@ public class LittleGUI extends JFrame implements ActionListener {
 
         //if yes call a method from RefList to delete the referee if the deletion was unsuccessful, return an error
         if (dialogResult == JOptionPane.YES_OPTION) {
-            boolean deleted = false;
-            deleted = refList.deleteRef(referee.getFName(), referee.getLName());
+            boolean deleted = refList.deleteRef(referee.getFName(), referee.getLName());
             if (deleted) {
                 mainGUI.updateTable();
                 dispose();
@@ -386,7 +370,6 @@ public class LittleGUI extends JFrame implements ActionListener {
         referee.setQualificationType((String) qualificationTypeCombo.getSelectedItem());
         referee.setQualificationLevel(Integer.parseInt((String) (qualificationsCombo.getSelectedItem())));
         referee.setHomeArea(getHomeArea());
-        System.out.println(getHomeArea());
         referee.setTravelInfo(getPreferences());
     }
 
@@ -404,7 +387,7 @@ public class LittleGUI extends JFrame implements ActionListener {
         }
 
         //Checks that the name of referee contains only letters
-        if (!(containsLetters(fNameField.getText())) || !(containsLetters(lNameField.getText()))) {
+        if (!(validName(fNameField.getText())) || !(validName(lNameField.getText()))) {
             JOptionPane.showMessageDialog(this, "The referee names should only contain letters.",
                     "Error", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -458,20 +441,19 @@ public class LittleGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * A method which takes a string like a referee name, checks if it contains only letters and returns boolean value
+     * Returns true if name is alphabetic with an optional single hyphen only if it is not the first or last character
      *
-     * @param name
-     * @return
+     * @param name First or last name
+     * @return true if name is valid
      */
-    private boolean containsLetters(String name) {
-        //Allow one or no hyphen to appear only if it is not the first or last character
+    private boolean validName(String name) {
         return name.matches("^(?!-)[a-zA-Z]+-?[a-zA-Z]*$(?<!-)");
     }
 
     /**
      * A method which checks the current states of the Home Area Radio buttons in LittleGUI and returns a string suitable to be passed to {@link RefList}
      *
-     * @return
+     * @return home area as string, empty if not selected
      */
     private String getHomeArea() {
         if (northRadio.isSelected())
@@ -487,9 +469,8 @@ public class LittleGUI extends JFrame implements ActionListener {
     /**
      * A method which checks the current states of the Preference check buttons in LittleGUI and returns a string suitable to be passed to {@link RefList}
      *
-     * @return
+     * @return a three letter string representing preferred locations
      */
-
     private String getPreferences() {
         char[] travelInfo = {'N', 'N', 'N'};
 
@@ -506,24 +487,14 @@ public class LittleGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * A method which checks if the preference corresponding check button has been selected after selecting a corresponding area.
-     * For example if you select home radio button central you will have to select a central check button as well.
+     * Check if home area and preferred area are both selected.
      *
-     * @return
+     * @return true if home area and preference both match
      */
     private boolean checkHomePreference() {
-        if (northRadio.isSelected() && northCheck.isSelected()) {
-            return true;
-        }
-        if (centralRadio.isSelected() && centralCheck.isSelected()) {
-            return true;
-        }
-        if (southRadio.isSelected() && southCheck.isSelected()) {
-            return true;
-        }
-
-        return false;
-
+        return (northRadio.isSelected() && northCheck.isSelected()) ||
+                (centralRadio.isSelected() && centralCheck.isSelected()) ||
+                (southRadio.isSelected() && southCheck.isSelected());
     }
 
     /**
@@ -537,10 +508,9 @@ public class LittleGUI extends JFrame implements ActionListener {
         qualificationsCombo.setSelectedItem("Level");
 
         homeGroup.clearSelection();
-        //find preferences
+
         northCheck.setSelected(false);
         centralCheck.setSelected(false);
         southCheck.setSelected(false);
-
     }
 }
