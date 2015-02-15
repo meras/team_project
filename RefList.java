@@ -6,7 +6,6 @@ import java.util.List;
 public class RefList implements Iterable<Referee> {
 	private static final int MAX_REFS = 12;
 	private final List<Referee> refList;
-	public final int REF_NOT_FOUND = -1;
 
 	public RefList() {
 		refList = new ArrayList<>();

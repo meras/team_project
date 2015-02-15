@@ -401,7 +401,7 @@ public class MainGUI extends JFrame implements ActionListener {
 	/**
 	 * Inputs the suitable referee list and selected referees into the text area.
 	 * Hides the JTable but makes the button to view the table visible
-	 * @param suitableRefs
+	 * @param suitableRefs List of suitable referees
 	 */
 	private void displayAllocatedRefs(List<Referee> suitableRefs) {
 		// switch to the text area in the second tab

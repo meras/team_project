@@ -17,8 +17,13 @@ public class MatchList implements Iterable<Match> {
         matchList = new ArrayList<>();
     }
 
+    /**
+     * Checks if a given week can be allocated
+     * @param week week number to check
+     * @return true if week is not allocated, false when allocation exists
+     */
     public boolean checkWeekAllocation(int week) {
-        return (getMatch(week) != null);
+        return (getMatch(week) == null);
     }
 
     //TODO temporary name
