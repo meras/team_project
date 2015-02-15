@@ -111,8 +111,11 @@ public class LittleGUI extends JFrame implements ActionListener {
 
         JPanel home = new JPanel();
         northRadio = new JRadioButton("North");
+        northRadio.addActionListener(this);
         centralRadio = new JRadioButton("Central");
+        centralRadio.addActionListener(this);
         southRadio = new JRadioButton("South");
+        southRadio.addActionListener(this);
 
         homeGroup = new ButtonGroup();
         homeGroup.add(northRadio);
@@ -283,6 +286,15 @@ public class LittleGUI extends JFrame implements ActionListener {
         }
         if (e.getSource() == clearButton) {
             clearFields();
+        }
+        if (e.getSource() == northRadio) {
+            northCheck.setSelected(true);
+        }
+        if (e.getSource() == centralRadio) {
+            centralCheck.setSelected(true);
+        }
+        if (e.getSource() == southRadio) {
+            southCheck.setSelected(true);
         }
     }
 
