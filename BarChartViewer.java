@@ -36,7 +36,7 @@ public class BarChartViewer extends JFrame {
         private final int BAR_WIDTH = 30;   // The width of each bar
         private final int BAR_GAP = 5;  // The width of the gap between the bars
         private final int BAR_MARGIN = 20;  // Margin around the bar chart area
-        private RefList refereeList; // The list of the referee whose information will be displayed
+        private final RefList refereeList; // The list of the referee whose information will be displayed
         private int maxValue = 0;   // The highest number of referee allocations
 
         /**

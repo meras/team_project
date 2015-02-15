@@ -15,9 +15,9 @@ public class Match {
     /**
      * Constructor for Match class
      *
-     * @param week
-     * @param area
-     * @param isSenior
+     * @param week week number
+     * @param area area code
+     * @param isSenior boolean that represents referee level
      */
     public Match(int week, int area, boolean isSenior, String firstRef, String secondRef) {
         weekNumber = week;
@@ -37,8 +37,6 @@ public class Match {
 
     /**
      * Accessor method for week number
-     *
-     * @return
      */
     public int getWeekNo() {
         return weekNumber;
@@ -46,8 +44,6 @@ public class Match {
 
     /**
      * Accessor method for match level
-     *
-     * @return
      */
     public String getLevel() {
         return matchLevel;
@@ -55,8 +51,6 @@ public class Match {
 
     /**
      * Accessor method for area of match
-     *
-     * @return
      */
     public String getArea() {
         return matchArea;
@@ -64,8 +58,6 @@ public class Match {
 
     /**
      * Constructor and accessor method for refOne
-     *
-     * @return
      */
     public String getRefOne() {
         return refOne;
@@ -73,8 +65,6 @@ public class Match {
 
     /**
      * Constructor and accessor method for refTwo
-     *
-     * @return
      */
     public String getRefTwo() {
         return refTwo;
@@ -82,8 +72,6 @@ public class Match {
 
     /**
      * Method to get formatted line for match report document
-     *
-     * @return
      */
     public String getMatchLine() {
         return String.format("%-8d%-12s%-12s%-20s%-20s%n", weekNumber, matchLevel, matchArea, refOne, refTwo);
